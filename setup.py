@@ -3,13 +3,12 @@ import os
 
 from setuptools import setup
 
-here = os.path.abspath(os.path.dirname(__file__))
+HERE = os.path.abspath(os.path.dirname(__file__))
 
-# To update the package version number, edit CITATION.cff
-with open('CITATION.cff', 'r') as cff:
-    for line in cff:
-        if 'version:' in line:
-            version = line.replace('version:', '').strip().strip('"')
+version = {}
+with open(os.path.join(HERE, 'moka', '__version__.py')) as f:
+    exec(f.read(), version)
+
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -17,7 +16,7 @@ with open('README.rst') as readme_file:
 setup(
     name='moka',
     version=version,
-    description="command line interface to compute molecular properties",
+    description="command line interface to compute and query molecular properties from a database",
     long_description=readme + '\n\n',
     author="Felipe Zapata",
     author_email='f.zapata@esciencecenter.nl',
@@ -38,9 +37,14 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
+    entry_points={
+        'console_scripts': [
+            'molecular_server=moka.cli:main'
+        ]
+    },
     install_requires=[
+        'properties_database@git+https://github.com/nlesc-nano/properties_database@master',
         'numpy', 'pandas', 'pyyaml>=5.1.1', 'schema', 'typing-extensions'],
-
     extras_require={
         'test': ['coverage', 'mypy', 'pycodestyle', 'pytest>=3.9', 'pytest-cov',
                  'pytest-mock'],
