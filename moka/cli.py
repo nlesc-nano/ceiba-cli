@@ -3,8 +3,9 @@ import argparse
 import logging
 from pathlib import Path
 
-from .input_validation import validate_input
+from .client.query import query_properties
 from .compute import compute_jobs
+from .input_validation import validate_input
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +37,11 @@ def main():
     if args.command is None:
         parser.print_help()
 
-    opts = validate_input(args.input)
+    opts = validate_input(args.input, action=args.command)
     # opts = validate_input()
     if args.command == "query":
         print("querying molecular properties!")
+        query_properties(opts)
     elif args.command == "compute":
         print("computing properties")
         compute_jobs(opts)

@@ -1,15 +1,47 @@
 """Module to validate the user's input."""
 
-import yaml
 from pathlib import Path
-from schema import Optional, Or, Schema, SchemaError
+
+import yaml
+from schema import And, Optional, Schema, SchemaError, Use
+from typing import Iterable
+
 from .utils import Options
 
 
-COMPUTE_SCHEMA = Schema({})
-QUERY_SCHEMA = Schema({})
+def any_lambda(array: Iterable[str]) -> Schema:
+    """Create an schema checking that the keyword matches one of the expected values."""
+    return And(
+        str, Use(str.lower), lambda s: s in array)
+
+
+COMPUTE_SCHEMA = Schema({
+    # Server URL
+    "url": str,
+
+    # Name to which the property belongs. e.g. Theory level
+    "collection_name": str,
+
+    # Status of the job to query
+    Optional("job_status", default="AVAILABLE"): any_lambda({"AVAILABLE", "DONE", "FAILED", "RUNNING"}),
+
+    # Maximum number of jobs to compute
+    Optional("max_jobs", default=10): int
+})
+
+QUERY_SCHEMA = Schema({
+    # Server URL
+    "url": str,
+
+    # Name to which the property belongs. e.g. Theory level
+    "collection_name": str,
+
+    # Name to store the properties as csv
+    Optional("output_file", default="output_properties.csv"): str
+})
 
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA}
+
 
 def validate_input(file_input: Path, action: str) -> Options:
     """Check the input validation against an schema."""
