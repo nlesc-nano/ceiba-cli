@@ -39,11 +39,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'molecular_server=moka.cli:main'
+            'moka=moka.cli:main'
         ]
     },
     install_requires=[
-        'properties_database@git+https://github.com/nlesc-nano/properties_database@master',
+        'properties_server@git+https://github.com/nlesc-nano/properties_server@master',
         'numpy', 'pandas', 'pyyaml>=5.1.1', 'schema', 'typing-extensions'],
     extras_require={
         'test': ['coverage', 'mypy', 'pycodestyle', 'pytest>=3.9', 'pytest-cov',
