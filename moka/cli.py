@@ -3,8 +3,7 @@ import argparse
 import logging
 from pathlib import Path
 
-from .client.query import query_properties
-from .compute import compute_jobs
+from .actions import add_jobs, compute_jobs, query_properties
 from .input_validation import validate_input
 
 logger = logging.getLogger(__name__)
@@ -32,6 +31,9 @@ def main():
     parser_query = subparsers.add_parser("query", help="query some properties from the database")
     parser_query.add_argument("input", type=exists, help="Yaml input file")
 
+    # Add new Job to the database
+    parser_add = subparsers.add_parser("add", help="Add new jobs to the database")
+    parser_add.add_argument("input", type=exists, help="Yaml input file")
     args = parser.parse_args()
 
     if args.command is None:
@@ -45,6 +47,9 @@ def main():
     elif args.command == "compute":
         print("computing properties")
         compute_jobs(opts)
+    elif args.command == "add":
+        print("adding new jobs to the database")
+        add_jobs(opts)
 
 
 if __name__ == "__main__":

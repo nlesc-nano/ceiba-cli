@@ -1,7 +1,7 @@
 """Module to compute some jobs from the server."""
 
-from .client.query import query_server
-from .utils import Options
+from ..client import query_server
+from ..utils import Options
 
 
 def create_jobs_query(status: str, kind="jobs") -> str:

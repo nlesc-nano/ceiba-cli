@@ -40,7 +40,21 @@ QUERY_SCHEMA = Schema({
     Optional("output_file", default="output_properties.csv"): str
 })
 
-available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA}
+ADD_SCHEMA = Schema({
+    # Server URL
+    "url": str,
+
+    # Settings to run the calculations
+    "settings": dict,
+
+    # Target collection to get the smiles from
+    "target_collection": str,
+
+    # Name of the new collection to store the properties
+    "new_collection": str
+})
+
+available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA}
 
 
 def validate_input(file_input: Path, action: str) -> Options:
