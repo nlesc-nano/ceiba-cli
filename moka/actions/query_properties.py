@@ -5,28 +5,21 @@ API
 .. autofunction:: query_properties
 
 """
-import json
 
 import pandas as pd
 
 from ..client import query_server
-from ..utils import Options
+from ..client.queries import create_properties_query
+from ..utils import Options, json_properties_to_dataframe
 
 
 def query_properties(opts: Options) -> pd.DataFrame:
     """Query the user requested properties."""
-    query = f"""query{{
-    properties (collection_name: "{opts.collection_name}") {{
-        id
-        smile
-        geometry
-        data
-    }}
-}}
-"""
+    # Graphql query to get the properties
+    query = create_properties_query(opts.collection_name)
+    # Call the server
     properties = query_server(opts.url, query)
-    df = pd.DataFrame(properties['data']['properties'])
-    df['data'].fillna("{}", inplace=True)
-    df['data'] = df['data'].apply(lambda x: json.loads(x))
+    # Transform the JSON reply into a DataFrame
+    df = json_properties_to_dataframe(properties)
     df.to_csv(opts.output_file)
     return df

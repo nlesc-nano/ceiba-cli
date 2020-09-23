@@ -1,3 +1,3 @@
-from .query import query_server
+from .client import query_server
 
 __all__ = ["query_server"]
