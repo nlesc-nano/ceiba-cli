@@ -1,7 +1,10 @@
 """Module to compute some jobs from the server."""
 
+import logging
 from ..client import query_server
 from ..utils import Options
+
+logger = logging.getLogger(__name__)
 
 
 def create_jobs_query(status: str, kind="jobs") -> str:
@@ -45,3 +48,8 @@ def compute_jobs(opts: Options) -> None:
     query = create_jobs_query(opts.job_status)
     jobs = query_server(opts.url, query)
     print(jobs["data"]["jobs"])
+    # for j in jobs:
+    #     succeeded = schedule_job(j)
+    #     if not succeeded:
+    #         logger.warn(f"Job {jobs['id']} fails to be scheduled!")
+    #     update_job_status(jobs, status="RUNNING")
