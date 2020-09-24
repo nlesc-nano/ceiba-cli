@@ -1,10 +1,17 @@
 # Server URL
 url: http://localhost:8080/graphql
 
-settings: {"run": "a"}
+settings:
+  compute:
+    worflow_name
+  properties:
+    prop1:
+        foo
+    prop2:
+        bar
 
 # Name of the collection to get molecules
-target_collection: "pbedzp"
+target_collection: "candidates"
 
 # Name of the new collection containing the properties
 new_collection: "functional/basisset"
