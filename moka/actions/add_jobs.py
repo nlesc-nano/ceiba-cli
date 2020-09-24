@@ -5,6 +5,8 @@ API
 .. autofunction:: add_jobs
 """
 
+__all__ = ["add_jobs"]
+
 import uuid
 
 import pandas as pd
@@ -18,8 +20,8 @@ from ..utils import Options, json_properties_to_dataframe
 def fetch_candidates(opts: Options) -> pd.DataFrame:
     """Retrieve candidates to compute from the server."""
     query = create_properties_query(opts.target_collection)
-    properties = query_server(opts.url, query)
-    return json_properties_to_dataframe(properties)
+    reply = query_server(opts.url, query)
+    return json_properties_to_dataframe(reply["data"]["properties"])
 
 
 def create_mutations(row: pd.Series, opts: Options) -> str:

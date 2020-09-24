@@ -33,4 +33,7 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
     status = reply.status_code
     if status != 200:
         raise RuntimeError(f"The query doesn't succeed. Error {status}")
-    return json.loads(reply.text)
+    data = json.loads(reply.text)
+    if data.get("errors", None) is not None:
+        raise RuntimeError(f"There was an error querying the server:\n{data['errors']}")
+    return data

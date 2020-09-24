@@ -1,10 +1,10 @@
 """Module to validate the user's input."""
 
 from pathlib import Path
+from typing import Iterable
 
 import yaml
 from schema import And, Optional, Schema, SchemaError, Use
-from typing import Iterable
 
 from .utils import Options
 

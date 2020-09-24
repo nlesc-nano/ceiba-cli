@@ -1,7 +1,7 @@
 """Utility functions."""
 
 import json
-from typing import Any, Dict, TypeVar
+from typing import Any, Dict, List, TypeVar
 import pandas as pd
 
 T = TypeVar('T')
@@ -42,9 +42,9 @@ class Options(dict):
         return {k: converter(v) for k, v in self.items()}
 
 
-def json_properties_to_dataframe(properties: Dict[str, Any]) -> pd.DataFrame:
+def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFrame:
     """Transform a JSON list of dictionaries into a pandas DataFrame."""
-    df = pd.DataFrame(properties['data']['properties'])
+    df = pd.DataFrame(properties)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     df['data'].fillna("{}", inplace=True)
     df['data'] = df['data'].apply(lambda x: json.loads(x))
