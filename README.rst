@@ -1,11 +1,11 @@
+.. image:: https://github.com/nlesc-nano/moka/workflows/build/badge.svg
+   :target: https://github.com/nlesc-nano/moka/actions
+
 ################################################################################
 moka
 ################################################################################
 
 command line interface to compute molecular properties
-
-
-The project setup is documented in `a separate document <project_setup.rst>`_. Feel free to remove this document (and/or the link to this document) if you don't need it.
 
 Installation
 ------------
@@ -14,9 +14,7 @@ To install moka, do:
 
 .. code-block:: console
 
-  git clone https://github.com/nlesc-nano/moka.git
-  cd moka
-  pip install .
+  pip install git+https://github.com/nlesc-nano/moka.git@master	
 
 
 Run tests (including coverage) with:

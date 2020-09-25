@@ -1,4 +1,4 @@
-name: Build
+name: build
 
 on: [push, pull_request]
 
@@ -10,24 +10,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.6', '3.7', '3.8']
+        python-version: ['3.7', '3.8']
 
 
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ github.token }}
+
       - uses: actions/checkout@v2
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Python info
-        shell: bash -l {0}
-        run: |
-          which python
-          python --version
+
       - name: Install dependencies
         run: |
-          pip install .[test]
+          pip install -e .[test]
+
       - name: Test
-        shell: bash -l {0}
         run: |
           pytest
