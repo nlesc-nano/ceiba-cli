@@ -43,7 +43,7 @@ setup(
         ]
     },
     install_requires=[
-        'numpy', 'pandas', 'pyyaml>=5.1.1', 'schema', 'typing-extensions'],
+        'numpy', 'pandas', 'pyyaml>=5.1.1', 'requests', 'schema', 'typing-extensions'],
     extras_require={
         'test': ['coverage', 'mypy', 'pycodestyle', 'pytest>=3.9', 'pytest-cov',
                  'pytest-mock'],
