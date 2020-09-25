@@ -43,7 +43,6 @@ setup(
         ]
     },
     install_requires=[
-        'properties_server@git+https://github.com/nlesc-nano/properties_server@master#egg=properties_server',
         'numpy', 'pandas', 'pyyaml>=5.1.1', 'schema', 'typing-extensions'],
     extras_require={
         'test': ['coverage', 'mypy', 'pycodestyle', 'pytest>=3.9', 'pytest-cov',
