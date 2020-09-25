@@ -1,5 +1,6 @@
 """Module to validate the user's input."""
 
+import getpass
 from pathlib import Path
 from typing import Iterable
 
@@ -54,7 +55,19 @@ ADD_SCHEMA = Schema({
     "new_collection": str
 })
 
-available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA}
+REPORT_SCHEMA = Schema({
+    # Server URL
+    "url": str,
+
+    # Path to the csv containing the results
+    "path_results": str,
+
+    # Username who executed the jobs
+    Optional("user", default=getpass.getuser()): str
+})
+
+available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,
+                     "report": REPORT_SCHEMA}
 
 
 def validate_input(file_input: Path, action: str) -> Options:
