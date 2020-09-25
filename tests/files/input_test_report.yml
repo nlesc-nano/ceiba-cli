@@ -1,0 +1,8 @@
+# Server URL
+url: http://localhost:8080/graphql
+
+# Path to the CSV
+path_results: "tests/files/results.csv"
+
+# User that performs the computations
+user: felipez
