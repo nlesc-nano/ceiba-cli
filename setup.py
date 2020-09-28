@@ -15,7 +15,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='moka',
-    version=version,
+    version=version['__version__'],
     description="command line interface to compute and query molecular properties from a database",
     long_description=readme + '\n\n',
     author="Felipe Zapata",
