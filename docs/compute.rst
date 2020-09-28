@@ -1,6 +1,6 @@
 Compute
 =======
-The compute command ask the *web service* for available jobs that needs to be run.
+The ``compute`` command ask the *web service* for available jobs that needs to be run.
 To run some jobs you need to type in the terminal:
 ::
 
@@ -48,3 +48,12 @@ Most of the scientific simulation are usually perform in supercomputers that use
 
 If you choose a *scheduler* different from ``none``, *Moka* will automatically contact
 the job scheduler.
+
+.. _Job state
+
+Job State
+*********
+The user's requested jobs are initially marked as ``RESERVERED``, in the web service to
+avoid conflicts with other users. Then, if the jobs are sucessfully scheduled they
+are marked as `RUNNING`. If there is a problem during the scheduling or subsequent
+running step the job would be marked as `FAILED`.

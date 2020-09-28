@@ -1,6 +1,6 @@
 Query
 =====
-The query actions requests some data from the web service
+The ``query`` actions requests some data from the web service
 and writes the requested data in a csv file.
 
 There are currently two possible query actions:

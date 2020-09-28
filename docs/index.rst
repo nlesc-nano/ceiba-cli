@@ -13,7 +13,10 @@ Welcome to moka's documentation!
    includereadme
    usage
    compute
+   report
    query
+   add
+   
 
 Indices and tables
 ==================

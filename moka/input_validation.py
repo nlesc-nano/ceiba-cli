@@ -25,7 +25,7 @@ COMPUTE_SCHEMA = Schema({
 
     # Status of the job to query
     Optional("job_status", default="AVAILABLE"): And(
-        str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "SCHEDULED"}),
+        str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "RESEVERED"}),
 
     # Job scheduler
     Optional("scheduler", default="slurm"): And(
@@ -64,11 +64,11 @@ REPORT_SCHEMA = Schema({
     # Server URL
     "url": str,
 
-    # Path to the csv containing the results
-    "path_results": str,
+    # Name to which the property belongs. e.g. Theory level
+    "collection_name": str,
 
-    # Username who executed the jobs
-    Optional("user", default=getpass.getuser()): str
+    # Path to the csv containing the results
+    "path_results": str
 })
 
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,
