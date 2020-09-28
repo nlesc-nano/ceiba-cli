@@ -1,6 +1,7 @@
 .. image:: https://github.com/nlesc-nano/moka/workflows/build/badge.svg
    :target: https://github.com/nlesc-nano/moka/actions
-
+.. image:: https://readthedocs.org/projects/moka-command-line-interface/badge/?version=latest
+   :target: https://moka-command-line-interface.readthedocs.io/en/latest/?badge=latest
 ####
 moka
 ####
