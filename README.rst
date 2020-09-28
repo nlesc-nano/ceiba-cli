@@ -1,11 +1,12 @@
 .. image:: https://github.com/nlesc-nano/moka/workflows/build/badge.svg
    :target: https://github.com/nlesc-nano/moka/actions
 
-################################################################################
+####
 moka
-################################################################################
+####
 
-command line interface to compute molecular properties
+command line interface to interact to interact with the `insilico web server <https://github.com/nlesc-nano/insilico-server>`_. See the documentation.
+
 
 Installation
 ------------
@@ -16,20 +17,6 @@ To install moka, do:
 
   pip install git+https://github.com/nlesc-nano/moka.git@master	
 
-
-Run tests (including coverage) with:
-
-.. code-block:: console
-
-  python setup.py test
-
-
-Documentation
-*************
-
-.. _README:
-
-Include a link to your project's full documentation here.
 
 Contributing
 ************

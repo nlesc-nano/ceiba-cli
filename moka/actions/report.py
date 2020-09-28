@@ -25,9 +25,9 @@ def read_properties_from_csv(path_results: Path) -> pd.DataFrame:
 
 def report_properties(opts: Options) -> None:
     """Send computed properties to the server."""
-    pass
-    # # Read the data
-    # df = read_properties_from_csv(Path(opts.path_results))
+    # Read the data
+    df = read_properties_from_csv(Path(opts.path_results))
+    print(df)
     # for _, row in df.iterrows():
     #     query_server.
 

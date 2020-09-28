@@ -24,7 +24,12 @@ COMPUTE_SCHEMA = Schema({
     "collection_name": str,
 
     # Status of the job to query
-    Optional("job_status", default="AVAILABLE"): any_lambda({"AVAILABLE", "DONE", "FAILED", "RUNNING"}),
+    Optional("job_status", default="AVAILABLE"): And(
+        str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "SCHEDULED"}),
+
+    # Job scheduler
+    Optional("scheduler", default="slurm"): And(
+        str, Use(str.lower), lambda w: w in {"none", "slurm", "pbs"}),
 
     # Maximum number of jobs to compute
     Optional("max_jobs", default=10): int

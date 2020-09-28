@@ -10,7 +10,10 @@ Welcome to moka's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   includereadme
+   usage
+   compute
+   query
 
 Indices and tables
 ==================
