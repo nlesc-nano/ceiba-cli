@@ -51,7 +51,7 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     # Generate the script to submit the job using the
     # user provide scheduler
     scheduler = opts.scheduler.lower()
-    script_generator = {"slurm": create_slurm_script, "pbs": create_slurm_script}
+    script_generator = {"slurm": create_slurm_script, "pbs": create_pbs_script}
 
     # Command to run the workflow
     if scheduler == "none":
