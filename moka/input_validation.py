@@ -1,6 +1,5 @@
 """Module to validate the user's input."""
 
-import getpass
 from pathlib import Path
 from typing import Iterable
 
@@ -21,7 +20,7 @@ SCHEMA_SCHEDULER = Schema({
         str, Use(str.lower), lambda w: w in {"none", "slurm", "pbs"}),
 
     # Provide a string with all the configuration
-    Optional("free_format", default=None): Or(str, None)
+    Optional("free_format", default=None): Or(str, None),
     
     # Number of computing nodes to request
     Optional("nodes", default=1): int,

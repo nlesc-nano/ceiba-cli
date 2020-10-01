@@ -26,3 +26,19 @@ def create_job_mutation(info: Dict[str, str]) -> str:
   }}
 }}
 """
+
+def create_job_status_mutation(info: Dict[str, str]) -> str:
+    """Create string with mutation to add a new job to the server."""
+    return f"""
+    mutation {{
+  createJob(input: {{
+    id: {info['job_id']}
+    status: {info['status']}
+    schedule_time: {info['schedule_time']}
+    completion_time: {info['completion_time']}
+) {{
+    id
+    status
+  }}
+}}
+"""

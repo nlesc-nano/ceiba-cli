@@ -8,6 +8,7 @@ API
 
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from subprocess import DEVNULL, check_call
 from typing import Any, Dict
@@ -15,6 +16,7 @@ from typing import Any, Dict
 import yaml
 
 from ..client import query_server
+from ..client.mutations import create_job_status_mutation
 from ..client.queries import create_jobs_query
 from ..job_schedulers import create_pbs_script, create_slurm_script
 from ..utils import Options
@@ -27,13 +29,14 @@ def compute_jobs(opts: Options) -> None:
     query = create_jobs_query(opts.job_status)
     jobs = query_server(opts.url, query)
     logger.info(f"Job scheduler: {opts.scheduler}")
-    
-    print(jobs["data"]["jobs"])
+
     for j in jobs:
         succeeded = schedule_job(opts, j)
         if not succeeded:
             logger.warn(f"Job {jobs['id']} fails to be scheduled!")
-    #     update_job_status(jobs, status="RUNNING")
+            update_job_status(opts, j, "FAILED")
+        else:
+            update_job_status(opts, j, "RUNNING")
 
 
 def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
@@ -49,10 +52,14 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     # user provide scheduler
     scheduler = opts.scheduler.lower()
     script_generator = {"slurm": create_slurm_script, "pbs": create_slurm_script}
+
+    # Command to run the workflow
     if scheduler == "none":
-        cmd = f"{opts.command} {input_file} &"
+        # Run locally
+        cmd = f"{opts.command} {input_file.absolute().as_posix()} &"
     else:
-        cmd = script_generator[scheduler](opts, job, job_workdir)
+        # Schedule the job
+        cmd = script_generator[scheduler](opts, job, input_file)
     try:
         run_command(cmd, job_workdir)
         return True
@@ -62,17 +69,34 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
         return False
 
 
-def write_input_file(opts: Options, job: Dict[str, Any], job_workdir: Path) -> str:
+def write_input_file(opts: Options, job: Dict[str, Any], job_workdir: Path) -> Path:
     """Write input to run the workflow in YAML format."""
     input_file = job_workdir / f"input_file_job_{job['id']}.yml"
 
     with open(input_file, 'w') as handler:
-        yaml.dump(opts.settings, handler, indent=4)
+        yaml.dump(opts.settings.to_dict(), handler, indent=4)
 
-    return input_file.absolute().as_posix()
+    return input_file.absolute()
 
 
 def run_command(cmd: str, workdir: str) -> bool:
     """Run ``cmd`` as subprocess."""
     result = check_call(cmd, shell=True, stdout=DEVNULL, cwd=workdir)
     return result == 0
+
+
+def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
+    """Update status of `job`."""
+    now = datetime.timestamp()
+    completion = now if status == "FAILED" else None
+
+    # Change job metadata
+    info = {
+        "job_id": job["id"],
+        "status": status,
+        "schedule_time": now,
+        "completion_time": completion
+    }
+
+    query = create_job_status_mutation(info)
+    query_server(opts.url, query)

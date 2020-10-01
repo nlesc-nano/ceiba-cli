@@ -5,11 +5,10 @@
 """
 
 from pathlib import Path
-from typing import Any, Dict
 
 from ..utils import Options
 
 
-def create_pbs_script(opts: Options, job: Dict[str, Any], job_workdir: Path) -> str:
+def create_pbs_script(opts: Options, job_workdir: Path) -> str:
     """Create a script to run the workflow using the PBS job schedule."""
     pass
