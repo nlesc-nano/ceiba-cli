@@ -11,8 +11,8 @@ Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.o
 
 .. _jobs input:
 
-Input File
-**********
+Add Input File
+**************
 The input file contains the following mandatory keywords:
 ::
 

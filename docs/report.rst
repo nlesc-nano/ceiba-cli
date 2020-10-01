@@ -12,8 +12,8 @@ Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.o
 
 .. _report input:
 
-Input File
-**********
+Report Input File
+*****************
 The input file contains the following mandatory keywords:
 ::
 

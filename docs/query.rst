@@ -23,8 +23,8 @@ Querying all the Available Entries
 The following section describe the input to request all the available
 data for a given collection.
 
-Input File
-**********
+Query Input File
+****************
 
 The input file contains the following mandatory keywords:
 ::

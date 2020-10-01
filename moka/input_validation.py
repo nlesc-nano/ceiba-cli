@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Iterable
 
 import yaml
-from schema import And, Optional, Schema, SchemaError, Use
+from schema import And, Optional, Or, Schema, SchemaError, Use
 
 from .utils import Options
 
@@ -16,6 +16,26 @@ def any_lambda(array: Iterable[str]) -> Schema:
         str, Use(str.lower), lambda s: s in array)
 
 
+SCHEMA_SCHEDULER = Schema({
+    Optional("name", default="none"): And(
+        str, Use(str.lower), lambda w: w in {"none", "slurm", "pbs"}),
+
+    # Provide a string with all the configuration
+    Optional("free_format", default=None): Or(str, None)
+    
+    # Number of computing nodes to request
+    Optional("nodes", default=1): int,
+
+    # Number of CPUs per task
+    Optional("cpus_per_task", default=None): Or(int, None),
+
+    # Total time to request
+    Optional("wall_time", default="01:00:00"): str,
+
+    # Name of the partition to run
+    Optional("partition_name", default=None): Or(str, None),
+})
+
 COMPUTE_SCHEMA = Schema({
     # Server URL
     "url": str,
@@ -23,16 +43,22 @@ COMPUTE_SCHEMA = Schema({
     # Name to which the property belongs. e.g. Theory level
     "collection_name": str,
 
+    # Command use to run the workflow
+    "command": str,
+
+    # Job scheduler
+    "scheduler": SCHEMA_SCHEDULER,
+
+    # Path to the directory where the calculations are going to run
+    Optional("workdir", default="workdir_moka"): str,
+
     # Status of the job to query
     Optional("job_status", default="AVAILABLE"): And(
         str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "RESEVERED"}),
 
-    # Job scheduler
-    Optional("scheduler", default="slurm"): And(
-        str, Use(str.lower), lambda w: w in {"none", "slurm", "pbs"}),
-
     # Maximum number of jobs to compute
     Optional("max_jobs", default=10): int
+
 })
 
 QUERY_SCHEMA = Schema({
