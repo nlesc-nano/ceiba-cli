@@ -4,6 +4,8 @@ import logging
 import sys
 from pathlib import Path
 
+import pkg_resources
+
 from .actions import (add_jobs, compute_jobs, query_properties,
                       report_properties)
 from .input_validation import validate_input
@@ -20,10 +22,29 @@ def exists(input_file: str) -> Path:
     return path
 
 
+def configure_logger(workdir: Path) -> None:
+    """Set the logging infrasctucture."""
+    file_log = workdir / 'moka_output.log'
+    logging.basicConfig(filename=file_log, level=logging.INFO,
+                        format='%(asctime)s  %(message)s',
+                        datefmt='[%I:%M:%S]')
+    handler = logging.StreamHandler()
+    handler.terminator = ""
+
+    version = pkg_resources.get_distribution('moka').version
+    path = pkg_resources.resource_filename('moka', '')
+
+    logger.info(f"Using moka version: {version}\n")
+    logger.info(f"moka path is: {path}\n")
+    logger.info(f"Working directory is: {workdir.absolute().as_posix()}\n")
+
+
+
 def main():
     """Parse the command line arguments to compute or query data from the database."""
     parser = argparse.ArgumentParser("moka")
-    subparsers = parser.add_subparsers(help="Interact with the properties web service", dest="command")
+    subparsers = parser.add_subparsers(
+        help="Interact with the properties web service", dest="command")
 
     # Request new jobs to run from the database
     parser_jobs = subparsers.add_parser("compute", help="compute available jobs")
@@ -47,18 +68,21 @@ def main():
         sys.exit()
 
     opts = validate_input(args.input, action=args.command)
-    # opts = validate_input()
+
+    # Initialize logger
+    configure_logger(Path("."))
+
     if args.command == "query":
-        print("querying molecular properties!")
+        logger.info("QUERYING MOLECULAR PROPERTIES!")
         query_properties(opts)
     elif args.command == "compute":
-        print("computing properties")
+        logger.info("COMPUTING PROPERTIES!")
         compute_jobs(opts)
     elif args.command == "report":
-        print("report results back to the server")
+        logger.info("REPORTING RESULTS BACK TO THE SERVER!")
         report_properties(opts)
     elif args.command == "add":
-        print("adding new jobs to the database")
+        logger.info("ADDING NEW JOBS TO THE DATABASE")
         add_jobs(opts)
 
 

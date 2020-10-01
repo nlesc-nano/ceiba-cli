@@ -8,17 +8,19 @@ API
 __all__ = ["add_jobs"]
 
 import json
-import uuid
+import logging
+from typing import Any, Dict
 
 import numpy as np
 import pandas as pd
-
-from typing import Any, Dict
 
 from ..client import query_server
 from ..client.mutations import create_job_mutation
 from ..client.queries import create_properties_query
 from ..utils import Options, json_properties_to_dataframe
+
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_candidates(opts: Options) -> pd.DataFrame:
@@ -46,9 +48,10 @@ def add_jobs(opts: Options) -> None:
     # Create the mutation to add the jobs in the server
     rows = df_candidates[["id", "smile"]].iterrows()
     mutations = (create_mutations(row, opts)for _, row in rows)
+    logger.info("New Jobs:")
     for query in mutations:
         new_job = query_server(opts.url, query)
-        print(new_job['data'])
+        logger.info(new_job['data'])
 
 
 def format_settings(settings: Dict[str, Any]) -> str:

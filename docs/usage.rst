@@ -22,3 +22,7 @@ You should see something similar to:
 
     optional arguments:
       -h, --help            show this help message and exit
+
+
+After running one of the previous commands a log file named ``moka_output.log``
+is generated.

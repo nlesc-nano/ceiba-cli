@@ -6,13 +6,15 @@ API
 
 """
 
+import getpass
+import platform
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 
 from ..client import query_server
 from ..utils import Options
-
 
 
 def read_properties_from_csv(path_results: Path) -> pd.DataFrame:
@@ -27,7 +29,12 @@ def report_properties(opts: Options) -> None:
     """Send computed properties to the server."""
     # Read the data
     df = read_properties_from_csv(Path(opts.path_results))
-    print(df)
+    meta_data = {"user": getpass.getuser(),
+                 "platform": platform.platform(),
+                 "completion_time": datetime.timestamp()
+                 }
+
+    print(df, meta_data)
     # for _, row in df.iterrows():
     #     query_server.
 
