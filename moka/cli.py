@@ -12,6 +12,8 @@ from .input_validation import validate_input
 
 logger = logging.getLogger(__name__)
 
+VERSION = pkg_resources.get_distribution('moka').version
+
 
 def exists(input_file: str) -> Path:
     """Check if the input file exists."""
@@ -31,18 +33,17 @@ def configure_logger(workdir: Path) -> None:
     handler = logging.StreamHandler()
     handler.terminator = ""
 
-    version = pkg_resources.get_distribution('moka').version
     path = pkg_resources.resource_filename('moka', '')
 
-    logger.info(f"Using moka version: {version}\n")
+    logger.info(f"\nUsing moka version: {VERSION}\n")
     logger.info(f"moka path is: {path}\n")
     logger.info(f"Working directory is: {workdir.absolute().as_posix()}\n")
-
 
 
 def main():
     """Parse the command line arguments to compute or query data from the database."""
     parser = argparse.ArgumentParser("moka")
+    parser.add_argument('--version', action='version', version=f"%(prog)s {VERSION}")
     subparsers = parser.add_subparsers(
         help="Interact with the properties web service", dest="command")
 

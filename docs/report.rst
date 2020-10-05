@@ -1,3 +1,4 @@
+
 Report
 ======
 The ``report`` command send the results of the jobs computed by the user to
@@ -5,7 +6,7 @@ the web service.
 To report the results you need to type in the terminal:
 ::
 
-   moka compute input_compute.yml
+   moka compute input_report.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 

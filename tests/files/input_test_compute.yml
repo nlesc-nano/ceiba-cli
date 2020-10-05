@@ -2,3 +2,5 @@
 url: http://localhost:8080/graphql
 
 collection_name: "pbedzp"
+
+command: run_workflow

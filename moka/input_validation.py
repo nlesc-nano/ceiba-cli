@@ -35,6 +35,8 @@ SCHEMA_SCHEDULER = Schema({
     Optional("partition_name", default=None): Or(str, None),
 })
 
+DEFAULTS_SCHEDULER = SCHEMA_SCHEDULER.validate({})
+
 COMPUTE_SCHEMA = Schema({
     # Server URL
     "url": str,
@@ -46,7 +48,7 @@ COMPUTE_SCHEMA = Schema({
     "command": str,
 
     # Job scheduler
-    "scheduler": SCHEMA_SCHEDULER,
+    Optional("scheduler", default=DEFAULTS_SCHEDULER): SCHEMA_SCHEDULER,
 
     # Path to the directory where the calculations are going to run
     Optional("workdir", default="workdir_moka"): str,
