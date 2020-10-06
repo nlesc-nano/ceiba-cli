@@ -36,4 +36,4 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
     data = json.loads(reply.text)
     if data.get("errors", None) is not None:
         raise RuntimeError(f"There was an error querying the server:\n{data['errors']}")
-    return data
+    return data["data"]

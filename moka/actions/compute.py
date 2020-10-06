@@ -26,17 +26,17 @@ logger = logging.getLogger(__name__)
 
 def compute_jobs(opts: Options) -> None:
     """Compute some jobs using the configuration."""
-    query = create_jobs_query(opts.job_status)
-    jobs = query_server(opts.url, query)
+    query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs)
+    jobs = query_server(opts.url, query)["jobs"]
     logger.info(f"Job scheduler: {opts.scheduler}")
-
     for j in jobs:
-        succeeded = schedule_job(opts, j)
-        if not succeeded:
-            logger.warn(f"Job {jobs['id']} fails to be scheduled!")
-            update_job_status(opts, j, "FAILED")
-        else:
-            update_job_status(opts, j, "RUNNING")
+        print(j)
+        # succeeded = schedule_job(opts, j)
+        # if not succeeded:
+        #     logger.warn(f"Job {jobs['id']} fails to be scheduled!")
+        #     update_job_status(opts, j, "FAILED")
+        # else:
+        #     update_job_status(opts, j, "RUNNING")
 
 
 def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:

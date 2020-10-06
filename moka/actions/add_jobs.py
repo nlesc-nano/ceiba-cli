@@ -27,7 +27,7 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
     """Retrieve candidates to compute from the server."""
     query = create_properties_query(opts.target_collection)
     reply = query_server(opts.url, query)
-    return json_properties_to_dataframe(reply["data"]["properties"])
+    return json_properties_to_dataframe(reply["properties"])
 
 
 def create_mutations(row: pd.Series, opts: Options) -> str:
@@ -51,7 +51,7 @@ def add_jobs(opts: Options) -> None:
     logger.info("New Jobs:")
     for query in mutations:
         new_job = query_server(opts.url, query)
-        logger.info(new_job['data'])
+        logger.info(new_job)
 
 
 def format_settings(settings: Dict[str, Any]) -> str:

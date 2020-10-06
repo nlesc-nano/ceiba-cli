@@ -20,6 +20,6 @@ def query_properties(opts: Options) -> pd.DataFrame:
     # Call the server
     reply = query_server(opts.url, query)
     # Transform the JSON reply into a DataFrame
-    df = json_properties_to_dataframe(reply["data"]["properties"])
+    df = json_properties_to_dataframe(reply["properties"])
     df.to_csv(opts.output_file)
     return df

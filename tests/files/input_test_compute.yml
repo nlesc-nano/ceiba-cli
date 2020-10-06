@@ -1,6 +1,6 @@
 # Server URL
 url: http://localhost:8080/graphql
 
-collection_name: "pbedzp"
+collection_name: "functional/basisset"
 
 command: run_workflow
