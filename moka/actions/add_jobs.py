@@ -33,7 +33,7 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
 def create_mutations(row: pd.Series, opts: Options) -> str:
     """Create a list of mutations with the new jobs."""
     info = {"job_id": np.random.randint(0, 2147483647),
-            "smile": row.smile, "smile_id": row.id,
+            "smile": row.smile, "smile_id": row._id,
             "collection_name": opts.new_collection,
             "status": "AVAILABLE",
             "settings": format_settings(opts.settings)
@@ -46,7 +46,7 @@ def add_jobs(opts: Options) -> None:
     # Get the data to create the jobs
     df_candidates = fetch_candidates(opts)
     # Create the mutation to add the jobs in the server
-    rows = df_candidates[["id", "smile"]].iterrows()
+    rows = df_candidates[["_id", "smile"]].iterrows()
     mutations = (create_mutations(row, opts)for _, row in rows)
     logger.info("New Jobs:")
     for query in mutations:
