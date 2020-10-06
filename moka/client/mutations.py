@@ -23,6 +23,11 @@ def create_job_mutation(info: Dict[str, str]) -> str:
   }}) {{
     id
     status
+    property {{
+      id
+      smile
+      collection_name
+    }}
   }}
 }}
 """
