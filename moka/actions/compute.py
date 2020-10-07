@@ -36,9 +36,9 @@ def compute_jobs(opts: Options) -> None:
         succeeded = schedule_job(opts, j)
         if not succeeded:
             logger.warn(f"Job {jobs['id']} fails to be scheduled!")
-        #     update_job_status(opts, j, "FAILED")
-        # else:
-        #     update_job_status(opts, j, "RUNNING")
+            update_job_status(opts, j, "FAILED")
+        else:
+            update_job_status(opts, j, "RUNNING")
 
 
 def check_jobs(jobs: List[Dict[str, Any]]) -> None:
@@ -100,13 +100,14 @@ def run_command(cmd: str, workdir: str) -> bool:
 
 def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
     """Update status of `job`."""
-    now = datetime.timestamp()
-    completion = now if status == "FAILED" else None
+    now = datetime.timestamp(datetime.now())
+    completion = now if status == "FAILED" else "null"
 
     # Change job metadata
     info = {
         "job_id": job["_id"],
         "status": status,
+        "collection_name": opts.collection_name,
         "schedule_time": now,
         "completion_time": completion
     }
