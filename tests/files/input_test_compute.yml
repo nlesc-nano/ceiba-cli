@@ -3,4 +3,6 @@ url: http://localhost:8080/graphql
 
 collection_name: "functional/basisset"
 
-command: run_workflow
+command: mock_workflow
+
+max_jobs: 3

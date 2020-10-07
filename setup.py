@@ -39,7 +39,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'moka=moka.cli:main'
+            'moka=moka.cli:main',
+            'mock_workflow=moka.mock_workflow:main'
         ]
     },
     install_requires=[

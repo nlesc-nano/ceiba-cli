@@ -10,10 +10,11 @@ import json
 import logging
 import os
 import sys
+
 from datetime import datetime
 from pathlib import Path
-from subprocess import DEVNULL, check_call
-from typing import Any, Dict
+from subprocess import CalledProcessError, DEVNULL, check_output
+from typing import Any, Dict, List
 
 import yaml
 
@@ -30,15 +31,21 @@ def compute_jobs(opts: Options) -> None:
     """Compute some jobs using the configuration."""
     query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs)
     jobs = query_server(opts.url, query)["jobs"]
-    logger.info(f"Job scheduler: {opts.scheduler}")
+    check_jobs(jobs)
     for j in jobs:
         succeeded = schedule_job(opts, j)
-        print(succeeded)
-        # if not succeeded:
-        #     logger.warn(f"Job {jobs['id']} fails to be scheduled!")
+        if not succeeded:
+            logger.warn(f"Job {jobs['id']} fails to be scheduled!")
         #     update_job_status(opts, j, "FAILED")
         # else:
         #     update_job_status(opts, j, "RUNNING")
+
+
+def check_jobs(jobs: List[Dict[str, Any]]) -> None:
+    """Check that there are jobs to run."""
+    if not jobs:
+        print("There are no jobs to run!!")
+        sys.exit()
 
 
 def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
@@ -64,14 +71,9 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     else:
         # Schedule the job
         cmd = script_generator[scheduler](opts, job, input_file)
-    try:
-        print("cmd: ", cmd)
-        # run_command(cmd, job_workdir)
-        return True
-    except:
-        msg = f"Job {job_id} failed with error:\n{sys.exc_info()[0]}"
-        logger.warning(msg)
-        return False
+
+    logger.info(f"Running workflow:\n{cmd}")
+    return run_command(cmd, job_workdir)
 
 
 def write_input_file(job: Dict[str, Any], job_workdir: Path) -> Path:
@@ -87,8 +89,13 @@ def write_input_file(job: Dict[str, Any], job_workdir: Path) -> Path:
 
 def run_command(cmd: str, workdir: str) -> bool:
     """Run ``cmd`` as subprocess."""
-    result = check_call(cmd, shell=True, stdout=DEVNULL, cwd=workdir)
-    return result == 0
+    try:
+        result = check_output(cmd, shell=True, stderr=DEVNULL, cwd=workdir)
+        logger.info(f"workflow output:\n{result.decode()}")
+        return True
+    except CalledProcessError as err:
+        logger.error(f"Workflow runner failed with error:\n{err}")
+        return False
 
 
 def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
