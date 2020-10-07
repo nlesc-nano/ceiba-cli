@@ -22,13 +22,14 @@ The input file contains the following mandatory keywords:
    url:
       http://localhost:8080/graphql
 
-   # Name of the collection to update
-   collection_name:
-      "PBE/DZVP"
+   # Path to the Folder where the jobs run (default "workdir_moka")
+   path_results: "path/to/workdir"
 
-   # Path to the csv containing the results
-   path_results: str
+There are also the following optional keywords:
+::
 
+   # Pattern to search for the result files (default "results*csv"
+   pattern: "results*csv"
 
 
 Jobs Metadata

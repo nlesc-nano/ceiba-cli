@@ -45,7 +45,7 @@ def create_jobs_query(status: str, collection_name: str, max_jobs: int) -> str:
         status
         user
         schedule_time
-        completion_time
+        report_time
         platform
     }}
 }}

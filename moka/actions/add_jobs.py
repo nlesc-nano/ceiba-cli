@@ -9,6 +9,7 @@ __all__ = ["add_jobs"]
 
 import json
 import logging
+from collections import defaultdict
 from typing import Any, Dict
 
 import numpy as np
@@ -18,7 +19,6 @@ from ..client import query_server
 from ..client.mutations import create_job_mutation
 from ..client.queries import create_properties_query
 from ..utils import Options, json_properties_to_dataframe
-
 
 logger = logging.getLogger(__name__)
 
@@ -32,13 +32,20 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
 
 def create_mutations(row: pd.Series, opts: Options) -> str:
     """Create a list of mutations with the new jobs."""
-    info = {"job_id": np.random.randint(0, 2147483647),
-            "smile": row.smile, "smile_id": row._id,
-            "collection_name": opts.new_collection,
-            "status": "AVAILABLE",
-            "settings": format_settings(opts.settings)
-            }
-    return create_job_mutation(info)
+    job_info = defaultdict(lambda: "null")
+    prop_info = defaultdict(lambda: "null")
+    job_info.update({
+        "job_id": np.random.randint(0, 2147483647),
+        "status": "AVAILABLE",
+        "settings": format_settings(opts.settings)})
+
+    prop_info.update({
+        "smile_id": row._id,
+        "smile": row.smile,
+        "collection_name": opts.new_collection,
+    })
+
+    return create_job_mutation(job_info, prop_info)
 
 
 def add_jobs(opts: Options) -> None:

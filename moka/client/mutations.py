@@ -3,22 +3,23 @@
 from typing import Dict
 
 
-__all__ = ["create_job_mutation"]
+__all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_update_mutation"]
 
 
-def create_job_mutation(info: Dict[str, str]) -> str:
+def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
     """Create string with mutation to add a new job to the server."""
     return f"""
     mutation {{
   createJob(input: {{
-    _id: {info['job_id']}
+    _id: {job_info['job_id']}
     property: {{
-      _id: {info['smile_id']}
-      smile: "{info['smile']}"
-      collection_name: "{info['collection_name']}"
+      _id: {prop_info['smile_id']}
+      smile: "{prop_info['smile']}"
+      collection_name: "{prop_info['collection_name']}"
+
     }}
-    status: {info['status']}
-    settings: "{info['settings']}"
+    status: {job_info['status']}
+    settings: "{job_info['settings']}"
   }}) {{
     _id
     status
@@ -27,6 +28,30 @@ def create_job_mutation(info: Dict[str, str]) -> str:
       smile
       collection_name
     }}
+  }}
+}}
+"""
+
+
+def create_job_update_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
+    """Create string with mutation to add a new job to the server."""
+    return f"""
+    mutation {{
+  updateJob(input: {{
+    _id: {job_info['job_id']}
+    property: {{
+      _id: {prop_info['smile_id']}
+      smile: "{prop_info['smile']}"
+      collection_name: "{prop_info['collection_name']}"
+      data: {prop_info['data']}
+      geometry: {prop_info['geometry']}
+      input: {prop_info['input']}
+
+    }}
+    status: {job_info['status']}
+  }}) {{
+    _id
+    status
   }}
 }}
 """
@@ -41,7 +66,7 @@ def create_job_status_mutation(info: Dict[str, str]) -> str:
     status: {info['status']}
     collection_name: "{info['collection_name']}"
     schedule_time: {info['schedule_time']}
-    completion_time: {info['completion_time']}
+    report_time: {info['report_time']}
 }}) {{
     _id
     status

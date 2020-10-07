@@ -32,6 +32,7 @@ def compute_jobs(opts: Options) -> None:
     query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs)
     jobs = query_server(opts.url, query)["jobs"]
     check_jobs(jobs)
+    logger.info(f"Using scheduler: {opts.scheduler.name}")
     for j in jobs:
         succeeded = schedule_job(opts, j)
         if not succeeded:
@@ -58,6 +59,9 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
 
     # input used by the workflow runner
     input_file = write_input_file(job, job_workdir)
+
+    # Write job metadata in the folder to read when reporting
+    write_metadata(job, job_workdir)
 
     # Generate the script to submit the job using the
     # user provide scheduler
@@ -87,6 +91,20 @@ def write_input_file(job: Dict[str, Any], job_workdir: Path) -> Path:
     return input_file.absolute()
 
 
+def write_metadata(job: Dict[str, Any], job_workdir: Path):
+    """Write the job's metadata that is going to be read in the report step."""
+    input_file = job_workdir / "metadata.yml"
+
+    prop = job["property"]
+    metadata = {"job_id": job["_id"],
+                "property": {
+                    "smile_id": prop["_id"], "smile": prop["smile"],
+                    "collection_name": prop["collection_name"]}}
+
+    with open(input_file, 'w') as handler:
+        yaml.dump(metadata, handler, indent=4)
+
+
 def run_command(cmd: str, workdir: str) -> bool:
     """Run ``cmd`` as subprocess."""
     try:
@@ -101,7 +119,7 @@ def run_command(cmd: str, workdir: str) -> bool:
 def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
     """Update status of `job`."""
     now = datetime.timestamp(datetime.now())
-    completion = now if status == "FAILED" else "null"
+    report_time = now if status == "FAILED" else "null"
 
     # Change job metadata
     info = {
@@ -109,7 +127,7 @@ def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
         "status": status,
         "collection_name": opts.collection_name,
         "schedule_time": now,
-        "completion_time": completion
+        "report_time": report_time
     }
 
     query = create_job_status_mutation(info)

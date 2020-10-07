@@ -1,8 +1,8 @@
 # Server URL
 url: http://localhost:8080/graphql
 
-# Path to the CSV
-path_results: "tests/files/results.csv"
+# Path to the workdir with the jobs
+path_results: "tests/files/mock_results"
 
-# User that performs the computations
-user: felipez
+# Pattern to search for the result files
+pattern: "results*csv"

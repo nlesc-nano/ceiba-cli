@@ -21,7 +21,7 @@ SCHEMA_SCHEDULER = Schema({
 
     # Provide a string with all the configuration
     Optional("free_format", default=None): Or(str, None),
-    
+
     # Number of computing nodes to request
     Optional("nodes", default=1): int,
 
@@ -91,11 +91,11 @@ REPORT_SCHEMA = Schema({
     # Server URL
     "url": str,
 
-    # Name to which the property belongs. e.g. Theory level
-    "collection_name": str,
+    # Path to the folder containing the results (default workdir_moka)
+    "path_results": str,
 
-    # Path to the csv containing the results
-    "path_results": str
+    # Pattern to search for the result files
+    Optional("pattern", default="result*csv"): str
 })
 
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,
