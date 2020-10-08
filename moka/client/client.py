@@ -6,6 +6,7 @@ API
 
 """
 import json
+from enum import Enum
 from typing import Any, Dict
 
 import requests
@@ -14,8 +15,14 @@ import requests
 __all__ = ["query_server"]
 
 
+class Method(Enum):
+    """HTTP Method enumeration."""
+    GET = 1
+    POST = 2
+
+
 def query_server(url: str, query: str) -> Dict[str, Any]:
-    """Query the server using graphql.
+    """Query the ``url`` API using ``query``.
 
     Parameters
     ----------
@@ -30,10 +37,11 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
 
     """
     reply = requests.post(url, json={'query': query})
+
     status = reply.status_code
     if status != 200:
         raise RuntimeError(f"The query doesn't succeed. Error {status}")
     data = json.loads(reply.text)
     if data.get("errors", None) is not None:
         raise RuntimeError(f"There was an error querying the server:\n{data['errors']}")
-    return data["data"]
+    return data['data']
