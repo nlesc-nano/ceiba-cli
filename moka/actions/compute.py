@@ -13,7 +13,7 @@ import sys
 
 from datetime import datetime
 from pathlib import Path
-from subprocess import CalledProcessError, DEVNULL, check_output
+from subprocess import CalledProcessError, check_output
 from typing import Any, Dict, List
 
 import yaml
@@ -108,7 +108,7 @@ def write_metadata(job: Dict[str, Any], job_workdir: Path):
 def run_command(cmd: str, workdir: str) -> bool:
     """Run ``cmd`` as subprocess."""
     try:
-        result = check_output(cmd, shell=True, stderr=DEVNULL, cwd=workdir)
+        result = check_output(cmd, shell=True, cwd=workdir)
         logger.info(f"workflow output:\n{result.decode()}")
         return True
     except CalledProcessError as err:

@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 from typing import Any, Dict
 
+import pandas as pd
 import yaml
 
 from .cli import exists
@@ -24,3 +25,9 @@ def main():
     args = parser.parse_args()
     opts = validate_input(args.input)
     print("Running with options:\n", yaml.dump(opts))
+
+    data = pd.DataFrame.from_records({
+        "prop1": [3.1415926535897932], "prop2": [42], "prop3": [1.618]})
+    data.to_csv("result.csv")
+
+    print("data store at result.csv")
