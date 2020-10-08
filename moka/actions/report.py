@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Tuple
 import pandas as pd
 import yaml
 
+from ..client import query_server
 from ..client.mutations import create_job_update_mutation
 from ..utils import Options
 
@@ -34,7 +35,6 @@ def report_properties(opts: Options) -> None:
         "report_time": datetime.timestamp(datetime.now())}
 
     # Create job object
-    print(folders)
     for path in folders:
         job_data = defaultdict(lambda: "null")
         job_data.update(shared_data)
@@ -43,7 +43,8 @@ def report_properties(opts: Options) -> None:
         job_data.update(job_medata)
         # Send data to the web server
         query = create_job_update_mutation(job_data, prop_data)
-        print(query)
+        query_server(opts.url, query)
+        logger.info(f"Properties for smile:{prop_data['smile']} have been reported!")
 
 
 def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
@@ -56,8 +57,8 @@ def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], Dict[str, A
     try:
         df = read_result_from_folder(path, pattern)
         data = df.to_json()
+        data = data.replace('\"', '\\"')
         status = "DONE"
-        print("ERE")
     except FileNotFoundError:
         status = "FAILED"
         data = "null"
