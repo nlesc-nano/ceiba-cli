@@ -1,0 +1,64 @@
+{
+    "properties": [
+        {
+            "_id": 18295,
+            "smile": "O=C(O)C1(C(=O)Nc2ccc(Br)c(C(F)(F)F)c2)CC1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.3135850306446732, \"bulkiness\": 381.1211519731825}"
+        },
+        {
+            "_id": 13072,
+            "smile": "O=C(O)CCNC(=O)CCSc1ccccc1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.22982667724718, \"bulkiness\": 17.563118173220953}"
+        },
+        {
+            "_id": 5500,
+            "smile": "O=C(O)CCc1cn(C2CCCC2)nn1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.9224254822902416, \"bulkiness\": 16.900627840612366}"
+        },
+        {
+            "_id": 2518,
+            "smile": "O=C(O)c1ccc(NCC2CC2)nn1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.668210991478676, \"bulkiness\": 32.98068049349601}"
+        },
+        {
+            "_id": 62813,
+            "smile": "O=C(O)CCCc1cc(F)c(F)c(O)c1F",
+            "geometry": null,
+            "data": "{\"scscore\": 2.950816106604152, \"bulkiness\": 141.03923197976272}"
+        },
+        {
+            "_id": 13867,
+            "smile": "O=C(O)c1cc(CBr)c(Br)c(OC(F)(F)F)c1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.7930027379236853, \"bulkiness\": 485.8335078807765}"
+        },
+        {
+            "_id": 7304,
+            "smile": "O=C(O)CCNC(=O)NCCc1ccc(Br)s1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.751088801474638, \"bulkiness\": 9.105045159401607}"
+        },
+        {
+            "_id": 81970,
+            "smile": "C=CCOc1ccc(Br)cc1CNc1cccc(C(=O)O)c1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.7644816558866565, \"bulkiness\": 513.0974577781002}"
+        },
+        {
+            "_id": 84161,
+            "smile": "O=C(O)CCCNC1CCOC1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.8164675253682185, \"bulkiness\": 18.656892295838347}"
+        },
+        {
+            "_id": 29048,
+            "smile": "O=C(O)c1cncc(Sc2ncco2)n1",
+            "geometry": null,
+            "data": "{\"scscore\": 2.891623352038277, \"bulkiness\": 243.58309487934508}"
+        }
+    ]
+}
