@@ -36,4 +36,4 @@ jobs:
 
       - name: Test
         run: |
-          pytest
+          pytest --cov-config setup.cfg
