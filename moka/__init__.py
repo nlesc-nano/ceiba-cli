@@ -3,7 +3,6 @@
 import logging
 
 from .__version__ import __version__
-from .client import query_server
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
