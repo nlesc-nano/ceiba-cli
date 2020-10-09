@@ -17,7 +17,7 @@ def any_lambda(array: Iterable[str]) -> Schema:
 
 SCHEMA_SCHEDULER = Schema({
     Optional("name", default="none"): And(
-        str, Use(str.lower), lambda w: w in {"none", "slurm", "pbs"}),
+        str, Use(str.lower), lambda w: w in {"none", "slurm"}),
 
     # Provide a string with all the configuration
     Optional("free_format", default=None): Or(str, None),

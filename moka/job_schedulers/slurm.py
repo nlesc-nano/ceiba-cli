@@ -10,7 +10,7 @@ from ..utils import Options
 
 def create_slurm_script(opts: Options, input_file: Path) -> str:
     """Create a script to run the workflow using the SLURM job schedule."""
-    job_workdir = input_file.parent()
+    job_workdir = input_file.parent
     slurm_file = job_workdir / "launch.sh"
 
     # Get SLURM configuration
@@ -20,10 +20,10 @@ def create_slurm_script(opts: Options, input_file: Path) -> str:
     if scheduler.free_format is not None:
         script = scheduler.free_format
     else:
-        script = make_script(opts)
+        script = make_script(opts.scheduler)
 
     # Append command to run the workflow
-    cmd = f"{opts.command} {input_file.absolute().as_posix()} &"
+    cmd = f"\n{opts.command} {input_file.absolute().as_posix()}"
     script += f"\n{cmd}"
 
     with open(slurm_file, 'w') as handler:
@@ -44,6 +44,6 @@ def make_script(scheduler: Options) -> str:
     for arg in arguments:
         value = scheduler.get(arg, None)
         if value is not None:
-            script += "#SBATCH --{arg} {value}"
+            script += f"#SBATCH --{arg} {value}\n"
 
     return script

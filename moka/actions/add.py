@@ -10,7 +10,6 @@ __all__ = ["add_jobs"]
 import json
 import logging
 from collections import defaultdict
-from typing import Any, Dict
 
 import numpy as np
 import pandas as pd
@@ -62,7 +61,7 @@ def add_jobs(opts: Options) -> None:
         logger.info(new_job)
 
 
-def format_settings(settings: Dict[str, Any]) -> str:
+def format_settings(settings: Options) -> str:
     """Format the settings as string."""
     string = json.dumps(settings.to_dict())
     # Escape quotes

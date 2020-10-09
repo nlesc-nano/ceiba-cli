@@ -52,14 +52,13 @@ Other optional keywords are:
 Job Scheduling
 **************
 Most of the scientific simulation are usually perform in supercomputers that use a
-`job scheduler <https://en.wikipedia.org/wiki/Job_scheduler>`_. *Moka* supports two of the most popular ones: `SLURM <https://www.openpbs.org/>`_ and `PBS <https://www.openpbs.org/>`_.
-
+`job scheduler <https://en.wikipedia.org/wiki/Job_scheduler>`_. *Moka* supports two of the most popular ones: `SLURM <https://www.openpbs.org/>`_.
 If you choose a *scheduler* different from ``none``, *Moka* will automatically contact
 the job scheduler with the options that you have provided. Below you can find a description
 of the available options:
 ::
 
-   # Job scheduler. Of of "none", "slurm" or "pbs" (default: none)
+   # Job scheduler. Of of "none" or "slurm" (default: none)
    scheduler:
       slurm
    

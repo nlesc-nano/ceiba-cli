@@ -21,7 +21,7 @@ import yaml
 from ..client import query_server
 from ..client.mutations import create_job_status_mutation
 from ..client.queries import create_jobs_query
-from ..job_schedulers import create_pbs_script, create_slurm_script
+from ..job_schedulers import create_slurm_script
 from ..utils import Options
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,6 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     # Generate the script to submit the job using the
     # user provide scheduler
     scheduler = opts.scheduler.name
-    script_generator = {"slurm": create_slurm_script, "pbs": create_pbs_script}
 
     # Command to run the workflow
     if scheduler == "none":
@@ -74,7 +73,7 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
         cmd = f"{opts.command} {input_file.absolute().as_posix()} &"
     else:
         # Schedule the job
-        cmd = script_generator[scheduler](opts, job, input_file)
+        cmd = create_slurm_script(opts, job, input_file)
 
     logger.info(f"Running workflow:\n{cmd}")
     return run_command(cmd, job_workdir)
