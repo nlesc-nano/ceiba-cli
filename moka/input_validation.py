@@ -104,8 +104,11 @@ available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": AD
 
 def validate_input(file_input: Path, action: str) -> Options:
     """Check the input validation against an schema."""
-    with open(file_input, 'r') as f:
-        dict_input = yaml.load(f.read(), Loader=yaml.FullLoader)
+    with open(file_input, 'r') as handler:
+        dict_input = yaml.load(handler.read(), Loader=yaml.FullLoader)
+
+    if action not in available_schemas:
+        raise RuntimeError(f"unknown action: {action}\nFor more info run:``moka --help``")
 
     action_schema = available_schemas[action]
     try:
