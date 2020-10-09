@@ -12,7 +12,7 @@ import platform
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, DefaultDict, Dict, List, Tuple
 
 import pandas as pd
 import yaml
@@ -36,7 +36,7 @@ def report_properties(opts: Options) -> None:
 
     # Create job object
     for path in folders:
-        job_data = defaultdict(lambda: "null")
+        job_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
         job_data.update(shared_data)
         # Read data from result folder
         job_medata, prop_data = retrieve_data(path, opts.pattern)
@@ -47,7 +47,7 @@ def report_properties(opts: Options) -> None:
         logger.info(f"Properties for smile:{prop_data['smile']} have been reported!")
 
 
-def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], DefaultDict[str, Any]]:
     """Read data and metadata from the results folder."""
     # Read metadata from results folder
     metadata = read_metadata(path)
@@ -63,7 +63,7 @@ def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], Dict[str, A
         status = "FAILED"
         data = "null"
 
-    prop_data = defaultdict(lambda: "null")
+    prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
     prop_data.update({
         "smile_id": prop_metadata["smile_id"],
         "smile": prop_metadata["smile"],

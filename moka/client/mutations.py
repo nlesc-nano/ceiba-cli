@@ -1,6 +1,6 @@
 """Module to create mutations perform by the server."""
 
-from typing import Dict
+from typing import DefaultDict, Dict
 
 __all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_update_mutation"]
 
@@ -33,7 +33,7 @@ def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> 
     return format_null(inp)
 
 
-def create_job_update_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
+def create_job_update_mutation(job_info: DefaultDict[str, str], prop_info: DefaultDict[str, str]) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{

@@ -73,7 +73,7 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
         cmd = f"{opts.command} {input_file.absolute().as_posix()} &"
     else:
         # Schedule the job
-        cmd = create_slurm_script(opts, job, input_file)
+        cmd = create_slurm_script(opts, input_file)
 
     logger.info(f"Running workflow:\n{cmd}")
     return run_command(cmd, job_workdir)
@@ -104,7 +104,7 @@ def write_metadata(job: Dict[str, Any], job_workdir: Path):
         yaml.dump(metadata, handler, indent=4)
 
 
-def run_command(cmd: str, workdir: str) -> bool:
+def run_command(cmd: str, workdir: Path) -> bool:
     """Run ``cmd`` as subprocess."""
     try:
         result = check_output(cmd, shell=True, cwd=workdir)
