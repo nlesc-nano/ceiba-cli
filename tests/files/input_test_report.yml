@@ -2,7 +2,7 @@
 url: http://localhost:8080/graphql
 
 # Path to the workdir with the jobs
-path_results: "tests/files/mock_results"
+path_results: "tests/files/mock_workdir_moka"
 
 # Pattern to search for the result files
 pattern: "result*csv"

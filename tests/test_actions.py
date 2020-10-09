@@ -16,7 +16,7 @@ def test_add_jobs():
     pass
 
 
-def test_compute():
+def test_compute(mocker: MockFixture):
     """Test the functionality to compute jobs."""
     pass
 
