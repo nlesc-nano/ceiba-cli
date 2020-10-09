@@ -46,7 +46,8 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
     """Transform a JSON list of dictionaries into a pandas DataFrame."""
     df = pd.DataFrame(properties)
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
-    df['data'].fillna("{}", inplace=True)
-    df['data'] = df['data'].apply(lambda x: json.loads(x))
+    if 'data' in df.columns:
+        df['data'].fillna("{}", inplace=True)
+        df['data'] = df['data'].apply(lambda x: json.loads(x))
 
     return df
