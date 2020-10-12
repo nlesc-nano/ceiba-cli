@@ -1,7 +1,7 @@
 """Test query functionality."""
 from pathlib import Path
 
-from pytest_mock import MockFixture, mocker
+from pytest_mock import MockFixture
 
 from moka.actions import query_properties
 from moka.input_validation import validate_input

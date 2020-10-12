@@ -1,7 +1,7 @@
 """Test the compute method."""
 
 import pytest
-from pytest_mock import MockFixture, mocker
+from pytest_mock import MockFixture
 
 from moka.actions.compute import compute_jobs, update_job_status
 from moka.input_validation import validate_input

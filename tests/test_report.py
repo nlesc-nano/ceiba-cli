@@ -1,7 +1,7 @@
 """"Test the report functionality."""
 
 
-from pytest_mock import MockFixture, mocker
+from pytest_mock import MockFixture
 
 from moka.actions import report_properties
 from moka.input_validation import validate_input

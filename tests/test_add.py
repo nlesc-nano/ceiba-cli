@@ -1,10 +1,8 @@
 """Module to the client actions."""
 
-from pathlib import Path
+from pytest_mock import MockFixture
 
-from pytest_mock import MockFixture, mocker
-
-from moka.actions import add_jobs, query_properties
+from moka.actions import add_jobs
 from moka.input_validation import validate_input
 
 from .utils_test import PATH_TEST, read_mocked_reply

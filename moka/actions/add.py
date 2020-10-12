@@ -26,7 +26,6 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
     """Retrieve candidates to compute from the server."""
     query = create_properties_query(opts.target_collection)
     reply = query_server(opts.url, query)
-    print(reply["properties"])
     return json_properties_to_dataframe(reply["properties"])
 
 
