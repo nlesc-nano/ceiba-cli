@@ -58,8 +58,10 @@ COMPUTE_SCHEMA = Schema({
         str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "RESEVERED"}),
 
     # Maximum number of jobs to compute
-    Optional("max_jobs", default=10): int
+    Optional("max_jobs", default=10): int,
 
+    # Request either the smallest or largest available jobs
+    Optional("job_size", default=None): Or(None, any_lambda(("SMALL", "LARGE")))
 })
 
 QUERY_SCHEMA = Schema({
@@ -95,7 +97,11 @@ REPORT_SCHEMA = Schema({
     "path_results": str,
 
     # Pattern to search for the result files
-    Optional("pattern", default="result*csv"): str
+    Optional("pattern", default="result*csv"): str,
+
+    # The data to report is not
+    Optional("is_standalone", default=False): bool
+
 })
 
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,

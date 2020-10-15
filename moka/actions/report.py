@@ -26,6 +26,22 @@ logger = logging.getLogger(__name__)
 
 def report_properties(opts: Options) -> None:
     """Send computed properties to the server."""
+    if opts.is_standalone:
+        report_standalone_properties(opts)
+    else:
+        report_job_properties(opts)
+
+
+def report_standalone_properties(opts: Options) -> None:
+    """Send standalone data to a given collection."""
+    df = read_result_from_folder(opts.path_results, opts.pattern)
+    data = df.to_json()
+    data = data.replace('\"', '\\"')
+
+
+
+def report_job_properties(opts) -> None:
+    """Report properties coming from a server's job."""
     folders = collect_results(Path(opts.path_results))
 
     # Add metadata to the jobs

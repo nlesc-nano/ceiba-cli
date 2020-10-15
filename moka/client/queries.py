@@ -16,7 +16,7 @@ def create_properties_query(collection_name: str) -> str:
 """
 
 
-def create_jobs_query(status: str, collection_name: str, max_jobs: int) -> str:
+def create_jobs_query(status: str, collection_name: str, max_jobs: int, job_size: str) -> str:
     """Create a query a list of jobs by status.
 
     Parameters
@@ -32,7 +32,7 @@ def create_jobs_query(status: str, collection_name: str, max_jobs: int) -> str:
 
     """
     return f"""query{{
-    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}) {{
+    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}, job_size: {job_size}) {{
         _id
         property {{
             _id

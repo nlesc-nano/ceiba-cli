@@ -2,7 +2,24 @@
 
 from typing import DefaultDict, Dict
 
-__all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_update_mutation"]
+__all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_update_mutation",
+           "create_property_mutation"]
+
+
+def create_property_mutation(prop_info: Dict[str, str]) -> str:
+    """Create a string with the mutation to update a property."""
+    inp = f"""
+  mutattion {{
+    updateProperty() {{
+      _id: {prop_info['smile_id']}
+      collection_name: "{prop_info['collection_name']}"
+      data: "{prop_info['data']}"
+      geometry: "{prop_info['geometry']}"
+      input: "{prop_info['input']}
+    }}
+  }}
+"""
+    return inp
 
 
 def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:

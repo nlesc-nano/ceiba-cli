@@ -29,7 +29,8 @@ logger = logging.getLogger(__name__)
 
 def compute_jobs(opts: Options) -> None:
     """Compute some jobs using the configuration."""
-    query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs)
+    job_size = "null" if opts.job_size is None else opts.job_size
+    query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs, job_size)
     jobs = query_server(opts.url, query)["jobs"]
     check_jobs(jobs)
     logger.info(f"Using scheduler: {opts.scheduler.name}")
