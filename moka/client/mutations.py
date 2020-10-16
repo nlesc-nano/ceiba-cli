@@ -12,6 +12,7 @@ def create_property_mutation(prop_info: Dict[str, str]) -> str:
   mutattion {{
     updateProperty() {{
       _id: {prop_info['smile_id']}
+      smile: {prop_info['smile']}
       collection_name: "{prop_info['collection_name']}"
       data: "{prop_info['data']}"
       geometry: "{prop_info['geometry']}"
@@ -19,7 +20,7 @@ def create_property_mutation(prop_info: Dict[str, str]) -> str:
     }}
   }}
 """
-    return inp
+    return format_null(inp)
 
 
 def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
@@ -32,7 +33,6 @@ def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> 
       _id: {prop_info['smile_id']}
       smile: "{prop_info['smile']}"
       collection_name: "{prop_info['collection_name']}"
-
     }}
     status: {job_info['status']}
     settings: "{job_info['settings']}"

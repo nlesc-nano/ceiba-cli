@@ -1,0 +1,5 @@
+job_id: 82931740
+property:
+    collection_name: functional/basisset
+    smile: O=C(O)c1cc(=O)[nH]c2ccc(F)cc12
+    smile_id: 32800

@@ -1,0 +1,11 @@
+# Server URL
+url: http://localhost:8080/graphql
+
+# Path to the workdir with the jobs
+path_results: "tests/files/mocked_standalone"
+
+# The data is not associated with a job
+is_standalone: True
+
+# Pattern to search for the result files
+pattern: "result*csv"

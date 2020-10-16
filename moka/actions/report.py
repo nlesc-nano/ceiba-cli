@@ -18,7 +18,7 @@ import pandas as pd
 import yaml
 
 from ..client import query_server
-from ..client.mutations import create_job_update_mutation
+from ..client.mutations import create_job_update_mutation, create_property_mutation
 from ..utils import Options
 
 logger = logging.getLogger(__name__)
@@ -34,9 +34,12 @@ def report_properties(opts: Options) -> None:
 
 def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
-    df = read_result_from_folder(opts.path_results, opts.pattern)
+    df = read_result_from_folder(Path(opts.path_results), opts.pattern)
     data = df.to_json()
     data = data.replace('\"', '\\"')
+    query = create_standalone_mutation(opts, data)
+    query_server(opts.url, query)
+    logger.info(f"Standalone data has been sent to collection: {opts.collection_name}")
 
 
 def report_job_properties(opts) -> None:
@@ -119,5 +122,22 @@ def read_properties_from_csv(path_results: Path) -> pd.DataFrame:
 def read_metadata(path_job: Path) -> Dict[str, Any]:
     """Read the jobs metadata information from the job's workdir."""
     path_metadata = path_job / "metadata.yml"
+    if not path_metadata.exists():
+        msg = f"There is no file with metadata: {path_metadata}"
+        raise FileNotFoundError(msg)
     with open(path_metadata, 'r') as handler:
         return yaml.load(handler.read(), Loader=yaml.FullLoader)
+
+
+def create_standalone_mutation(opts: Options, data: str) -> str:
+    """"Create query to mutate standalone data."""
+    info = defaultdict(lambda: "null")
+    info['data'] = data
+
+    # Read metadata from workdir
+    metadata = read_metadata(Path(opts.path_results))["property"]
+    info["_id"] = metadata["smile_id"]
+    info["smile"] = metadata["smile"]
+    info['collection_name'] = metadata["collection_name"]
+
+    return create_property_mutation(info)

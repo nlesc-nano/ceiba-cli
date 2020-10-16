@@ -99,7 +99,7 @@ REPORT_SCHEMA = Schema({
     # Pattern to search for the result files
     Optional("pattern", default="result*csv"): str,
 
-    # The data to report is not
+    # The data to report is not associated to a job
     Optional("is_standalone", default=False): bool
 
 })

@@ -2,7 +2,10 @@
 Report
 ======
 The ``report`` command send the results of the jobs computed by the user to
-the web service.
+the web service. You can also send "standalone" data to the server. Where standalone
+means data that is not associated to a job in the server, for example because it
+has been previously computed.
+
 To report the results you need to type in the terminal:
 ::
 
@@ -10,6 +13,8 @@ To report the results you need to type in the terminal:
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 
+
+If
 
 .. _report input:
 
@@ -28,8 +33,11 @@ The input file contains the following mandatory keywords:
 There are also the following optional keywords:
 ::
 
-   # Pattern to search for the result files (default "results*csv"
+   # Pattern to search for the result files (default "results*csv")
    pattern: "results*csv"
+
+   # The data to report is not associated to a job (default False)
+   is_standalone: True
 
 
 Jobs Metadata
