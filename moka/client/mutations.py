@@ -8,17 +8,18 @@ __all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_upda
 
 def create_property_mutation(prop_info: Dict[str, str]) -> str:
     """Create a string with the mutation to update a property."""
-    inp = f"""
-  mutattion {{
-    updateProperty() {{
+    inp = f"""mutation {{
+    updateProperty(input: {{
       _id: {prop_info['smile_id']}
-      smile: {prop_info['smile']}
+      smile: "{prop_info['smile']}"
       collection_name: "{prop_info['collection_name']}"
       data: "{prop_info['data']}"
       geometry: "{prop_info['geometry']}"
-      input: "{prop_info['input']}
-    }}
+      input: "{prop_info['input']}"
+    }}) {{
+    _id
   }}
+}}
 """
     return format_null(inp)
 

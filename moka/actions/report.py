@@ -136,7 +136,7 @@ def create_standalone_mutation(opts: Options, data: str) -> str:
 
     # Read metadata from workdir
     metadata = read_metadata(Path(opts.path_results))["property"]
-    info["_id"] = metadata["smile_id"]
+    info["smile_id"] = metadata["smile_id"]
     info["smile"] = metadata["smile"]
     info['collection_name'] = metadata["collection_name"]
 
