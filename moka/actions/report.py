@@ -39,7 +39,6 @@ def report_standalone_properties(opts: Options) -> None:
     data = data.replace('\"', '\\"')
 
 
-
 def report_job_properties(opts) -> None:
     """Report properties coming from a server's job."""
     folders = collect_results(Path(opts.path_results))

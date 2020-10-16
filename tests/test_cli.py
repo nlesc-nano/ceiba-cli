@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 import schema
-from pytest_mock import MockFixture, mocker
+from pytest_mock import MockFixture
 
 from moka.cli import main
 
