@@ -10,11 +10,11 @@ import json
 import logging
 import os
 import sys
-
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError, check_output
-from typing import Any, Dict, List
+from typing import Any, DefaultDict, Dict, List
 
 import yaml
 
@@ -33,6 +33,9 @@ def compute_jobs(opts: Options) -> None:
     query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs, job_size)
     jobs = query_server(opts.url, query)["jobs"]
     check_jobs(jobs)
+    # Mark  jobs as  RESERVED so no other repeat the calculation
+    mark_jobs_as_reseved(opts, jobs)
+
     logger.info(f"Using scheduler: {opts.scheduler.name}")
     for j in jobs:
         succeeded = schedule_job(opts, j)
@@ -132,3 +135,16 @@ def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
 
     query = create_job_status_mutation(info)
     query_server(opts.url, query)
+    logger.info(f"job {job['_id']} has been marked as {status}!")
+
+
+def mark_jobs_as_reseved(opts: Options, jobs: List[Dict[str, Any]]) -> None:
+    """Mark requested jobs as reseved to avoid recomputation of the same job."""
+    for job in jobs:
+        job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
+        job_info["job_id"] = job["_id"]
+        job_info["status"] = "RESERVED"
+        job_info["collection_name"] = opts.collection_name
+        query = create_job_status_mutation(job_info)
+        query_server(opts.url, query)
+        logger.info(f"job {job['_id']} has been marked as RESERVED!")
