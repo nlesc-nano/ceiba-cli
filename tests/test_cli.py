@@ -42,6 +42,7 @@ def call_wrong_input(mocker: MockFixture, action: str, message: str, excp: BaseE
     error = info.value.args[0]
     assert message in error
 
+
 def test_cli(mocker: MockFixture):
     """Test the command line interface."""
     actions = ("compute", "query", "report", "add")

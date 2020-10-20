@@ -14,7 +14,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError, check_output
-from typing import Any, Dict, List
+from typing import Any, DefaultDict, Dict, List
 
 import yaml
 

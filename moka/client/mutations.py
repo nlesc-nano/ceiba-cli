@@ -17,7 +17,8 @@ def create_property_mutation(prop_info: Dict[str, str]) -> str:
       geometry: "{prop_info['geometry']}"
       input: "{prop_info['input']}"
     }}) {{
-    _id
+    status
+    text
   }}
 }}
 """
@@ -38,13 +39,8 @@ def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> 
     status: {job_info['status']}
     settings: "{job_info['settings']}"
   }}) {{
-    _id
     status
-    property {{
-      _id
-      smile
-      collection_name
-    }}
+    text
   }}
 }}
 """
@@ -76,7 +72,7 @@ def create_job_update_mutation(
   }},
     duplication_policy: {duplication_policy}
   ) {{
-    _id
+    text
     status
   }}
 }}
@@ -95,7 +91,7 @@ def create_job_status_mutation(info: Dict[str, str]) -> str:
     schedule_time: {info['schedule_time']}
     report_time: {info['report_time']}
 }}) {{
-    _id
+    text
     status
   }}
 }}

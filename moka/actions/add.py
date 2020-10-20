@@ -56,8 +56,8 @@ def add_jobs(opts: Options) -> None:
     mutations = (create_mutations(row, opts)for _, row in rows)
     logger.info("New Jobs:")
     for query in mutations:
-        new_job = query_server(opts.url, query)
-        logger.info(new_job)
+        reply = query_server(opts.url, query)
+        logger.info(reply['createJob'])
 
 
 def format_settings(settings: Options) -> str:

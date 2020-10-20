@@ -40,5 +40,9 @@
             "_id": 29048,
             "smile": "O=C(O)c1cncc(Sc2ncco2)n1"
         }
-    ]
+    ],
+    "createJob":
+        {"status": "DONE",
+         "text": "Job with id 1016298730 is already in collection jobs_functional/basisset"
+        }
 }
