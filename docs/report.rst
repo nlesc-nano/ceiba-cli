@@ -39,6 +39,13 @@ There are also the following optional keywords:
    # The data to report is not associated to a job (default False)
    is_standalone: True
 
+   # If the data is already in server you can either:
+   # KEEP the old data
+   # OVERWRITE and discard the old data
+   # MERGE the new and the old data
+   # APPEND new data at the end of the old data array
+   # Default = KEEP
+   duplication_policy: "KEEP"
 
 Jobs Metadata
 *************

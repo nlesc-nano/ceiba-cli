@@ -60,7 +60,7 @@ def report_job_properties(opts) -> None:
         job_medata, prop_data = retrieve_data(path, opts.pattern)
         job_data.update(job_medata)
         # Send data to the web server
-        query = create_job_update_mutation(job_data, prop_data)
+        query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
         query_server(opts.url, query)
         logger.info(f"Properties for smile:{prop_data['smile']} have been reported!")
 

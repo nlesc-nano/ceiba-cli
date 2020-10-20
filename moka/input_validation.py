@@ -100,7 +100,16 @@ REPORT_SCHEMA = Schema({
     Optional("pattern", default="result*csv"): str,
 
     # The data to report is not associated to a job
-    Optional("is_standalone", default=False): bool
+    Optional("is_standalone", default=False): bool,
+
+    # If the data is already in server you can either:
+    # KEEP the old data
+    # OVERWRITE and discard the old data
+    # MERGE the new and the old data
+    # APPEND new data at the end of the old data array
+    Optional(
+        "duplication_policy", default="KEEP"): is_in_array_uppercase(
+            {"KEEP", "OVERWRITE", "MERGE", "APPEND"})
 
 })
 

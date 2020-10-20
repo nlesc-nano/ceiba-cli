@@ -51,7 +51,9 @@ def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> 
     return format_null(inp)
 
 
-def create_job_update_mutation(job_info: DefaultDict[str, str], prop_info: DefaultDict[str, str]) -> str:
+def create_job_update_mutation(
+        job_info: DefaultDict[str, str], prop_info: DefaultDict[str, str],
+        duplication_policy: str) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{
@@ -71,7 +73,9 @@ def create_job_update_mutation(job_info: DefaultDict[str, str], prop_info: Defau
     platform: "{job_info['platform']}"
     report_time: {job_info['report_time']}
 
-  }}) {{
+  }},
+    duplication_policy: {duplication_policy}
+  ) {{
     _id
     status
   }}
