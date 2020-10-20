@@ -9,10 +9,10 @@ from schema import And, Optional, Or, Schema, SchemaError, Use
 from .utils import Options
 
 
-def any_lambda(array: Iterable[str]) -> Schema:
+def is_in_array_uppercase(array: Iterable[str]) -> Schema:
     """Create an schema checking that the keyword matches one of the expected values."""
     return And(
-        str, Use(str.lower), lambda s: s in array)
+        str, Use(str.upper), lambda s: s in array)
 
 
 SCHEMA_SCHEDULER = Schema({
@@ -61,7 +61,7 @@ COMPUTE_SCHEMA = Schema({
     Optional("max_jobs", default=10): int,
 
     # Request either the smallest or largest available jobs
-    Optional("job_size", default=None): Or(None, any_lambda(("SMALL", "LARGE")))
+    Optional("job_size", default=None): Or(None, is_in_array_uppercase({"SMALL", "LARGE"}))
 })
 
 QUERY_SCHEMA = Schema({

@@ -14,7 +14,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from subprocess import CalledProcessError, check_output
-from typing import Any, DefaultDict, Dict, List
+from typing import Any, Dict, List
 
 import yaml
 
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 def compute_jobs(opts: Options) -> None:
     """Compute some jobs using the configuration."""
-    job_size = "null" if opts.job_size is None else opts.job_size
+    job_size = "null" if opts.job_size is None else opts.job_size.upper()
     query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs, job_size)
     jobs = query_server(opts.url, query)["jobs"]
     check_jobs(jobs)
