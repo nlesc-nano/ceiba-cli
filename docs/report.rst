@@ -7,6 +7,7 @@ means data that is not associated to a job in the server, for example because it
 has been previously computed.
 
 To report the results you need to type in the terminal:
+
 ::
 
    moka compute input_report.yml
@@ -19,6 +20,7 @@ Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.o
 Report Input File
 *****************
 The input file contains the following mandatory keywords:
+
 ::
 
    # URL to the insilico server
@@ -29,6 +31,7 @@ The input file contains the following mandatory keywords:
    path_results: "path/to/workdir"
 
 There are also the following optional keywords:
+
 ::
 
    # Pattern to search for the result files (default "results*csv")
@@ -81,12 +84,15 @@ to store these kind of data in an efficient and safely way.
 
 
 
-  In order to storage large output you need to provide in the yaml file the following keywords:
-  ::
+In order to storage large output you need to provide in the yaml file the following keywords:
+::
 
-     # The large file(s) to search for
-     large_files_pattern:  "output*hdf5""
-
+     large_objects:
+       # URL to the datastorage service
+       storage_url: "http://large_scientific_data_storage.pi"
+       # The large file(s) to search for
+       pattern:  ["output*hdf5"]
+       
 
 .. Note::
    * Installing, deploying an mantaining a `swift openstack data storage service <https://docs.openstack.org/swift/latest/getting_started.html>`_ 

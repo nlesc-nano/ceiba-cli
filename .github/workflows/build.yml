@@ -12,6 +12,11 @@ jobs:
       matrix:
         python-version: ['3.7', '3.8']
 
+    services:
+      saio:
+        image: openstackswift/saio
+        ports:
+        - 8080:8080
 
     steps:
       - name: Cancel Previous Runs

@@ -89,6 +89,13 @@ ADD_SCHEMA = Schema({
     "new_collection": str
 })
 
+LARGE_OBJECTS_SCHEMA = Schema({
+    # URL to the datastorage service. e.g. "http://large_scientific_data_storage.pi"
+    "storage_url": str,
+    # The large file(s) to search for. e.g. output*hdf5""
+    "pattern": [str],
+})
+
 REPORT_SCHEMA = Schema({
     # Server URL
     "url": str,
@@ -109,7 +116,10 @@ REPORT_SCHEMA = Schema({
     # APPEND new data at the end of the old data array
     Optional(
         "duplication_policy", default="KEEP"): is_in_array_uppercase(
-            {"KEEP", "OVERWRITE", "MERGE", "APPEND"})
+            {"KEEP", "OVERWRITE", "MERGE", "APPEND"}),
+
+    # Metadata to store large objects
+    Optional("large_objects", default=None): Or(None, LARGE_OBJECTS_SCHEMA)
 
 })
 

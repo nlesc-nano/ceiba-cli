@@ -19,7 +19,10 @@ import yaml
 
 from ..client import query_server
 from ..client.mutations import create_job_update_mutation, create_property_mutation
+from ..swift_interface import save_large_objects
 from ..utils import Options
+
+__all__ = ["report_properties"]
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +32,7 @@ def report_properties(opts: Options) -> None:
     if opts.is_standalone:
         report_standalone_properties(opts)
     else:
-        report_job_properties(opts)
+        report_jobs_properties(opts)
 
 
 def report_standalone_properties(opts: Options) -> None:
@@ -42,7 +45,7 @@ def report_standalone_properties(opts: Options) -> None:
     logger.info(f"Standalone data has been sent to collection: {opts.collection_name}")
 
 
-def report_job_properties(opts) -> None:
+def report_jobs_properties(opts: Options) -> None:
     """Report properties coming from a server's job."""
     folders = collect_results(Path(opts.path_results))
 
@@ -54,24 +57,52 @@ def report_job_properties(opts) -> None:
 
     # Create job object
     for path in folders:
-        job_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
-        job_data.update(shared_data)
-        # Read data from result folder
-        job_medata, prop_data = retrieve_data(path, opts.pattern)
-        job_data.update(job_medata)
-        # Send data to the web server
-        query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
-        reply = query_server(opts.url, query)
-        logger.info(reply['updateJob']['text'])
+        store_single_job_data(path, opts, shared_data)
 
 
-def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], DefaultDict[str, Any]]:
+def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, str]) -> None:
+    """Retrieve and store the data for a single job."""
+    job_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
+    job_data.update(shared_data)
+    # Read data from result folder
+    job_medata, prop_data = retrieve_data(path, opts)
+    job_data.update(job_medata)
+    # Store large objects using the files metadata
+    if opts.large_objects is not None:
+        save_large_objects(opts.large_objects, prop_data)
+    # Send data to the web server
+    query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
+    reply = query_server(opts.url, query)
+    logger.info(reply['updateJob']['text'])
+
+
+def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDict[str, Any]]:
     """Read data and metadata from the results folder."""
     # Read metadata from results folder
     metadata = read_metadata(path)
     prop_metadata = metadata["property"]
 
     # Read data from results folder as pandas DataFrame
+    data, status = read_data_and_job_status(path, opts.pattern)
+
+    # Check if large objects need to be store
+    large_objects = None if opts.large_objects is None else search_for_large_objects(
+        path, opts.large_objects)
+
+    prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
+    prop_data.update({
+        "smile_id": prop_metadata["smile_id"],
+        "smile": prop_metadata["smile"],
+        "collection_name": prop_metadata["collection_name"],
+        "data": data,
+        "large_objects": large_objects})
+
+    job_medata = {"job_id": metadata["job_id"], "status": status}
+    return job_medata, prop_data
+
+
+def read_data_and_job_status(path: Path, pattern: str) -> Tuple[str, str]:
+    """Retrieve data and status from the job folder."""
     try:
         df = read_result_from_folder(path, pattern)
         data = df.to_json()
@@ -81,15 +112,7 @@ def retrieve_data(path: Path, pattern: str) -> Tuple[Dict[str, Any], DefaultDict
         status = "FAILED"
         data = "null"
 
-    prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
-    prop_data.update({
-        "smile_id": prop_metadata["smile_id"],
-        "smile": prop_metadata["smile"],
-        "collection_name": prop_metadata["collection_name"],
-        "data": data})
-
-    job_medata = {"job_id": metadata["job_id"], "status": status}
-    return job_medata, prop_data
+    return data, status
 
 
 def collect_results(path_results: Path) -> List[Path]:
@@ -141,3 +164,9 @@ def create_standalone_mutation(opts: Options, data: str) -> str:
     info['collection_name'] = metadata["collection_name"]
 
     return create_property_mutation(info)
+
+
+def search_for_large_objects(path: Path, info: Options) -> Dict[str, Any]:
+    """Look out for output files to store using the openstack swift interface."""
+    files = (path.glob(f"**/{info.pattern}"))
+    return {p.name: p.absolute().as_posix() for p in files}
