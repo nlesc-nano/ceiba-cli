@@ -14,8 +14,6 @@ To report the results you need to type in the terminal:
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 
 
-If
-
 .. _report input:
 
 Report Input File
@@ -47,8 +45,52 @@ There are also the following optional keywords:
    # Default = KEEP
    duplication_policy: "KEEP"
 
-Jobs Metadata
-*************
-Apart from the computed data, the ``report`` command would try to collect some
-metadata associated with the job like *username*, *platform*, etc. that
-is fundamental for reproducibility purposes.
+Check the :ref:`large objects data storage` for further information on
+saving large output files.
+
+.. _job metadata:
+
+How does it work?
+*****************
+The library enters the ``path_results`` and search recursively all the files and
+directories name like ``job_*``. In each subfolder, apart from the
+computed data (specificied with the ``pattern`` keyword), the ``report`` command
+would try to collect the metadata associated with the job in a files named
+*metadata.yml* containing the following information:
+::
+
+   job_id: 1271269411
+   property:
+       collection_name: awesome_data
+       smile: CC(=O)O
+       smile_id: 76950
+
+*Without the metadata no data is reported back to the server*.
+
+.. _large objects data storage:
+
+Large objects data storage
+**************************
+For many simulation it is desirable to store the output plain data and/or the binary checkpoints.
+Those files can be used to retrieve data that is not available in the database or to restart
+a calculation to perform further computations.
+
+Those large objects are not suitable for storage in a database but fortunately there are
+technologies like `swift openstack <https://docs.openstack.org/swift/latest/>`_ that allows
+to store these kind of data in an efficient and safely way.
+
+
+
+  In order to storage large output you need to provide in the yaml file the following keywords:
+  ::
+
+     # The large file(s) to search for
+     large_files_pattern:  "output*hdf5""
+
+
+.. Note::
+   * Installing, deploying an mantaining a `swift openstack data storage service <https://docs.openstack.org/swift/latest/getting_started.html>`_ 
+     is a nontrivial task. Therefore it is recommended to request access to this service to a provider.
+     Be aware that **IT COSTS MONEY** to maintain the service running in a server!
+   * The large files and their corresponding metadata are going to be stored in the `swift collection <https://docs.openstack.org/swift/latest/api/object_api_v1_overview.html>`_.
+     using the same ``collection_name`` that has been specified in the :ref:`job metadata`.
