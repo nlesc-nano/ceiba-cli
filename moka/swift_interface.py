@@ -85,10 +85,15 @@ class SwiftAction:
         return [check_action(x) for x in self.execute_swift_action(
             "delete", container, objects=objects, options=options)]
 
+    def download(self, container: str, objects: Optional[List[str]] = None,
+                 options: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """Download data from the storage."""
+        return [check_action(x) for x in self.execute_swift_action(
+            "download", container, objects=objects, options=options)]
+
 
 def check_action(reply: Dict[str, Any]) -> Dict[str, Any]:
     """Check that the reply contains a message of success."""
     if not reply["success"]:
-        msg = json.dumps(reply, indent=4)
-        raise RuntimeError(f"Error communicating with the large object storage:\n{msg}")
+        raise RuntimeError(f"Error communicating with the large object storage:\n{reply['error']}")
     return reply
