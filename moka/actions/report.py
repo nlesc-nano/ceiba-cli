@@ -71,7 +71,7 @@ def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]
     # Store large objects using the files metadata
     if opts.large_objects is not None:
         swift = SwiftAction(opts.large_objects.url)
-        check_action(swift.save_large_objects(prop_data))
+        swift.upload(prop_data)
     # Send data to the web server
     query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
     reply = query_server(opts.url, query)

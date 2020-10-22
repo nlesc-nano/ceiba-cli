@@ -9,7 +9,7 @@ autofunction:: check_action
 
 import json
 import logging
-from typing import Any, Dict, Iterable
+from typing import Any, Dict, Iterable, List, Optional
 
 from swiftclient.service import SwiftError, SwiftService
 
@@ -47,7 +47,7 @@ class SwiftAction:
         """List the container entry."""
         return self.execute_swift_action("list", container)
 
-    def save_large_objects(self, prop_data: Dict[str, Any]) -> Dict[str, Any]:
+    def upload(self, prop_data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Send the large objects specified in prop_data to the openstack swift service.
 
         Parameters
@@ -71,9 +71,13 @@ class SwiftAction:
         # Create container if doesn't exist and store the files and
         # use the same collection name to store the large files
         check_action(self.execute_swift_action("post", container))
-        reply = check_action(self.execute_swift_action("upload", container, objects=files))
+        return [check_action(x) for x in self.execute_swift_action(
+            "upload", container, objects=files)]
 
-        return reply
+    def delete(self, container: str, objects: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Remove objects or container."""
+        return [check_action(x) for x in self.execute_swift_action(
+            "delete", container, objects=objects)]
 
 
 def check_action(reply: Dict[str, Any]) -> Dict[str, Any]:
