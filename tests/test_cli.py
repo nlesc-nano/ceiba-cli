@@ -1,6 +1,7 @@
 """Test the command line interface."""
 
 import argparse
+import sys
 from pathlib import Path
 
 import pytest
@@ -60,3 +61,28 @@ def test_wrong_action(mocker: MockFixture):
 def test_wrong_input(mocker: MockFixture):
     """Check that the validation fails if call with invalid arguments."""
     call_wrong_input(mocker, "compute", "Missing keys", schema.SchemaMissingKeyError)
+
+
+def test_non_existing_file(capsys):
+    """Check that an error is raised if the input file doesn't exist."""
+    path_input = "Nonexistingfile.yml"
+
+    with pytest.raises(SystemExit):
+        sys.argv = ['compute', path_input]
+        main()
+
+    captured = capsys.readouterr()
+    assert "error: argument command: invalid choice" in captured.err
+
+
+def test_no_command_argument(mocker: MockFixture, capsys):
+    """Check that the program exit if there is no command."""
+    mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
+        command=None, input=  PATH_TEST / "wrong_input.yml"))
+
+    with pytest.raises(SystemExit):
+        main()
+
+    captured = capsys.readouterr()
+
+    assert "usage: moka [-h] [--version] {compute,report,query,add} ..." in captured.out
