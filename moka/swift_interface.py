@@ -13,7 +13,6 @@ from typing import Any, Dict, Iterable, List, Optional
 
 from swiftclient.service import SwiftError, SwiftService
 
-from .utils import Options
 
 __all__ = ["SwiftAction"]
 
@@ -47,7 +46,7 @@ class SwiftAction:
         """List the container entry."""
         return self.execute_swift_action("list", container)
 
-    def upload(self, prop_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def upload(self, prop_data: Dict[str, Any], options: Optional[Dict[str, Any]] = None) -> str:
         """Send the large objects specified in prop_data to the openstack swift service.
 
         Parameters
@@ -66,18 +65,25 @@ class SwiftAction:
         # Use the same collection name to store the large files
         container = prop_data["collection_name"]
         # objects to be store
-        files = json.loads(prop_data["large_objects"]).values()
+        files = prop_data["large_objects"]
 
         # Create container if doesn't exist and store the files and
         # use the same collection name to store the large files
         check_action(self.execute_swift_action("post", container))
-        return [check_action(x) for x in self.execute_swift_action(
-            "upload", container, objects=files)]
 
-    def delete(self, container: str, objects: Optional[str] = None) -> List[Dict[str, Any]]:
+        # Upload and check that it works
+        for reply in self.execute_swift_action(
+                "upload", container, objects=files.values(), options=options):
+            check_action(reply)
+
+        # Remove the root / from the path
+        return json.dumps({name: path[1:] for name, path in files.items()})
+
+    def delete(self, container: str, objects: Optional[str] = None,
+               options: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Remove objects or container."""
         return [check_action(x) for x in self.execute_swift_action(
-            "delete", container, objects=objects)]
+            "delete", container, objects=objects, options=options)]
 
 
 def check_action(reply: Dict[str, Any]) -> Dict[str, Any]:

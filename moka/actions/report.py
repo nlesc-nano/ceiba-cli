@@ -7,7 +7,6 @@ API
 """
 
 import getpass
-import json
 import logging
 import platform
 from collections import defaultdict
@@ -20,7 +19,7 @@ import yaml
 
 from ..client import query_server
 from ..client.mutations import create_job_update_mutation, create_property_mutation
-from ..swift_interface import SwiftAction, check_action
+from ..swift_interface import SwiftAction
 from ..utils import Options
 
 __all__ = ["report_properties"]
@@ -71,7 +70,7 @@ def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]
     # Store large objects using the files metadata
     if opts.large_objects is not None:
         swift = SwiftAction(opts.large_objects.url)
-        swift.upload(prop_data)
+        job_data["large_object"] = swift.upload(prop_data)
     # Send data to the web server
     query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
     reply = query_server(opts.url, query)
@@ -168,7 +167,7 @@ def create_standalone_mutation(opts: Options, data: str) -> str:
     return create_property_mutation(info)
 
 
-def search_for_large_objects(path: Path, info: Options) -> str:
+def search_for_large_objects(path: Path, info: Options) -> Dict[str, str]:
     """Look out for output files to store using the openstack swift interface."""
     files = (path.glob(f"**/{info.pattern}"))
-    return json.dumps({p.name: p.absolute().as_posix() for p in files})
+    return {p.name: p.absolute().as_posix() for p in files}
