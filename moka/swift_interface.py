@@ -39,7 +39,6 @@ class SwiftAction:
             return function(container=container, **kwargs)
 
         except SwiftError as err:
-            print("error: ", err.value)
             logger.error(err.value)
             return None
 
