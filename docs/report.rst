@@ -89,9 +89,9 @@ In order to storage large output you need to provide in the yaml file the follow
 
      large_objects:
        # URL to the datastorage service
-       storage_url: "http://large_scientific_data_storage.pi"
+       url: "http://large_scientific_data_storage.pi"
        # The large file(s) to search for
-       pattern:  ["output*hdf5"]
+       patterns:  ["output*hdf5"]
        
 
 .. Note::

@@ -1,0 +1,13 @@
+# Server URL
+url: http://localhost:8080/graphql
+
+# Path to the workdir with the jobs
+path_results: "tests/files/mock_workdir_moka"
+
+# Pattern to search for the result files
+pattern: "result*csv"
+
+# Large files to save in the remote storage
+large_objects:
+    url: "https://remote_awesome_scientific_data.pi"
+    patterns: ["*.npy"]

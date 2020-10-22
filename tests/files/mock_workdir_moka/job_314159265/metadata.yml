@@ -1,5 +1,5 @@
 job_id: 1067308156
 property:
-    collection_name: functional/basisset
+    collection_name: "awesome_collection"
     smile: C=CC(=O)O
     smile_id: 62189

@@ -91,9 +91,9 @@ ADD_SCHEMA = Schema({
 
 LARGE_OBJECTS_SCHEMA = Schema({
     # URL to the datastorage service. e.g. "http://large_scientific_data_storage.pi"
-    "storage_url": str,
+    "url": str,
     # The large file(s) to search for. e.g. output*hdf5""
-    "pattern": [str],
+    "patterns": [str],
 })
 
 REPORT_SCHEMA = Schema({
