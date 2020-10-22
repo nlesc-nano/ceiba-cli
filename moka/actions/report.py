@@ -90,7 +90,7 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
     large_objects = None if opts.large_objects is None else search_for_large_objects(
         path, opts.large_objects)
 
-    prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
+    prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_data.update({
         "smile_id": prop_metadata["smile_id"],
         "smile": prop_metadata["smile"],

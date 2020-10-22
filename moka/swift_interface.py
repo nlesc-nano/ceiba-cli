@@ -32,7 +32,7 @@ class SwiftAction:
 
         self.swift = SwiftService(self.options)
 
-    def execute_swift_action(self, action: str, container: str, **kwargs: Dict[str, Any]) -> Any:
+    def execute_swift_action(self, action: str, container: str, **kwargs: Optional[Any]) -> Any:
         """Execute a given action with the swift client."""
         function = getattr(self.swift, action)
         try:
@@ -79,7 +79,7 @@ class SwiftAction:
         # Remove the root / from the path
         return json.dumps({name: path[1:] for name, path in files.items()})
 
-    def delete(self, container: str, objects: Optional[str] = None,
+    def delete(self, container: str, objects: Optional[List[str]] = None,
                options: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Remove objects or container."""
         return [check_action(x) for x in self.execute_swift_action(
@@ -88,7 +88,7 @@ class SwiftAction:
 
 def check_action(reply: Dict[str, Any]) -> Dict[str, Any]:
     """Check that the reply contains a message of success."""
-    if isinstance(reply, dict) and not reply["success"]:
+    if not reply["success"]:
         msg = json.dumps(reply, indent=4)
         raise RuntimeError(f"Error communicating with the large object storage:\n{msg}")
     return reply
