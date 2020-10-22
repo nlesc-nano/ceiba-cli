@@ -7,6 +7,7 @@ API
 """
 
 import getpass
+import json
 import logging
 import platform
 from collections import defaultdict
@@ -60,7 +61,7 @@ def report_jobs_properties(opts: Options) -> None:
         store_single_job_data(path, opts, shared_data)
 
 
-def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, str]) -> None:
+def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]) -> None:
     """Retrieve and store the data for a single job."""
     job_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
     job_data.update(shared_data)
@@ -166,7 +167,7 @@ def create_standalone_mutation(opts: Options, data: str) -> str:
     return create_property_mutation(info)
 
 
-def search_for_large_objects(path: Path, info: Options) -> Dict[str, Any]:
+def search_for_large_objects(path: Path, info: Options) -> str:
     """Look out for output files to store using the openstack swift interface."""
     files = (path.glob(f"**/{info.pattern}"))
-    return {p.name: p.absolute().as_posix() for p in files}
+    return json.dumps({p.name: p.absolute().as_posix() for p in files})

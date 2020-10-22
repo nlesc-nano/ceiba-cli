@@ -10,6 +10,7 @@ __all__ = ["add_jobs"]
 import json
 import logging
 from collections import defaultdict
+from typing import Any, DefaultDict
 
 import numpy as np
 import pandas as pd
@@ -31,8 +32,8 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
 
 def create_mutations(row: pd.Series, opts: Options) -> str:
     """Create a list of mutations with the new jobs."""
-    job_info = defaultdict(lambda: "null")
-    prop_info = defaultdict(lambda: "null")
+    job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
+    prop_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     job_info.update({
         "job_id": np.random.randint(0, 2147483647),
         "status": "AVAILABLE",

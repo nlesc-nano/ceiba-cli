@@ -62,6 +62,7 @@ def create_job_update_mutation(
       data: "{prop_info['data']}"
       geometry: "{prop_info['geometry']}"
       input: "{prop_info['input']}"
+      large_objects: "{prop_info['large_objects']}"
 
     }}
     status: {job_info['status']}
