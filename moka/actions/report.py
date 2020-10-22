@@ -20,7 +20,7 @@ import yaml
 
 from ..client import query_server
 from ..client.mutations import create_job_update_mutation, create_property_mutation
-from ..swift_interface import save_large_objects
+from ..swift_interface import SwiftAction, check_action
 from ..utils import Options
 
 __all__ = ["report_properties"]
@@ -70,7 +70,8 @@ def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]
     job_data.update(job_medata)
     # Store large objects using the files metadata
     if opts.large_objects is not None:
-        save_large_objects(opts.large_objects, prop_data)
+        swift = SwiftAction(opts.large_objects.url)
+        check_action(swift.save_large_objects(prop_data))
     # Send data to the web server
     query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
     reply = query_server(opts.url, query)

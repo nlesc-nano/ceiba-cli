@@ -5,8 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
-from moka.swift_interface import list_container, save_large_objects
-from moka.utils import Options
+from moka.swift_interface import SwiftAction, check_action
 
 
 def test_save_large_object(tmp_path: Path):
@@ -21,9 +20,11 @@ def test_save_large_object(tmp_path: Path):
     container = "awesome_collection"
     prop_data = {"collection_name": container,
                  "large_objects": json.dumps({name: path})}
-    save_large_objects(Options(), prop_data)
-    output = next(list_container(container))
-    # The data has been store in the service
+    swift = SwiftAction("https://awesome_scientific_data.pi")
+    reply = [check_action(x) for x in swift.save_large_objects(prop_data)]
+    print(reply)
+    output = next(swift.list_container(container))
+    # # The data has been store in the service
     assert output['success']
 
     # Check the path
