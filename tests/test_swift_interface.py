@@ -34,7 +34,7 @@ def test_save_large_object(tmp_path: Path):
 
     prop_data = {"collection_name": CONTAINER,
                  "large_objects": {name: path_str}}
-    swift = SwiftAction("https://awesome_scientific_data.pi")
+    swift = SwiftAction()
     swift.upload(prop_data)
     output = next(swift.list_container(CONTAINER))
     # # The data has been store in the service
