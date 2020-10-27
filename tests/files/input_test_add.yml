@@ -2,13 +2,22 @@
 url: http://localhost:8080/graphql
 
 settings:
-  compute:
-    mock_workflows
-  properties:
-    prop1:
-        foo
-    prop2:
-        bar
+  path: "."
+
+  input_cores:
+     - Cd68Se55.xyz:
+          guess_bonds: False
+
+  input_ligands:
+    - "{smile}"
+
+  optional:
+      qd:
+        bulkiness: True
+      ligand:
+        cosmo-rs: False
+        cdft: False
+        functional_groups: ['O(C=O)[H]']
 
 # Name of the collection to get molecules
 target_collection: "candidates"

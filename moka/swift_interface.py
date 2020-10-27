@@ -22,13 +22,13 @@ logger = logging.getLogger(__name__)
 class SwiftAction:
     """Object to handle the interaction with the swift client."""
 
-    def __init__(self, url: str):
+    def __init__(self, url: str = "http://127.0.0.1:8080/auth/v1.0"):
         """Start the class using the provided url."""
         self.options = {
             "auth_version": "1.0",
             "user": "test:tester",
             "key": "testing",
-            "auth": "http://127.0.0.1:8080/auth/v1.0"}
+            "auth": url}
 
         self.swift = SwiftService(self.options)
 
