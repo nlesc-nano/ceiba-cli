@@ -72,9 +72,10 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     scheduler = opts.scheduler.name
 
     # Command to run the workflow
+    smile = job["property"]["smile"]
     if scheduler == "none":
         # Run locally
-        cmd = f"{opts.command} {input_file.absolute().as_posix()} &"
+        cmd = f'{opts.command} -s "{smile}" -i {input_file.absolute().as_posix()} &'
     else:
         # Schedule the job
         cmd = create_slurm_script(opts, input_file)
