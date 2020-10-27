@@ -58,7 +58,7 @@ def add_jobs(opts: Options) -> None:
     logger.info("New Jobs:")
     for query in mutations:
         reply = query_server(opts.url, query)
-        logger.info(reply['createJob'])
+        logger.info(reply['createJob']['text'])
 
 
 def format_settings(settings: Options) -> str:
