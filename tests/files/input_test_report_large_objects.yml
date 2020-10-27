@@ -9,5 +9,5 @@ pattern: "result*csv"
 
 # Large files to save in the remote storage
 large_objects:
-    url: "https://remote_awesome_scientific_data.pi"
+    url: "http://127.0.0.1:8080/auth/v1.0"
     patterns: ["*.npy"]
