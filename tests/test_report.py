@@ -39,7 +39,7 @@ def test_report_large_objects(mocker: MockFixture):
 
     # Check that the large object is in the storage
     container = "awesome_collection"
-    swift = SwiftAction("https://awesome_scientific_storage.pi")
+    swift = SwiftAction()
     reply = next(swift.list_container(container))
     listing = reply["listing"][0]
     # Extract the file name

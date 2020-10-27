@@ -56,7 +56,7 @@ def test_download(tmp_path: Path):
     # store the toy data
     prop_data = {"collection_name": CONTAINER,
                  "large_objects": {name: path_str}}
-    swift = SwiftAction("https://awesome_scientific_data.pi")
+    swift = SwiftAction()
     swift.upload(prop_data)
 
     # the file is stored without the / root slash
