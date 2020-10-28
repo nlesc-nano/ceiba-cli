@@ -7,6 +7,7 @@ API
 """
 
 import getpass
+import json
 import logging
 import platform
 from collections import defaultdict
@@ -86,7 +87,7 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
     data, status = read_data_and_job_status(path, opts.pattern)
 
     # Check if large objects need to be store
-    large_objects = None if opts.large_objects is None else search_for_large_objects(
+    large_objects = "null" if opts.large_objects is None else search_for_large_objects(
         path, opts.large_objects)
 
     prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
@@ -141,8 +142,8 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
 def read_properties_from_json(path_results: Path) -> str:
     """Read JSON file."""
     with open(path_results, 'r') as handler:
-        data = f.read()
-    return data
+        data = json.load(handler)
+    return json.dumps(data)
 
 
 def read_properties_from_csv(path_results: Path) -> str:

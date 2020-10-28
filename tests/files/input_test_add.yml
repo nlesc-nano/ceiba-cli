@@ -5,18 +5,17 @@ settings:
   path: "."
 
   input_cores:
-     - Cd68Se55.xyz:
-          guess_bonds: False
+     - "[H]Cl"
 
   input_ligands:
     - "{smile}"
 
   optional:
       qd:
-        bulkiness: True
+        construct_qd: False
       ligand:
-        cosmo-rs: False
-        cdft: False
+        cosmo-rs: True
+        cdft: True
         functional_groups: ['O(C=O)[H]']
 
 # Name of the collection to get molecules
