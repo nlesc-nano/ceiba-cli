@@ -37,8 +37,7 @@ def report_properties(opts: Options) -> None:
 
 def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
-    df = read_result_from_folder(Path(opts.path_results), opts.pattern)
-    data = df.to_json()
+    data = read_result_from_folder(Path(opts.path_results), opts.pattern)
     data = data.replace('\"', '\\"')
     query = create_standalone_mutation(opts, data)
     query_server(opts.url, query)
@@ -105,8 +104,7 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
 def read_data_and_job_status(path: Path, pattern: str) -> Tuple[str, str]:
     """Retrieve data and status from the job folder."""
     try:
-        df = read_result_from_folder(path, pattern)
-        data = df.to_json()
+        data = read_result_from_folder(path, pattern)
         data = data.replace('\"', '\\"')
         status = "DONE"
     except FileNotFoundError:
@@ -129,10 +127,25 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
         logger.warn(msg)
         raise FileNotFoundError(msg)
 
-    return read_properties_from_csv(result_file)
+    # Read the results from the file
+    suffix = result_file.suffix
+    if suffix == ".csv":
+        return read_properties_from_csv(result_file)
+    elif suffix == ".json":
+        return read_properties_from_json(result_file)
+    else:
+        msg = f"There is no parser for {suffix} file format!"
+        raise NotImplementedError(msg)
 
 
-def read_properties_from_csv(path_results: Path) -> pd.DataFrame:
+def read_properties_from_json(path_results: Path) -> str:
+    """Read JSON file."""
+    with open(path_results, 'r') as handler:
+        data = f.read()
+    return data
+
+
+def read_properties_from_csv(path_results: Path) -> str:
     """From a csv file to a pandas DataFrame."""
     df = pd.read_csv(path_results).reset_index(drop=True)
 
@@ -140,7 +153,7 @@ def read_properties_from_csv(path_results: Path) -> pd.DataFrame:
     columns_to_exclude = [x for x in df.columns if x in {"smiles"}]
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     df.drop(columns=columns_to_exclude, inplace=True)
-    return df
+    return df.to_json()
 
 
 def read_metadata(path_job: Path) -> Dict[str, Any]:
