@@ -60,7 +60,7 @@ def create_job_update_mutation(
       smile: "{prop_info['smile']}"
       collection_name: "{prop_info['collection_name']}"
       data: "{prop_info['data']}"
-      geometry: "{prop_info['geometry']}"
+      geometry: {prop_info['geometry']}
       input: "{prop_info['input']}"
       large_objects: "{prop_info['large_objects']}"
 

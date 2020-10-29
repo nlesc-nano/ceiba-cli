@@ -39,7 +39,6 @@ def report_properties(opts: Options) -> None:
 def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
     data = read_result_from_folder(Path(opts.path_results), opts.output)
-    data = data.replace('\"', '\\"')
     query = create_standalone_mutation(opts, data)
     query_server(opts.url, query)
     logger.info(f"Standalone data has been sent to collection: {opts.collection_name}")
@@ -114,7 +113,7 @@ def read_optimized_geometry(path: Path, pattern: str) -> str:
     with open(file_geometry, 'r') as handler:
         geometry = handler.read()
 
-    return geometry
+    return json.dumps(geometry)
 
 
 def read_input_files(path: Path, pattern: str) -> str:
@@ -123,14 +122,14 @@ def read_input_files(path: Path, pattern: str) -> str:
     if result_file is None:
         return "null"
 
-    return read_properties_from_json(result_file)
+    data = read_properties_from_json(result_file)
+    return data.replace('\"', '\\"')
 
 
 def read_data_and_job_status(path: Path, pattern: str) -> Tuple[str, str]:
     """Retrieve data and status from the job folder."""
     try:
         data = read_result_from_folder(path, pattern)
-        data = data.replace('\"', '\\"')
         status = "DONE"
     except FileNotFoundError:
         status = "FAILED"
@@ -155,13 +154,14 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
     # Read the results from the file
     suffix = result_file.suffix
     if suffix == ".csv":
-        return read_properties_from_csv(result_file)
+        data = read_properties_from_csv(result_file)
     elif suffix == ".json":
-        return read_properties_from_json(result_file)
+        data = read_properties_from_json(result_file)
     else:
         msg = f"There is no parser for {suffix} file format!"
         raise NotImplementedError(msg)
 
+    return data.replace('\"', '\\"')
 
 def read_properties_from_json(path_results: Path) -> str:
     """Read JSON file."""
