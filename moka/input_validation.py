@@ -106,8 +106,11 @@ REPORT_SCHEMA = Schema({
     # Pattern to search for the result files
     Optional("output", default="result*csv"): str,
 
-    # Pattern to search for the result files
+    # Pattern to search for the input files used in the simulation
     Optional("input", default="inputs*json"): str,
+
+    # Pattern to search for the optimized geometry
+    Optional("geometry", default="geometry*xyz"): str,
 
     # The data to report is not associated to a job
     Optional("is_standalone", default=False): bool,

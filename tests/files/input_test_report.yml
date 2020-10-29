@@ -9,3 +9,6 @@ output: "result*csv"
 
 # Pattern to search for the input files
 input: "inputs*json"
+
+# Pattern to search for the optimized geometry
+geometry: "geometry*xyz"

@@ -40,6 +40,9 @@ There are also the following optional keywords:
    # Pattern to search for the input files (default "inputs*json")
    input: "inputs*json"
 
+   # Pattern to search for the optimized molecular geometry
+   geometry: "geometry*xyz"
+
    # The data to report is not associated to a job (default False)
    is_standalone: True
 

@@ -13,7 +13,7 @@ import platform
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, DefaultDict, Dict, List, Optional, Tuple
+from typing import Any, DefaultDict, Dict, List, Tuple
 
 import pandas as pd
 import yaml
@@ -90,9 +90,6 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
     large_objects = "null" if opts.large_objects is None else search_for_large_objects(
         path, opts.large_objects)
 
-    # Read the inputs used for the simulation
-    inputs = read_input_files(path, opts.input)
-
     prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_data.update({
         "smile_id": prop_metadata["smile_id"],
@@ -100,17 +97,31 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
         "collection_name": prop_metadata["collection_name"],
         "data": data,
         "large_objects": large_objects,
-        "input": inputs})
+        "input": read_input_files(path, opts.input),
+        "geometry": read_optimized_geometry(path, opts.geometry)
+        })
 
     job_medata = {"job_id": metadata["job_id"], "status": status}
     return job_medata, prop_data
 
 
-def read_input_files(path: Path, pattern: str) -> Optional[str]:
+def read_optimized_geometry(path: Path, pattern: str) -> str:
+    """Retrieve the optimized geometry."""
+    file_geometry = next(path.glob(pattern), None)
+    if file_geometry is None:
+        return "null"
+
+    with open(file_geometry, 'r') as handler:
+        geometry = handler.read()
+
+    return geometry
+
+
+def read_input_files(path: Path, pattern: str) -> str:
     """Read the input files used for the simulations."""
     result_file = next(path.glob(pattern), None)
     if result_file is None:
-        return None
+        return "null"
 
     return read_properties_from_json(result_file)
 
