@@ -5,4 +5,7 @@ url: http://localhost:8080/graphql
 path_results: "tests/files/mock_workdir_moka"
 
 # Pattern to search for the result files
-pattern: "result*csv"
+output: "result*csv"
+
+# Pattern to search for the input files
+input: "inputs*json"

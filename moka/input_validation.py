@@ -104,7 +104,10 @@ REPORT_SCHEMA = Schema({
     "path_results": str,
 
     # Pattern to search for the result files
-    Optional("pattern", default="result*csv"): str,
+    Optional("output", default="result*csv"): str,
+
+    # Pattern to search for the result files
+    Optional("input", default="inputs*json"): str,
 
     # The data to report is not associated to a job
     Optional("is_standalone", default=False): bool,

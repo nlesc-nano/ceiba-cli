@@ -8,4 +8,4 @@ path_results: "tests/files/mocked_standalone"
 is_standalone: True
 
 # Pattern to search for the result files
-pattern: "result*csv"
+output: "result*csv"

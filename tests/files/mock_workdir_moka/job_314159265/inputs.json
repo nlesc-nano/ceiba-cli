@@ -1,0 +1,7 @@
+{
+    "job_settings_ASA": "",
+    "job_settings_BDE": "",
+    "job_settings_cdft": "atoms\n      1         C      2.202000     -0.803000      0.865000 \n      2         C      3.258000      0.042000      0.206000 \n      3         C      4.233000     -0.558000     -0.599000 \n      4         C      3.245000      1.432000      0.371000 \n      5         C      5.195000      0.232000     -1.238000 \n      6         C      4.207000      2.221000     -0.269000 \n      7         C      5.182000      1.621000     -1.073000 \n      8         C      1.018000     -0.944000     -0.037000 \n      9         O      0.000000      0.000000      0.000000 \n     10         O      0.961000     -1.892000     -0.864000 \n     11         H      5.926000      2.232000     -1.568000 \n     12         H      4.197000      3.296000     -0.141000 \n     13         H      5.949000     -0.232000     -1.861000 \n     14         H      2.491000      1.896000      0.993000 \n     15         H      4.243000     -1.632000     -0.726000 \n     16         H      1.881000     -0.342000      1.824000 \n     17         H      2.609000     -1.809000      1.110000 \nend\nbasis\n  core none\n  type SZ\nend\nconceptualdft\n  analysislevel extended\n  domains\n    enabled\n  subend\n  electronegativity\n  enabled\nend\nnumericalquality normal\nqtaim\n  analysislevel extended\n  enabled\n  energy\nend\nscf\n  converge 1e-6\n  iterations 100\nend\nsymmetry nosym\nxc\n  lda\nend",
+    "job_settings_crs": "",
+    "job_settings_qd_opt": ""
+}
