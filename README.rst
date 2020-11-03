@@ -4,6 +4,8 @@
    :target: https://moka-command-line-interface.readthedocs.io/en/latest/?badge=latest
 .. image:: https://codecov.io/gh/nlesc-nano/Moka/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/nlesc-nano/Moka
+.. image:: https://zenodo.org/badge/296641388.svg
+   :target: https://zenodo.org/badge/latestdoi/296641388
 
 ####
 moka
