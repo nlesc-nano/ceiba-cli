@@ -29,7 +29,7 @@ def create_slurm_script(opts: Options, input_file: Path) -> str:
     with open(slurm_file, 'w') as handler:
         handler.write(script)
 
-    return slurm_file.absolute().as_posix()
+    return f"sbatch {slurm_file.absolute().as_posix()}"
 
 
 def make_script(scheduler: Options) -> str:
