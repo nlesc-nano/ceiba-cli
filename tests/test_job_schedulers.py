@@ -8,7 +8,9 @@ from moka.utils import Options
 def check_script(opts: Options, tmp_path: Path) -> None:
     """Check that the SLURM script is created."""
     input_file = tmp_path / "job_input.yml"
-    script = create_slurm_script(opts, input_file)
+    smile = "CCO"
+    command = create_slurm_script(opts, smile, input_file)
+    script = command.split()[1]
 
     assert Path(script).exists()
 

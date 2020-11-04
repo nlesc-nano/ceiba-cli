@@ -8,7 +8,7 @@ from pathlib import Path
 from ..utils import Options
 
 
-def create_slurm_script(opts: Options, input_file: Path) -> str:
+def create_slurm_script(opts: Options, smile: str, input_file: Path) -> str:
     """Create a script to run the workflow using the SLURM job schedule."""
     job_workdir = input_file.parent
     slurm_file = job_workdir / "launch.sh"
@@ -23,7 +23,7 @@ def create_slurm_script(opts: Options, input_file: Path) -> str:
         script = make_script(opts.scheduler)
 
     # Append command to run the workflow
-    cmd = f"\n{opts.command} {input_file.absolute().as_posix()}"
+    cmd = f"\n{opts.command} -s {smile} -i {input_file.absolute().as_posix()}"
     script += f"\n{cmd}"
 
     with open(slurm_file, 'w') as handler:

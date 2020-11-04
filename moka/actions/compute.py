@@ -78,7 +78,7 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
         cmd = f'{opts.command} -s "{smile}" -i {input_file.absolute().as_posix()} &'
     else:
         # Schedule the job
-        cmd = create_slurm_script(opts, input_file)
+        cmd = create_slurm_script(opts, smile, input_file)
 
     logger.info(f"Running workflow:\n{cmd}")
     return run_command(cmd, job_workdir)
