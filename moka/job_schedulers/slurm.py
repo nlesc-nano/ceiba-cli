@@ -23,7 +23,7 @@ def create_slurm_script(opts: Options, smile: str, input_file: Path) -> str:
         script = make_script(opts.scheduler)
 
     # Append command to run the workflow
-    cmd = f"\n{opts.command} -s {smile} -i {input_file.absolute().as_posix()}"
+    cmd = f'\n{opts.command} -s "{smile}" -i {input_file.absolute().as_posix()}'
     script += f"\n{cmd}"
 
     with open(slurm_file, 'w') as handler:
