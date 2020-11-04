@@ -40,7 +40,7 @@ def compute_jobs(opts: Options) -> None:
     for j in jobs:
         succeeded = schedule_job(opts, j)
         if not succeeded:
-            logger.warn(f"Job {jobs['id']} fails to be scheduled!")
+            logger.warn(f"Job {j['_id']} fails to be scheduled!")
             update_job_status(opts, j, "FAILED")
         else:
             update_job_status(opts, j, "RUNNING")
