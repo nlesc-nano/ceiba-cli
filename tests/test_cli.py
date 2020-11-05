@@ -48,7 +48,7 @@ def call_wrong_input(mocker: MockFixture, action: str, message: str, excp: BaseE
 
 def test_cli(mocker: MockFixture):
     """Test the command line interface."""
-    actions = ("compute", "query", "report", "add")
+    actions = ("compute", "query", "report", "add", "manage")
 
     for action in actions:
         path_input = PATH_TEST / f"input_test_{action}.yml"
