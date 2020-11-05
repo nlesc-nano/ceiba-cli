@@ -46,7 +46,11 @@ def report_standalone_properties(opts: Options) -> None:
 
 def report_jobs_properties(opts: Options) -> None:
     """Report properties coming from a server's job."""
-    folders = collect_results(Path(opts.path_results))
+    path = Path(opts.path_results)
+    if not path.exists():
+        raise FileNotFoundError(f"There is not results folder:{path}")
+    # Collect results folders
+    folders = collect_results(path)
 
     # Add metadata to the jobs
     shared_data = {
@@ -59,7 +63,7 @@ def report_jobs_properties(opts: Options) -> None:
         store_single_job_data(path, opts, shared_data)
 
 
-def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]) -> Dict[str, Any]:
+def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]) -> None:
     """Retrieve and store the data for a single job."""
     job_data = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
     job_data.update(shared_data)

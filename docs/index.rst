@@ -16,7 +16,7 @@ Welcome to moka's documentation!
    report
    query
    add
-   
+   manage
 
 Indices and tables
 ==================

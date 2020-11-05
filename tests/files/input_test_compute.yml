@@ -7,4 +7,4 @@ command: mock_workflow
 
 job_size: small
 
-max_jobs: 3
+max_jobs: 10

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pkg_resources
 
-from .actions import (add_jobs, compute_jobs, query_properties,
+from .actions import (add_jobs, compute_jobs, manage_jobs, query_properties,
                       report_properties)
 from .input_validation import validate_input
 
@@ -62,6 +62,10 @@ def main():
     # Add new Job to the database
     parser_add = subparsers.add_parser("add", help="Add new jobs to the database")
     parser_add.add_argument("input", type=exists, help="Yaml input file")
+
+    # Manage the Jobs status
+    parser_add = subparsers.add_parser("manage", help="Change jobs status")
+    parser_add.add_argument("input", type=exists, help="Yaml input file")
     args = parser.parse_args()
 
     if args.command is None:
@@ -85,6 +89,9 @@ def main():
     elif args.command == "add":
         logger.info("ADDING NEW JOBS TO THE DATABASE")
         add_jobs(opts)
+    elif args.command == "manage":
+        logger.info("MANAGE JOBS STATE!")
+        manage_jobs(opts)
 
 
 if __name__ == "__main__":

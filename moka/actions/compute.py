@@ -142,10 +142,11 @@ def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
 def mark_jobs_as_reseved(opts: Options, jobs: List[Dict[str, Any]]) -> None:
     """Mark requested jobs as reseved to avoid recomputation of the same job."""
     for job in jobs:
-        job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, str]
+        job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
         job_info["job_id"] = job["_id"]
         job_info["status"] = "RESERVED"
         job_info["collection_name"] = opts.collection_name
+        job_info["schedule_time"] = datetime.timestamp(datetime.now())
         query = create_job_status_mutation(job_info)
         query_server(opts.url, query)
         logger.info(f"job {job['_id']} has been marked as RESERVED!")

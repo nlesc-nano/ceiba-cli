@@ -1,5 +1,7 @@
 """Module to create all the available queries."""
 
+from typing import Union
+
 __all__ = ["create_jobs_query"]
 
 
@@ -16,7 +18,8 @@ def create_properties_query(collection_name: str) -> str:
 """
 
 
-def create_jobs_query(status: str, collection_name: str, max_jobs: int, job_size: str) -> str:
+def create_jobs_query(
+        status: str, collection_name: str, max_jobs: Union[str, int], job_size: str) -> str:
     """Create a query a list of jobs by status.
 
     Parameters
