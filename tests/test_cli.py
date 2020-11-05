@@ -18,7 +18,9 @@ def run_workflow_mock(mocker: MockFixture, action: str, path_input: Path) -> Non
     functions = {"add": "add_jobs",
                  "compute": "compute_jobs",
                  "query": "query_properties",
-                 "report": "report_properties"}
+                 "report": "report_properties",
+                 "manage": "manage_jobs"
+                 }
 
     # Mock argparse
     mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
@@ -85,4 +87,4 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: moka [-h] [--version] {compute,report,query,add} ..." in captured.out
+    assert "usage: moka [-h] [--version] {compute,report,query,add,manage} ..." in captured.out

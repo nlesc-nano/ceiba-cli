@@ -15,7 +15,7 @@ def is_in_array_uppercase(array: Iterable[str]) -> Schema:
         str, Use(str.upper), lambda s: s in array)
 
 
-SCHEMA_SCHEDULER = Schema({
+SCHEDULER_SCHEMA = Schema({
     Optional("name", default="none"): And(
         str, Use(str.lower), lambda w: w in {"none", "slurm"}),
 
@@ -35,7 +35,7 @@ SCHEMA_SCHEDULER = Schema({
     Optional("partition_name", default=None): Or(str, None),
 })
 
-DEFAULTS_SCHEDULER = SCHEMA_SCHEDULER.validate({})
+DEFAULTS_SCHEDULER = SCHEDULER_SCHEMA.validate({})
 
 COMPUTE_SCHEMA = Schema({
     # Server URL
@@ -48,7 +48,7 @@ COMPUTE_SCHEMA = Schema({
     "command": str,
 
     # Job scheduler
-    Optional("scheduler", default=DEFAULTS_SCHEDULER): SCHEMA_SCHEDULER,
+    Optional("scheduler", default=DEFAULTS_SCHEDULER): SCHEDULER_SCHEMA,
 
     # Path to the directory where the calculations are going to run
     Optional("workdir", default="workdir_moka"): str,
@@ -126,11 +126,29 @@ REPORT_SCHEMA = Schema({
 
     # Metadata to store large objects
     Optional("large_objects", default=None): Or(None, LARGE_OBJECTS_SCHEMA)
-
 })
 
+CHANGE_POLICY_SCHEMA = Schema({
+    # Old status to change
+    Optional("old_status", default="RUNNING"): str,
+    # New status to add
+    Optional("new_status", default="AVAILABLE"): str,
+    # Apply changes to all `old_status` older than specificied in hours
+    Optional("expiration_time", default=168): int})
+
+DEFAULTS_CHANGE_POLICY = CHANGE_POLICY_SCHEMA.validate({})
+
+MANAGE_SCHEMA = Schema({
+    # Server URL
+    "url": str,
+
+    # Name to which the property belongs
+    "collection_name": str,
+
+    Optional("change_status", default=DEFAULTS_CHANGE_POLICY): CHANGE_POLICY_SCHEMA})
+
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,
-                     "report": REPORT_SCHEMA}
+                     "report": REPORT_SCHEMA, "manage": MANAGE_SCHEMA}
 
 
 def validate_input(file_input: Path, action: str) -> Options:

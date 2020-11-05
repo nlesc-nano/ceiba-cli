@@ -1,0 +1,8 @@
+url: http://localhost:8080/graphql
+
+collection_name: "functional/basisset"
+
+change_status:
+    old_status: RUNNING
+    new_status: AVAILABLE
+    expiration_time: 24 # one day
