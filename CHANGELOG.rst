@@ -9,6 +9,9 @@ Added
 -----
 * Command to manage the jobs status
 
+Changed
+-------
+* Running jobs must include username (#9)
 
 0.1.0 [03/11/2020]
 ******************
