@@ -89,6 +89,7 @@ def create_job_status_mutation(info: Dict[str, Any]) -> str:
     _id: {info['job_id']}
     status: {info['status']}
     collection_name: "{info['collection_name']}"
+    user: "{info['user']}"
     schedule_time: {info['schedule_time']}
     report_time: {info['report_time']}
 }}) {{

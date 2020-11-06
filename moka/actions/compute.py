@@ -6,6 +6,7 @@ API
 
 """
 
+import getpass
 import json
 import logging
 import os
@@ -130,6 +131,7 @@ def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
         "job_id": job["_id"],
         "status": status,
         "collection_name": opts.collection_name,
+        "user": getpass.getuser(),
         "schedule_time": now,
         "report_time": report_time
     }
