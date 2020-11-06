@@ -8,6 +8,8 @@ from schema import And, Optional, Or, Schema, SchemaError, Use
 
 from .utils import Options
 
+DEFAULT_URL = "https://localhost:8080/graphql"
+
 
 def is_in_array_uppercase(array: Iterable[str]) -> Schema:
     """Create an schema checking that the keyword matches one of the expected values."""
@@ -39,7 +41,7 @@ DEFAULTS_SCHEDULER = SCHEDULER_SCHEMA.validate({})
 
 COMPUTE_SCHEMA = Schema({
     # Server URL
-    "url": str,
+    Optional("url", default=DEFAULT_URL): str,
 
     # Name to which the property belongs. e.g. Theory level
     "collection_name": str,
@@ -66,7 +68,7 @@ COMPUTE_SCHEMA = Schema({
 
 QUERY_SCHEMA = Schema({
     # Server URL
-    "url": str,
+    Optional("url", default=DEFAULT_URL): str,
 
     # Name to which the property belongs. e.g. Theory level
     "collection_name": str,
@@ -76,8 +78,7 @@ QUERY_SCHEMA = Schema({
 })
 
 ADD_SCHEMA = Schema({
-    # Server URL
-    "url": str,
+    Optional("url", default=DEFAULT_URL): str,
 
     # Settings to run the calculations
     "settings": dict,
@@ -97,11 +98,10 @@ LARGE_OBJECTS_SCHEMA = Schema({
 })
 
 REPORT_SCHEMA = Schema({
-    # Server URL
-    "url": str,
+    Optional("url", default=DEFAULT_URL): str,
 
     # Path to the folder containing the results (default workdir_moka)
-    "path_results": str,
+    Optional("path_results", default="workdir_moka"): str,
 
     # Pattern to search for the result files
     Optional("output", default="result*csv"): str,
@@ -121,7 +121,7 @@ REPORT_SCHEMA = Schema({
     # MERGE the new and the old data
     # APPEND new data at the end of the old data array
     Optional(
-        "duplication_policy", default="KEEP"): is_in_array_uppercase(
+        "duplication_policy", default="MERGE"): is_in_array_uppercase(
             {"KEEP", "OVERWRITE", "MERGE", "APPEND"}),
 
     # Metadata to store large objects
