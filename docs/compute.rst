@@ -28,16 +28,16 @@ The input file contains the following mandatory keywords:
    collection_name:
       "PBE/DZVP"
 
-   # Command use to run the workflow
-   command:
-      "run_workflow"
-      
    # Configuration of the job scheduler
    scheduler:
       "none"
 
 Other optional keywords are:
 ::
+
+   # Command use to run the workflow (default: compute_properties)
+   command:
+      compute_properties
 
    # Path to the directory where the calculations are going to run (default: workdir_moka)
    workdir:

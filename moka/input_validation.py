@@ -47,7 +47,7 @@ COMPUTE_SCHEMA = Schema({
     "collection_name": str,
 
     # Command use to run the workflow
-    "command": str,
+    Optional("command", default="compute_properties"): str,
 
     # Job scheduler
     Optional("scheduler", default=DEFAULTS_SCHEDULER): SCHEDULER_SCHEMA,

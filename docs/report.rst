@@ -7,13 +7,16 @@ means data that is not associated to a job in the server, for example because it
 has been previously computed.
 
 To report the results you need to type in the terminal:
+::
 
+   moka compute
+
+Or if you want to have more control over what is reported you can provide an input file like:
 ::
 
    moka compute input_report.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
-
 
 .. _report input:
 
