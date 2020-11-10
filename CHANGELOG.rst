@@ -11,6 +11,11 @@ Added
 
 Changed
 -------
+* Make input file optional (#10)
+* Allow to pass the input via the command line (#10)
+
+  Changed
+-------
 * Running jobs must include username (#9)
 
 0.1.0 [03/11/2020]

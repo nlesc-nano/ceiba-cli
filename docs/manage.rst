@@ -7,7 +7,7 @@ can be marked again as ``AVAILABLE`` if the user doesn't report the results.
 To change the jobs status you need to type in the terminal:
 ::
 
-   moka manage input_manage.yml
+   moka manage -i input_manage.yml
 
 Where the *input_manage.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`jobs metadata` specification.
 
