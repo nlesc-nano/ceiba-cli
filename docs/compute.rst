@@ -4,7 +4,12 @@ The ``compute`` command ask the *web service* for available jobs that needs to b
 To run some jobs you need to type in the terminal:
 ::
 
-   moka compute input_compute.yml
+   moka compute
+
+Or if you want to have more control over what is reported you can provide an input file like:
+::
+
+   moka compute -i input_compute.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`compute input` metadata.
 
@@ -28,12 +33,13 @@ The input file contains the following mandatory keywords:
    collection_name:
       "PBE/DZVP"
 
-   # Configuration of the job scheduler
-   scheduler:
-      "none"
 
 Other optional keywords are:
 ::
+
+   # Configuration of the job scheduler
+   scheduler:
+      "none"
 
    # Command use to run the workflow (default: compute_properties)
    command:

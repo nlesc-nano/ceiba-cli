@@ -51,25 +51,39 @@ def parse_user_arguments() -> Tuple[str, Options]:
     subparsers = parser.add_subparsers(
         help="Interact with the properties web service", dest="command")
 
+    # Common arguments
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    # you should provide either the input file with the arguments
+    # or each argument in the command line
+    group = parent_parser.add_mutually_exclusive_group()
+    group.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    group.add_argument("-u", "--url", help="Web Service URL")
+
+    # Common collection argument
+    collection_parser = argparse.ArgumentParser(add_help=False)
+    collection_parser.add_argument("-c", "--collection", help="Collection name")
+
     # Request new jobs to run from the database
-    parser_jobs = subparsers.add_parser("compute", help="compute available jobs")
-    parser_jobs.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    subparsers.add_parser("compute", help="compute available jobs", parents=[parent_parser])
 
     # Report properties to the database
-    parser_report = subparsers.add_parser("report", help="Report the results back to the server")
-    parser_report.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    subparsers.add_parser(
+        "report", help="Report the results back to the server", parents=[parent_parser])
 
     # Request data from the database
-    parser_query = subparsers.add_parser("query", help="query some properties from the database")
-    parser_query.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    subparsers.add_parser(
+        "query", help="query some properties from the database",
+        parents=[parent_parser, collection_parser])
 
     # Add new Job to the database
-    parser_add = subparsers.add_parser("add", help="Add new jobs to the database")
-    parser_add.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    subparsers.add_parser(
+        "add", help="Add new jobs to the database", parents=[parent_parser])
 
     # Manage the Jobs status
-    parser_add = subparsers.add_parser("manage", help="Change jobs status")
-    parser_add.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    subparsers.add_parser(
+        "manage", help="Change jobs status", parents=[parent_parser, collection_parser])
+
+    # Read the arguments
     args = parser.parse_args()
 
     if args.command is None:
