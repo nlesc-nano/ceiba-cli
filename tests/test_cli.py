@@ -62,7 +62,7 @@ def test_wrong_action(mocker: MockFixture):
 
 def test_wrong_input(mocker: MockFixture):
     """Check that the validation fails if call with invalid arguments."""
-    call_wrong_input(mocker, "compute", "Missing keys", schema.SchemaMissingKeyError)
+    call_wrong_input(mocker, "compute", "Missing key", schema.SchemaMissingKeyError)
 
 
 def test_non_existing_file(capsys):
@@ -80,7 +80,7 @@ def test_non_existing_file(capsys):
 def test_no_command_argument(mocker: MockFixture, capsys):
     """Check that the program exit if there is no command."""
     mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
-        command=None, input=  PATH_TEST / "wrong_input.yml"))
+        command=None, input=PATH_TEST / "wrong_input.yml"))
 
     with pytest.raises(SystemExit):
         main()
@@ -88,3 +88,15 @@ def test_no_command_argument(mocker: MockFixture, capsys):
     captured = capsys.readouterr()
 
     assert "usage: moka [-h] [--version] {compute,report,query,add,manage} ..." in captured.out
+
+
+def test_no_input_file(mocker: MockFixture):
+    """Check that defaults are correctly applied when no input file is provided."""
+    # Mock command line user input
+    mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
+        command="report", url="localhost:8080/graphql"))
+
+    # Mock action
+    mocker.patch("moka.cli.report_properties", return_value=None)
+
+    main()
