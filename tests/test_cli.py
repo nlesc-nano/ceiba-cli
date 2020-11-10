@@ -62,7 +62,7 @@ def test_wrong_action(mocker: MockFixture):
 
 def test_wrong_input(mocker: MockFixture):
     """Check that the validation fails if call with invalid arguments."""
-    call_wrong_input(mocker, "compute", "Missing keys", schema.SchemaMissingKeyError)
+    call_wrong_input(mocker, "compute", "Missing key", schema.SchemaMissingKeyError)
 
 
 def test_non_existing_file(capsys):
