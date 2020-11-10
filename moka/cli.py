@@ -81,7 +81,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
 def handle_input(args: argparse.Namespace) -> Options:
     """Check user input."""
-    if args.input is not None:
+    if getattr(args, "input", None) is not None:
         input_file = args.input
     else:
         user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input"}}
