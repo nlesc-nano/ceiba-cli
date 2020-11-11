@@ -2,7 +2,7 @@
 
 from typing import Union
 
-__all__ = ["create_jobs_query"]
+__all__ = ["create_jobs_query", "create_properties_query"]
 
 
 def create_properties_query(collection_name: str) -> str:
@@ -15,6 +15,17 @@ def create_properties_query(collection_name: str) -> str:
         data
     }}
 }}
+"""
+
+
+def create_collections_query() -> str:
+    """Create query for available collections."""
+    return """query {
+       collections {
+           name
+           size
+       }
+   }
 """
 
 
