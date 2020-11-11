@@ -61,7 +61,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
     # Common collection argument
     collection_parser = argparse.ArgumentParser(add_help=False)
-    collection_parser.add_argument("-c", "--collection", help="Collection name")
+    collection_parser.add_argument("--collection_name", help="Collection name")
 
     # Request new jobs to run from the database
     subparsers.add_parser("compute", help="compute available jobs", parents=[parent_parser])

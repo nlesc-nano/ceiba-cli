@@ -9,11 +9,32 @@ API
 import pandas as pd
 
 from ..client import query_server
-from ..client.queries import create_properties_query
+from ..client.queries import create_properties_query, create_collections_query
 from ..utils import Options, json_properties_to_dataframe
 
 
 def query_properties(opts: Options) -> pd.DataFrame:
+    """Retrieve either the properties of a collection or the available collections."""
+    if opts.collection_name is not None:
+        return query_collection_properties(opts)
+    else:
+        return query_available_collections(opts)
+
+
+def query_available_collections(opts: Options) -> pd.DataFrame:
+    """Search for the available collections."""
+    # Graphql query to get the collections
+    query = create_collections_query()
+    # Call the server
+    reply = query_server(opts.url, query)
+    df = json_properties_to_dataframe(reply["collections"])
+    # Remove the job collections
+    collections = df[~df['name'].str.contains("jobs")]
+    print("Available collections:\n", collections)
+    return collections
+
+
+def query_collection_properties(opts: Options) -> pd.DataFrame:
     """Query the user requested properties."""
     # Graphql query to get the properties
     query = create_properties_query(opts.collection_name)

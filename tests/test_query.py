@@ -5,6 +5,7 @@ from pytest_mock import MockFixture
 
 from moka.actions import query_properties
 from moka.input_validation import validate_input
+from moka.utils import Options
 
 from .utils_test import PATH_TEST, read_mocked_reply
 
@@ -22,3 +23,14 @@ def test_query(mocker: MockFixture, tmp_path: Path):
 
     df = query_properties(opts)
     assert len(df) == 10
+
+
+def test_query_collections(mocker: MockFixture):
+    """Test the funcionality to query the collections."""
+    opts = Options({"url": "http://localhost:8080/graphql"})
+    mocker.patch("moka.actions.query.query_server",
+                 return_value={"collections": [
+                     {"name": "foo", "size": 23}, {"name": "bar", "size": 42}]})
+
+    df = query_properties(opts)
+    assert all(name in df['name'].values for name in {'foo', 'bar'})

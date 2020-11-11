@@ -71,7 +71,7 @@ QUERY_SCHEMA = Schema({
     Optional("url", default=DEFAULT_URL): str,
 
     # Name to which the property belongs. e.g. Theory level
-    "collection_name": str,
+    Optional("collection_name", default=None): Or(str, None),
 
     # Name to store the properties as csv
     Optional("output_file", default="output_properties.csv"): str

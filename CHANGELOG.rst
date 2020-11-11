@@ -8,11 +8,13 @@ Change Log
 Added
 -----
 * Command to manage the jobs status
+* Allow to pass the input via the command line (#10)
+* Allow to retrieve the available collections (#13)
 
 Changed
 -------
 * Make input file optional (#10)
-* Allow to pass the input via the command line (#10)
+
 
   Changed
 -------
