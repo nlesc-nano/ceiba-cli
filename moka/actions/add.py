@@ -42,7 +42,7 @@ def create_mutations(row: pd.Series, opts: Options) -> str:
     prop_info.update({
         "smile_id": row._id,
         "smile": row.smile,
-        "collection_name": opts.new_collection,
+        "collection_name": generate_collection_name(opts.settings),
     })
 
     return create_job_mutation(job_info, prop_info)
@@ -66,3 +66,23 @@ def format_settings(settings: Options) -> str:
     string = json.dumps(settings.to_dict())
     # Escape quotes
     return string.replace('\"', '\\"')
+
+
+def generate_collection_name(settings: Options) -> str:
+    """Create a name for the new collection based on the input provided by the user."""
+    optimize = settings.optional.ligand.get("optimize", None)
+
+    if optimize is None:
+        return "rdkit/uff"
+
+    job_type = optimize.job2
+    if "ADF" in job_type.upper():
+        xc = optimize.s2.input.xc.copy()
+        functional = '_'.join(xc.popitem())
+        basisset = optimize.s2.input.basis.type
+    else:
+        msg = f"{job_type} collection name generation has not been implemented!"
+        raise NotImplementedError(msg)
+
+    name = f"{job_type}/{functional}/{basisset}".lower()
+    return name.replace(' ', '_')
