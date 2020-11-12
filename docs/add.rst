@@ -24,9 +24,6 @@ The input file contains the following mandatory keywords:
    target_collection:
      candidates
 
-   # Name of the new collection to store the properties
-   new_collection:  "PBE/DZP"
-
    # Settings to run the calculations in YAML format
    settings:
       compute:
@@ -43,3 +40,6 @@ Initially the ``add` command will extract from the ``target_collection`` the *sm
 and their unique identifiers. Use those values it would generate a collection
 with the new jobs to compute and a collection where the new properties are going
 to be stored.
+
+The name of the new collection will be generated using the ``settings`` provided by
+the user.
