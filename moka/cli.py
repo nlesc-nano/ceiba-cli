@@ -11,7 +11,7 @@ import yaml
 
 from .actions import (add_jobs, compute_jobs, manage_jobs, query_properties,
                       report_properties)
-from .input_validation import validate_input
+from .input_validation import DEFAULT_URL, validate_input
 from .utils import Options
 
 logger = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
     # or each argument in the command line
     group = parent_parser.add_mutually_exclusive_group()
     group.add_argument("-i", "--input", type=exists, help="Yaml input file")
-    group.add_argument("-u", "--url", help="Web Service URL")
+    group.add_argument("-u", "--url", default=DEFAULT_URL, help="Web Service URL")
 
     # Common collection argument
     collection_parser = argparse.ArgumentParser(add_help=False)

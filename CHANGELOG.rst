@@ -14,6 +14,7 @@ Added
 Changed
 -------
 * Make input file optional (#10)
+* Choose automatically the new collection name when adding jobs (#8)
 
 
   Changed

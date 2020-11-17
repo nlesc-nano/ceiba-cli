@@ -8,7 +8,7 @@ from schema import And, Optional, Or, Schema, SchemaError, Use
 
 from .utils import Options
 
-DEFAULT_URL = "https://localhost:8080/graphql"
+DEFAULT_URL = "http://insilico.quantoptic-nlesc.surf-hosted.nl:8080/graphql"
 
 
 def is_in_array_uppercase(array: Iterable[str]) -> Schema:
@@ -85,9 +85,6 @@ ADD_SCHEMA = Schema({
 
     # Target collection to get the smiles from
     "target_collection": str,
-
-    # Name of the new collection to store the properties
-    "new_collection": str
 })
 
 LARGE_OBJECTS_SCHEMA = Schema({

@@ -17,9 +17,17 @@ settings:
         cosmo-rs: True
         cdft: True
         functional_groups: ['O(C=O)[H]']
+        optimize:
+          job2: ADFJob
+          s2:
+            input:
+              xc:
+                hybrid:
+                  b3lyp
+              basis:
+                type: DZP
+                core: None
+                createoutput: None
 
 # Name of the collection to get molecules
 target_collection: "candidates"
-
-# Name of the new collection containing the properties
-new_collection: "functional/basisset"
