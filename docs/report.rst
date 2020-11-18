@@ -22,17 +22,7 @@ Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.o
 
 Report Input File
 *****************
-The input file contains the following mandatory keywords:
-
-::
-
-   # URL to the insilico server
-   url:
-      http://localhost:8080/graphql
-
-
-There are also the following optional keywords:
-
+The input file contains the following optional keywords:
 ::
 
    # Path to the Folder where the jobs run (default "workdir_moka")
@@ -99,7 +89,7 @@ In order to storage large output you need to provide in the yaml file the follow
 
      large_objects:
        # URL to the datastorage service
-       url: "http://large_scientific_data_storage.pi"
+       web: "http://large_scientific_data_storage.pi"
        # The large file(s) to search for
        patterns:  ["output*hdf5"]
        
