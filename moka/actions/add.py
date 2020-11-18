@@ -77,7 +77,7 @@ def generate_collection_name(settings: Options) -> str:
 
     job_type = optimize.job2
     if "ADF" in job_type.upper():
-        return generate_adf_collection_name(optimize.s2)
+        return generate_adf_collection_name(optimize)
     else:
         msg = f"{job_type} collection name generation has not been implemented!"
         raise NotImplementedError(msg)
@@ -89,7 +89,7 @@ def generate_adf_collection_name(optimize: Options) -> str:
     xc = job_settings.input.xc.copy()
     functional = '_'.join(xc.popitem())
     basisset = job_settings.input.basis.type
-    core = basisset.job_settings.input.basis.core
+    core = job_settings.input.basis.core
     relativity = job_settings.input.get("relativity")
     if relativity is not None:
         if relativity.get("formalism") is None:
