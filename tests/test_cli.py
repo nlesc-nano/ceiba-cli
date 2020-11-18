@@ -94,7 +94,7 @@ def test_no_input_file(mocker: MockFixture):
     """Check that defaults are correctly applied when no input file is provided."""
     # Mock command line user input
     mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
-        command="report", url="localhost:8080/graphql"))
+        command="report", web="localhost:8080/graphql"))
 
     # Mock action
     mocker.patch("moka.cli.report_properties", return_value=None)
