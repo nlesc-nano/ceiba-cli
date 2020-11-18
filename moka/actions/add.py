@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 def fetch_candidates(opts: Options) -> pd.DataFrame:
     """Retrieve candidates to compute from the server."""
     query = create_properties_query(opts.target_collection)
-    reply = query_server(opts.url, query)
+    reply = query_server(opts.web, query)
     return json_properties_to_dataframe(reply["properties"])
 
 
@@ -57,7 +57,7 @@ def add_jobs(opts: Options) -> None:
     mutations = (create_mutations(row, opts)for _, row in rows)
     logger.info("New Jobs:")
     for query in mutations:
-        reply = query_server(opts.url, query)
+        reply = query_server(opts.web, query)
         logger.info(reply['createJob']['text'])
 
 

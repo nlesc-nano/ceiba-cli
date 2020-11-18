@@ -40,7 +40,7 @@ def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
     data = read_result_from_folder(Path(opts.path_results), opts.output)
     query = create_standalone_mutation(opts, data)
-    query_server(opts.url, query)
+    query_server(opts.web, query)
     logger.info(f"Standalone data has been sent to collection: {opts.collection_name}")
 
 
@@ -72,11 +72,11 @@ def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]
     job_data.update(job_medata)
     # Store large objects using the files metadata
     if opts.large_objects is not None:
-        swift = SwiftAction(opts.large_objects.url)
+        swift = SwiftAction(opts.large_objects.web)
         job_data["large_object"] = swift.upload(prop_data)
     # Send data to the web server
     query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
-    reply = query_server(opts.url, query)
+    reply = query_server(opts.web, query)
     logger.info(reply['updateJob']['text'])
 
 

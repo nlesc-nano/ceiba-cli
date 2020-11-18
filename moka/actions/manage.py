@@ -49,7 +49,7 @@ def manage_jobs(opts: Options) -> None:
     max_jobs = "null"
     query = create_jobs_query(action.old_status, opts.collection_name, max_jobs, job_size)
     # Call the server
-    jobs = query_server(opts.url, query)["jobs"]
+    jobs = query_server(opts.web, query)["jobs"]
     if not jobs:
         logger.info(f"No jobs in collection {opts.collection_name} with status {action.old_status}")
 

@@ -7,7 +7,7 @@ API
 """
 import json
 from enum import Enum
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import requests
 
@@ -45,3 +45,16 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
     if data.get("errors", None) is not None:
         raise RuntimeError(f"There was an error querying the server:\n{data['errors']}")
     return data['data']
+
+
+def check_github_username(
+        token: str, github_api: str = 'https://api.github.com/user') -> Optional[str]:
+    """Check that the token correspond to a valid GitHub username."""
+    header = {'Authorization': f'token {token}'}
+    response = requests.get(github_api, headers=header)
+
+    if response.status_code != "200":
+        return None
+
+    data = json.loads(response.text)
+    return data['login']

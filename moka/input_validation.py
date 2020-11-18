@@ -8,7 +8,7 @@ from schema import And, Optional, Or, Schema, SchemaError, Use
 
 from .utils import Options
 
-DEFAULT_URL = "http://insilico.quantoptic-nlesc.surf-hosted.nl:8080/graphql"
+DEFAULT_WEB = "http://insilico.quantoptic-nlesc.surf-hosted.nl:8080/graphql"
 
 
 def is_in_array_uppercase(array: Iterable[str]) -> Schema:
@@ -40,8 +40,8 @@ SCHEDULER_SCHEMA = Schema({
 DEFAULTS_SCHEDULER = SCHEDULER_SCHEMA.validate({})
 
 COMPUTE_SCHEMA = Schema({
-    # Server URL
-    Optional("url", default=DEFAULT_URL): str,
+    # Server web
+    Optional("web", default=DEFAULT_WEB): str,
 
     # Name to which the property belongs. e.g. Theory level
     "collection_name": str,
@@ -67,8 +67,8 @@ COMPUTE_SCHEMA = Schema({
 })
 
 QUERY_SCHEMA = Schema({
-    # Server URL
-    Optional("url", default=DEFAULT_URL): str,
+    # Server web
+    Optional("web", default=DEFAULT_WEB): str,
 
     # Name to which the property belongs. e.g. Theory level
     Optional("collection_name", default=None): Or(str, None),
@@ -78,7 +78,7 @@ QUERY_SCHEMA = Schema({
 })
 
 ADD_SCHEMA = Schema({
-    Optional("url", default=DEFAULT_URL): str,
+    Optional("web", default=DEFAULT_WEB): str,
 
     # Settings to run the calculations
     "settings": dict,
@@ -88,14 +88,14 @@ ADD_SCHEMA = Schema({
 })
 
 LARGE_OBJECTS_SCHEMA = Schema({
-    # URL to the datastorage service. e.g. "http://large_scientific_data_storage.pi"
-    "url": str,
+    # web to the datastorage service. e.g. "http://large_scientific_data_storage.pi"
+    "web": str,
     # The large file(s) to search for. e.g. output*hdf5""
     "patterns": [str],
 })
 
 REPORT_SCHEMA = Schema({
-    Optional("url", default=DEFAULT_URL): str,
+    Optional("web", default=DEFAULT_WEB): str,
 
     # Path to the folder containing the results (default workdir_moka)
     Optional("path_results", default="workdir_moka"): str,
@@ -136,8 +136,8 @@ CHANGE_POLICY_SCHEMA = Schema({
 DEFAULTS_CHANGE_POLICY = CHANGE_POLICY_SCHEMA.validate({})
 
 MANAGE_SCHEMA = Schema({
-    # Server URL
-    "url": str,
+    # Server web
+    "web": str,
 
     # Name to which the property belongs
     "collection_name": str,
