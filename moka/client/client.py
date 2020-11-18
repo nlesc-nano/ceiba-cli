@@ -2,23 +2,17 @@
 
 API
 ---
+.. autofunction:: check_github_username
 .. autofunction:: query_server
 
 """
 import json
-from enum import Enum
 from typing import Any, Dict, Optional
 
 import requests
 
 
-__all__ = ["query_server"]
-
-
-class Method(Enum):
-    """HTTP Method enumeration."""
-    GET = 1
-    POST = 2
+__all__ = ["check_github_username", "query_server"]
 
 
 def query_server(url: str, query: str) -> Dict[str, Any]:
@@ -49,12 +43,24 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
 
 def check_github_username(
         token: str, github_api: str = 'https://api.github.com/user') -> Optional[str]:
-    """Check that the token correspond to a valid GitHub username."""
+    """Check that the token correspond to a valid GitHub username.
+
+    Parameters
+    ----------
+    token
+        GitHub token that gives read only authorization
+    github_api
+        URL of GitHub's API
+
+    Return
+    ------
+    GitHub's username or None
+
+    """
     header = {'Authorization': f'token {token}'}
     response = requests.get(github_api, headers=header)
-
     if response.status_code != "200":
         return None
 
     data = json.loads(response.text)
-    return data['login']
+    return data['login'].lower()

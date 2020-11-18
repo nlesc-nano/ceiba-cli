@@ -1,4 +1,4 @@
 """client API."""
-from .client import query_server
+from .client import check_github_username, query_server
 
-__all__ = ["query_server"]
+__all__ = ["check_github_username", "query_server"]
