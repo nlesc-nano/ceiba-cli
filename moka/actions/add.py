@@ -77,12 +77,27 @@ def generate_collection_name(settings: Options) -> str:
 
     job_type = optimize.job2
     if "ADF" in job_type.upper():
-        xc = optimize.s2.input.xc.copy()
-        functional = '_'.join(xc.popitem())
-        basisset = optimize.s2.input.basis.type
+        return generate_adf_collection_name(optimize.s2)
     else:
         msg = f"{job_type} collection name generation has not been implemented!"
         raise NotImplementedError(msg)
 
-    name = f"{job_type}/{functional}/{basisset}".lower()
+
+def generate_adf_collection_name(optimize: Options) -> str:
+    """Create collection name using the ADF optimization job."""
+    job_settings = optimize.s2
+    xc = job_settings.input.xc.copy()
+    functional = '_'.join(xc.popitem())
+    basisset = job_settings.input.basis.type
+    core = basisset.job_settings.input.basis.core
+    relativity = job_settings.input.get("relativity")
+    if relativity is not None:
+        if relativity.get("formalism") is None:
+            relativity_name = "zora"
+        else:
+            relativity_name = relativity.formalism
+    else:
+        relativity_name = "none"
+
+    name = f"{optimize.job2}/{functional}/{basisset}/core_{core}/relativity_{relativity_name}".lower()
     return name.replace(' ', '_')
