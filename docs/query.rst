@@ -29,10 +29,6 @@ Query Input File
 The input file contains the following mandatory keywords:
 ::
 
-   # URL to the insilico server
-   url:
-      http://localhost:8080/graphql
-
    # Name of the collection to query
    collection_name:
       "candidates"

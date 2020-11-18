@@ -18,9 +18,6 @@ Manage Input File
 The following snippet represent an input example for the *manage* action:
 ::
 
-   # URL to the insilico server
-   url: http://localhost:8080/graphql
-
    # Target collection to change job status
    collection_name: "functional/basisset"
 
