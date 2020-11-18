@@ -16,10 +16,6 @@ Add Input File
 The input file contains the following mandatory keywords:
 ::
 
-   # URL to the insilico server
-   url:
-      http://localhost:8080/graphql
-
    # Target collection to get the smiles from
    target_collection:
      candidates
@@ -32,7 +28,7 @@ The input file contains the following mandatory keywords:
          input_prop1
       prop2:
          input_prop2
-
+	 
 
 How does it work?
 *****************

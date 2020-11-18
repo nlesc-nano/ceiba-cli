@@ -49,8 +49,7 @@ setup(
     extras_require={
         'test': ['coverage', 'mypy', 'pycodestyle', 'pytest>=3.9', 'pytest-cov',
                  'pytest-mock'],
-        'doc': ['sphinx', 'sphinx-autodoc-typehints', 'sphinx_rtd_theme',
-                'nbsphinx']
+        'docs': ['sphinx', 'sphinx_rtd_theme']
     },
     data_files=[('citation/moka', ['CITATION.cff'])]
 )
