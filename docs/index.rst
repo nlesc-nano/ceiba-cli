@@ -11,6 +11,7 @@ Welcome to moka's documentation!
    :caption: Contents:
 
    includereadme
+   authentication
    usage
    compute
    report
