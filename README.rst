@@ -40,13 +40,13 @@ For doing so, you should:
 
 
 Contributing
-************
+############
 
 If you want to contribute to the development of moka,
 have a look at the `contribution guidelines <CONTRIBUTING.rst>`_.
 
 License
-*******
+#######
 
 Copyright (c) 2020, Netherlands eScience Center
 
@@ -65,6 +65,6 @@ limitations under the License.
 
 
 Credits
-*******
+#######
 
 This package was created with `Cookiecutter <https://github.com/audreyr/cookiecutter>`_ and the `NLeSC/python-template <https://github.com/NLeSC/python-template>`_.
