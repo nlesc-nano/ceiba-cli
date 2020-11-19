@@ -49,8 +49,8 @@ def test_github_user():
 def test_correct_token(mocker: MockerFixture):
     """Check that a username is returns if a valid token is provided."""
     mocked_reply = Options(
-        {"status_code": "200", "text": '{"login":"felipez","id":4108663}'})
-    mocker.patch("requests.get", return_value=mocked_reply)
+        {"status_code": 200, "text": '{"data": {"viewer": {"login": "felipeZ"}}}'})
+    mocker.patch("requests.post", return_value=mocked_reply)
     username = check_github_username("validtoken")
 
     assert username == "felipez"
