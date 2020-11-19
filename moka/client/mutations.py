@@ -101,6 +101,20 @@ def create_job_status_mutation(info: Dict[str, Any]) -> str:
     return format_null(inp)
 
 
+def create_authentication_mutation(token: str) -> str:
+    """Create a string representing a mutation to authenticate an user."""
+    return f"""
+    mutation {{
+  authenticateUser(input: {{
+    token: {token}
+}}) {{
+    text
+    status
+  }}
+}}
+"""
+
+
 def format_null(string: str) -> str:
     """Remove the quotes from the null values."""
     return string.replace("\"null\"", "null")

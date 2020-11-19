@@ -144,8 +144,16 @@ MANAGE_SCHEMA = Schema({
 
     Optional("change_status", default=DEFAULTS_CHANGE_POLICY): CHANGE_POLICY_SCHEMA})
 
+LOGIN_SCHEMA = Schema({
+    # Server web
+    "web": str,
+
+    # Token to authenticate
+    "token": str
+})
+
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,
-                     "report": REPORT_SCHEMA, "manage": MANAGE_SCHEMA}
+                     "report": REPORT_SCHEMA, "manage": MANAGE_SCHEMA, "login": LOGIN_SCHEMA}
 
 
 def validate_input(file_input: Path, action: str) -> Options:

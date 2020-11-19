@@ -2,7 +2,6 @@
 
 API
 ---
-.. autofunction:: check_github_username
 .. autofunction:: query_server
 
 """
@@ -12,7 +11,7 @@ from typing import Any, Dict, Optional
 import requests
 
 
-__all__ = ["check_github_username", "query_server"]
+__all__ = ["query_server"]
 
 
 def query_server(url: str, query: str, headers: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
@@ -39,30 +38,3 @@ def query_server(url: str, query: str, headers: Optional[Dict[str, str]] = None)
     if data.get("errors", None) is not None:
         raise RuntimeError(f"There was an error querying the server:\n{data['errors']}")
     return data['data']
-
-
-def check_github_username(
-        token: str, github_api: str = 'https://api.github.com/graphql') -> Optional[str]:
-    """Check that the token correspond to a valid GitHub username.
-
-    Using  `GitHub GraphQL API v4 <https://developer.github.com/v4/>`_
-
-    Parameters
-    ----------
-    token
-        GitHub token that gives read only authorization
-    github_api
-        URL of GitHub's API
-
-    Return
-    ------
-    GitHub's username or None
-
-    """
-    headers = {'Authorization': f'bearer {token}'}
-    query = "query { viewer { login }}"
-    try:
-        data = query_server(github_api, query, headers)
-        return data['viewer']['login'].lower()
-    except RuntimeError:
-        return None

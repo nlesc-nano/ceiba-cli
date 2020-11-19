@@ -9,7 +9,7 @@ from typing import Tuple
 import pkg_resources
 import yaml
 
-from .actions import (add_jobs, compute_jobs, manage_jobs, query_properties,
+from .actions import (add_jobs, compute_jobs, login_insilico, manage_jobs, query_properties,
                       report_properties)
 from .input_validation import DEFAULT_WEB, validate_input
 from .utils import Options
@@ -53,17 +53,20 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
     # Common arguments
     parent_parser = argparse.ArgumentParser(add_help=False)
-    parent_parser.add_argument("-u", "--user", help="github username")
-    parent_parser.add_argument("-t", "--token", help="GitHub access Token")
-
     
     # you should provide either the input file with the arguments
     # or each argument in the command line
     group = parent_parser.add_mutually_exclusive_group()
+    # Common collection argument
     group.add_argument("-i", "--input", type=exists, help="Yaml input file")
     group.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
 
-    # Common collection argument
+    # Login into the web service
+    subparsers.add_parser("login", help="Log in to Insilico web service")
+    parent_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    parent_parser.add_argument("-t", "--token", help="GitHub access Token")
+
+    # Add jobs to a collection
     collection_parser = argparse.ArgumentParser(add_help=False)
     collection_parser.add_argument("--collection_name", help="Collection name")
 
@@ -132,6 +135,9 @@ def main():
     elif command == "manage":
         logger.info("MANAGE JOBS STATE!")
         manage_jobs(opts)
+    elif command == "login":
+        logger.info("LOGGING INTO THE INSILICO WEB SERVICE!")
+        login_insilico(opts)
 
 
 if __name__ == "__main__":

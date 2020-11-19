@@ -27,9 +27,7 @@ def query_available_collections(opts: Options) -> pd.DataFrame:
     query = create_collections_query()
     # Call the server
     reply = query_server(opts.web, query)
-    df = json_properties_to_dataframe(reply["collections"])
-    # Remove the job collections
-    collections = df[~df['name'].str.contains("jobs")]
+    collections = json_properties_to_dataframe(reply["collections"])
     print("Available collections:\n", collections)
     return collections
 

@@ -100,3 +100,8 @@ def test_no_input_file(mocker: MockFixture):
     mocker.patch("moka.cli.report_properties", return_value=None)
 
     main()
+
+
+def test_login():
+    """Check the login functionality."""
+    pass
