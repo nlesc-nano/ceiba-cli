@@ -62,9 +62,9 @@ def parse_user_arguments() -> Tuple[str, Options]:
     group.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
 
     # Login into the web service
-    subparsers.add_parser("login", help="Log in to Insilico web service")
-    parent_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
-    parent_parser.add_argument("-t", "--token", help="GitHub access Token")
+    login_parser = subparsers.add_parser("login", help="Log in to Insilico web service")
+    login_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    login_parser.add_argument("-t", "--token", help="GitHub access Token")
 
     # Add jobs to a collection
     collection_parser = argparse.ArgumentParser(add_help=False)

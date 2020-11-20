@@ -87,7 +87,7 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: moka [-h] [--version] {compute,report,query,add,manage} ..." in captured.out
+    assert "usage: moka [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
 
 
 def test_no_input_file(mocker: MockFixture):
