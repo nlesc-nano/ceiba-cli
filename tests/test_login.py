@@ -1,4 +1,5 @@
 """Test the login functionality."""
+import json
 import os
 from pathlib import Path
 
@@ -25,11 +26,11 @@ def test_invalid_token(mocker: MockFixture):
 
 def test_valid_token(mocker: MockFixture):
     """Check that the authentication succeeds if a valid token is provided."""
-    opts = Options({"token": "InvalidToken", "web": "localhost:8080/graphql"})
+    opts = Options({"token": "Token", "web": "localhost:8080/graphql"})
 
-    reply_token = "InsilicoReplyToken"
+    cookie = '{"username": "felipeZ", "token": "SomeToken"}'
     mocker.patch("moka.actions.login.query_server", return_value={
-        "authenticateUser": {"text": reply_token, "status": "DONE"}})
+        "authenticateUser": {"text": cookie, "status": "DONE"}})
 
     # File where the server reply is stored
     path_cookie = Path.home() / ".insilicoserver"
@@ -37,8 +38,8 @@ def test_valid_token(mocker: MockFixture):
         login_insilico(opts)
         # Check that the cookie is written
         with open(path_cookie, 'r') as handler:
-            reply = handler.read()
-        assert reply == reply_token
+            data = json.load(handler)
+        assert all(key in data for key in {"username", "token"})
     finally:
         if path_cookie.exists():
             os.remove(path_cookie)
