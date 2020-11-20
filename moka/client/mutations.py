@@ -25,11 +25,12 @@ def create_property_mutation(prop_info: Dict[str, str]) -> str:
     return format_null(inp)
 
 
-def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
+def create_job_mutation(cookie: str, job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{
-  createJob(input: {{
+  createJob(cookie: "{cookie}",
+    input: {{
     _id: {job_info['job_id']}
     property: {{
       _id: {prop_info['smile_id']}

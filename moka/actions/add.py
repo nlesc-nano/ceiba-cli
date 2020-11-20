@@ -15,6 +15,7 @@ from typing import Any, DefaultDict
 import numpy as np
 import pandas as pd
 
+from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.mutations import create_job_mutation
 from ..client.queries import create_properties_query
@@ -30,7 +31,7 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
     return json_properties_to_dataframe(reply["properties"])
 
 
-def create_mutations(row: pd.Series, opts: Options) -> str:
+def create_mutations(cookie: str, row: pd.Series, opts: Options) -> str:
     """Create a list of mutations with the new jobs."""
     job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
@@ -45,16 +46,17 @@ def create_mutations(row: pd.Series, opts: Options) -> str:
         "collection_name": generate_collection_name(opts.settings),
     })
 
-    return create_job_mutation(job_info, prop_info)
+    return create_job_mutation(cookie, job_info, prop_info)
 
 
 def add_jobs(opts: Options) -> None:
     """Add new jobs to the server."""
+    cookie = fetch_cookie()
     # Get the data to create the jobs
     df_candidates = fetch_candidates(opts)
     # Create the mutation to add the jobs in the server
     rows = df_candidates[["_id", "smile"]].iterrows()
-    mutations = (create_mutations(row, opts)for _, row in rows)
+    mutations = (create_mutations(cookie, row, opts) for _, row in rows)
     logger.info("New Jobs:")
     for query in mutations:
         reply = query_server(opts.web, query)
