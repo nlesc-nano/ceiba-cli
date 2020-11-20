@@ -136,20 +136,21 @@ CHANGE_POLICY_SCHEMA = Schema({
 DEFAULTS_CHANGE_POLICY = CHANGE_POLICY_SCHEMA.validate({})
 
 MANAGE_SCHEMA = Schema({
-    # Server web
-    "web": str,
-
     # Name to which the property belongs
     "collection_name": str,
+
+    # Server web
+    Optional("web", default=DEFAULT_WEB): str,
 
     Optional("change_status", default=DEFAULTS_CHANGE_POLICY): CHANGE_POLICY_SCHEMA})
 
 LOGIN_SCHEMA = Schema({
-    # Server web
-    "web": str,
-
     # Token to authenticate
-    "token": str
+    "token": str,
+
+    # Server web
+    Optional("web", default=DEFAULT_WEB): str
+
 })
 
 available_schemas = {"compute": COMPUTE_SCHEMA, "query": QUERY_SCHEMA, "add": ADD_SCHEMA,

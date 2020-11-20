@@ -105,9 +105,8 @@ def create_authentication_mutation(token: str) -> str:
     """Create a string representing a mutation to authenticate an user."""
     return f"""
     mutation {{
-  authenticateUser(input: {{
-    token: {token}
-}}) {{
+  authenticateUser(input: "{token}")
+  {{
     text
     status
   }}

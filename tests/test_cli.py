@@ -102,6 +102,11 @@ def test_no_input_file(mocker: MockFixture):
     main()
 
 
-def test_login():
+def test_login(mocker: MockFixture):
     """Check the login functionality."""
-    pass
+    mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
+        command="login", token="SomeRandomToken", web="localhost:8080/graphql"))
+
+    # Try to login
+    mocker.patch("moka.cli.login_insilico", return_value=None)
+    main()
