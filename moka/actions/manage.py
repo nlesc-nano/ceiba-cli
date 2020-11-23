@@ -7,8 +7,11 @@ API
 """
 
 import logging
-import numpy as np
 from datetime import datetime
+
+import numpy as np
+
+from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.queries import create_jobs_query
 from ..utils import Options
@@ -43,6 +46,9 @@ def is_job_time_expired(allow_time: int, schedule_time: float) -> bool:
 
 def manage_jobs(opts: Options) -> None:
     """Update jobs state."""
+    # fetch authentication credentials
+    opts.cookie = fetch_cookie()
+
     action = opts.change_status
     # All sizes
     job_size = "null"

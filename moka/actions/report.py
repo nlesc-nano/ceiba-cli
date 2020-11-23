@@ -18,8 +18,10 @@ from typing import Any, DefaultDict, Dict, List, Tuple
 import pandas as pd
 import yaml
 
+from ..authentication import fetch_cookie
 from ..client import query_server
-from ..client.mutations import create_job_update_mutation, create_property_mutation
+from ..client.mutations import (create_job_update_mutation,
+                                create_property_mutation)
 from ..swift_interface import SwiftAction
 from ..utils import Options
 
@@ -30,6 +32,9 @@ logger = logging.getLogger(__name__)
 
 def report_properties(opts: Options) -> None:
     """Send computed properties to the server."""
+    # fetch authentication credentials
+    opts.cookie = fetch_cookie()
+
     if opts.is_standalone:
         report_standalone_properties(opts)
     else:
@@ -75,7 +80,7 @@ def store_single_job_data(path: Path, opts: Options, shared_data: Dict[str, Any]
         swift = SwiftAction(opts.large_objects.web)
         job_data["large_object"] = swift.upload(prop_data)
     # Send data to the web server
-    query = create_job_update_mutation(job_data, prop_data, opts.duplication_policy)
+    query = create_job_update_mutation(job_data, prop_data, opts)
     reply = query_server(opts.web, query)
     logger.info(reply['updateJob']['text'])
 
@@ -206,7 +211,7 @@ def create_standalone_mutation(opts: Options, data: str) -> str:
     info["smile"] = metadata["smile"]
     info['collection_name'] = metadata["collection_name"]
 
-    return create_property_mutation(info)
+    return create_property_mutation(opts.cookie, info)
 
 
 def search_for_large_objects(path: Path, info: Options) -> Dict[str, str]:
