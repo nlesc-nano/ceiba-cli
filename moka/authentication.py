@@ -5,6 +5,7 @@ API
 .. autofunction:: fetch_cookie
 
 """
+import sys
 from pathlib import Path
 
 
@@ -21,8 +22,9 @@ def fetch_cookie():
 
     """
     path_cookie = Path.home() / ".insilicoserver"
-    if not path_cookie:
-        raise RuntimeError("You need to login to modify properties in the server!")
+    if not path_cookie.exists():
+        print("You need to login to modify properties in the server!")
+        sys.exit()
     with open(path_cookie, 'r') as handler:
         cookie = handler.read()
 
