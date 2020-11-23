@@ -7,6 +7,7 @@ import pytest
 from pytest_mock import MockFixture
 
 from moka.actions import login_insilico
+from moka.authentication import fetch_cookie
 from moka.utils import Options
 
 
@@ -37,9 +38,8 @@ def test_valid_token(mocker: MockFixture):
     try:
         login_insilico(opts)
         # Check that the cookie is written
-        with open(path_cookie, 'r') as handler:
-            data = json.load(handler)
-        assert all(key in data for key in {"username", "token"})
+        cookie = fetch_cookie()
+        assert all(key in cookie for key in {"username", "token"})
     finally:
         if path_cookie.exists():
             os.remove(path_cookie)
