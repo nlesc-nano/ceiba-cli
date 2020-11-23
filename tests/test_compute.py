@@ -15,6 +15,10 @@ def test_compute(mocker: MockFixture):
     path_input = PATH_TEST / "input_test_compute.yml"
     opts = validate_input(path_input, "compute")
 
+    # Mock the authentication
+    mocker.patch("moka.actions.compute.fetch_cookie",
+                 return_value="cookie_data")
+
     # Mock the server call
     mocker.patch("moka.actions.compute.query_server",
                  return_value=read_mocked_reply("compute_jobs_mocked.json"))
@@ -29,6 +33,10 @@ def test_no_jobs_to_compute(mocker: MockFixture):
     """Test that the application exits without error if there are no jobs."""
     path_input = PATH_TEST / "input_test_compute.yml"
     opts = validate_input(path_input, "compute")
+
+    # Mock the authentication
+    mocker.patch("moka.actions.compute.fetch_cookie",
+                 return_value="cookie_data")
 
     # Mock the server call
     mocker.patch("moka.actions.compute.query_server",

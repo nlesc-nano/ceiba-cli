@@ -6,8 +6,7 @@ API
 
 """
 import json
-from enum import Enum
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import requests
 
@@ -15,13 +14,7 @@ import requests
 __all__ = ["query_server"]
 
 
-class Method(Enum):
-    """HTTP Method enumeration."""
-    GET = 1
-    POST = 2
-
-
-def query_server(url: str, query: str) -> Dict[str, Any]:
+def query_server(url: str, query: str, headers: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
     """Query the ``url`` API using ``query``.
 
     Parameters
@@ -36,7 +29,7 @@ def query_server(url: str, query: str) -> Dict[str, Any]:
     JSON dictionary with the data
 
     """
-    reply = requests.post(url, json={'query': query})
+    reply = requests.post(url, json={'query': query}, headers=headers)
 
     status = reply.status_code
     if status != 200:

@@ -15,6 +15,10 @@ def run_manage_job(mocker: MockFixture, jobs: Dict[str, List[Any]]):
     path_input = PATH_TEST / "input_test_manage.yml"
     opts = validate_input(path_input, "manage")
 
+    # Mock the authentication
+    mocker.patch("moka.actions.manage.fetch_cookie",
+                 return_value="cookie_data")
+
     # Mock the server call
     mocker.patch("moka.actions.manage.query_server",
                  return_value=jobs)

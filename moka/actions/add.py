@@ -15,6 +15,7 @@ from typing import Any, DefaultDict
 import numpy as np
 import pandas as pd
 
+from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.mutations import create_job_mutation
 from ..client.queries import create_properties_query
@@ -26,7 +27,7 @@ logger = logging.getLogger(__name__)
 def fetch_candidates(opts: Options) -> pd.DataFrame:
     """Retrieve candidates to compute from the server."""
     query = create_properties_query(opts.target_collection)
-    reply = query_server(opts.url, query)
+    reply = query_server(opts.web, query)
     return json_properties_to_dataframe(reply["properties"])
 
 
@@ -45,19 +46,20 @@ def create_mutations(row: pd.Series, opts: Options) -> str:
         "collection_name": generate_collection_name(opts.settings),
     })
 
-    return create_job_mutation(job_info, prop_info)
+    return create_job_mutation(opts.cookie, job_info, prop_info)
 
 
 def add_jobs(opts: Options) -> None:
     """Add new jobs to the server."""
+    opts.cookie = fetch_cookie()
     # Get the data to create the jobs
     df_candidates = fetch_candidates(opts)
     # Create the mutation to add the jobs in the server
     rows = df_candidates[["_id", "smile"]].iterrows()
-    mutations = (create_mutations(row, opts)for _, row in rows)
+    mutations = (create_mutations(row, opts) for _, row in rows)
     logger.info("New Jobs:")
     for query in mutations:
-        reply = query_server(opts.url, query)
+        reply = query_server(opts.web, query)
         logger.info(reply['createJob']['text'])
 
 

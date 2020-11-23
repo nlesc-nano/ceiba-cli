@@ -8,6 +8,7 @@ from pytest_mock import MockerFixture
 from moka.client import query_server
 from moka.utils import Options
 
+
 def test_client():
     """Test the request funcionality."""
     data = json.loads(query_server('http://httpbin.org/post', "value"))

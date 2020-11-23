@@ -1,6 +1,3 @@
-# Server URL
-url: http://localhost:8080/graphql
-
 # Path to the workdir with the jobs
 path_results: "tests/files/mock_workdir_moka"
 

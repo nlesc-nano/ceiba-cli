@@ -26,10 +26,8 @@ def query_available_collections(opts: Options) -> pd.DataFrame:
     # Graphql query to get the collections
     query = create_collections_query()
     # Call the server
-    reply = query_server(opts.url, query)
-    df = json_properties_to_dataframe(reply["collections"])
-    # Remove the job collections
-    collections = df[~df['name'].str.contains("jobs")]
+    reply = query_server(opts.web, query)
+    collections = json_properties_to_dataframe(reply["collections"])
     print("Available collections:\n", collections)
     return collections
 
@@ -39,7 +37,7 @@ def query_collection_properties(opts: Options) -> pd.DataFrame:
     # Graphql query to get the properties
     query = create_properties_query(opts.collection_name)
     # Call the server
-    reply = query_server(opts.url, query)
+    reply = query_server(opts.web, query)
     # Transform the JSON reply into a DataFrame
     df = json_properties_to_dataframe(reply["properties"])
     df.to_csv(opts.output_file)

@@ -1,15 +1,17 @@
 """Module to create mutations perform by the server."""
-
 from typing import Any, DefaultDict, Dict
+
+from ..utils import Options
 
 __all__ = ["create_job_mutation", "create_job_status_mutation", "create_job_update_mutation",
            "create_property_mutation"]
 
 
-def create_property_mutation(prop_info: Dict[str, str]) -> str:
+def create_property_mutation(cookie: str, prop_info: Dict[str, str]) -> str:
     """Create a string with the mutation to update a property."""
     inp = f"""mutation {{
-    updateProperty(input: {{
+    updateProperty(cookie: "{cookie}",
+      input: {{
       _id: {prop_info['smile_id']}
       smile: "{prop_info['smile']}"
       collection_name: "{prop_info['collection_name']}"
@@ -25,11 +27,12 @@ def create_property_mutation(prop_info: Dict[str, str]) -> str:
     return format_null(inp)
 
 
-def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
+def create_job_mutation(cookie: str, job_info: Dict[str, str], prop_info: Dict[str, str]) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{
-  createJob(input: {{
+  createJob(cookie: "{cookie}",
+    input: {{
     _id: {job_info['job_id']}
     property: {{
       _id: {prop_info['smile_id']}
@@ -49,11 +52,12 @@ def create_job_mutation(job_info: Dict[str, str], prop_info: Dict[str, str]) -> 
 
 def create_job_update_mutation(
         job_info: DefaultDict[str, str], prop_info: DefaultDict[str, str],
-        duplication_policy: str) -> str:
+        opts: Options) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{
-  updateJob(input: {{
+  updateJob(cookie: "{opts.cookie}",
+     input: {{
     _id: {job_info['job_id']}
     property: {{
       _id: {prop_info['smile_id']}
@@ -71,7 +75,7 @@ def create_job_update_mutation(
     report_time: {job_info['report_time']}
 
   }},
-    duplication_policy: {duplication_policy}
+    duplication_policy: {opts.duplication_policy}
   ) {{
     text
     status
@@ -81,11 +85,12 @@ def create_job_update_mutation(
     return format_null(inp)
 
 
-def create_job_status_mutation(info: Dict[str, Any]) -> str:
+def create_job_status_mutation(cookie: str, info: Dict[str, Any]) -> str:
     """Create string with mutation to add a new job to the server."""
     inp = f"""
     mutation {{
-  updateJobStatus(input: {{
+  updateJobStatus(cookie: "{cookie}",
+    input: {{
     _id: {info['job_id']}
     status: {info['status']}
     collection_name: "{info['collection_name']}"
@@ -99,6 +104,19 @@ def create_job_status_mutation(info: Dict[str, Any]) -> str:
 }}
 """
     return format_null(inp)
+
+
+def create_authentication_mutation(token: str) -> str:
+    """Create a string representing a mutation to authenticate an user."""
+    return f"""
+    mutation {{
+  authenticateUser(token: "{token}")
+  {{
+    text
+    status
+  }}
+}}
+"""
 
 
 def format_null(string: str) -> str:

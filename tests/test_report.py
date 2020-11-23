@@ -16,6 +16,10 @@ def run_report(mocker: MockFixture, file_name: str):
     path_input = PATH_TEST / file_name
     opts = validate_input(path_input, "report")
 
+    # Mock the authentication
+    mocker.patch("moka.actions.report.fetch_cookie",
+                 return_value="cookie_data")
+
     # Mock the server call
     mocker.patch("moka.actions.report.query_server", return_value={
         "updateJob": {"text": "job has been updated"}})

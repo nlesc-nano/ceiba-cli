@@ -13,6 +13,10 @@ def test_add_jobs(mocker: MockFixture):
     path_input = PATH_TEST / "input_test_add.yml"
     opts = validate_input(path_input, "add")
 
+    # Mock the authentication
+    mocker.patch("moka.actions.add.fetch_cookie",
+                 return_value="cookie_data")
+
     # Mock the server call
     mocker.patch("moka.actions.add.query_server",
                  return_value=read_mocked_reply("add_jobs_mocked.json"))

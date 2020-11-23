@@ -87,16 +87,26 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: moka [-h] [--version] {compute,report,query,add,manage} ..." in captured.out
+    assert "usage: moka [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
 
 
 def test_no_input_file(mocker: MockFixture):
     """Check that defaults are correctly applied when no input file is provided."""
     # Mock command line user input
     mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
-        command="report", url="localhost:8080/graphql"))
+        command="report", web="localhost:8080/graphql"))
 
     # Mock action
     mocker.patch("moka.cli.report_properties", return_value=None)
 
+    main()
+
+
+def test_login(mocker: MockFixture):
+    """Check the login functionality."""
+    mocker.patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
+        command="login", token="SomeRandomToken", web="localhost:8080/graphql"))
+
+    # Try to login
+    mocker.patch("moka.cli.login_insilico", return_value=None)
     main()

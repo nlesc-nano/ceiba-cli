@@ -19,6 +19,7 @@ from typing import Any, DefaultDict, Dict, List
 
 import yaml
 
+from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.mutations import create_job_status_mutation
 from ..client.queries import create_jobs_query
@@ -30,9 +31,11 @@ logger = logging.getLogger(__name__)
 
 def compute_jobs(opts: Options) -> None:
     """Compute some jobs using the configuration."""
+    opts.cookie = fetch_cookie()
+    # Generate jobs
     job_size = "null" if opts.job_size is None else opts.job_size.upper()
     query = create_jobs_query(opts.job_status, opts.collection_name, opts.max_jobs, job_size)
-    jobs = query_server(opts.url, query)["jobs"]
+    jobs = query_server(opts.web, query)["jobs"]
     check_jobs(jobs)
     # Mark  jobs as  RESERVED so no other repeat the calculation
     mark_jobs_as_reseved(opts, jobs)
@@ -136,8 +139,8 @@ def update_job_status(opts: Options, job: Dict[str, Any], status: str) -> None:
         "report_time": report_time
     }
 
-    query = create_job_status_mutation(info)
-    query_server(opts.url, query)
+    query = create_job_status_mutation(opts.cookie, info)
+    query_server(opts.web, query)
     logger.info(f"job {job['_id']} has been marked as {status}!")
 
 
@@ -149,6 +152,6 @@ def mark_jobs_as_reseved(opts: Options, jobs: List[Dict[str, Any]]) -> None:
         job_info["status"] = "RESERVED"
         job_info["collection_name"] = opts.collection_name
         job_info["schedule_time"] = datetime.timestamp(datetime.now())
-        query = create_job_status_mutation(job_info)
-        query_server(opts.url, query)
+        query = create_job_status_mutation(opts.cookie, job_info)
+        query_server(opts.web, query)
         logger.info(f"job {job['_id']} has been marked as RESERVED!")

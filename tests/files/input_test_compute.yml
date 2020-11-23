@@ -1,6 +1,3 @@
-# Server URL
-url: http://localhost:8080/graphql
-
 collection_name: "functional/basisset"
 
 command: mock_workflow
