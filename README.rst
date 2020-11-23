@@ -11,7 +11,7 @@
 moka
 ####
 
-command line interface to interact to interact with the `insilico web server <https://github.com/nlesc-nano/insilico-server>`_.
+command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/insilico-server>`_.
 See the `documentation <https://moka-command-line-interface.readthedocs.io/en/latest/>`_.
 
 
