@@ -53,7 +53,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
     # Common arguments
     parent_parser = argparse.ArgumentParser(add_help=False)
-    
+
     # you should provide either the input file with the arguments
     # or each argument in the command line
     group = parent_parser.add_mutually_exclusive_group()
@@ -61,17 +61,17 @@ def parse_user_arguments() -> Tuple[str, Options]:
     group.add_argument("-i", "--input", type=exists, help="Yaml input file")
     group.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
 
+    # Command line arguments share
+    collection_parser = argparse.ArgumentParser(add_help=False)
+    collection_parser.add_argument("-c", "--collection_name", help="Collection name")
+
     # Login into the web service
-    login_parser = subparsers.add_parser("login", help="Log in to Insilico web service")
+    login_parser = subparsers.add_parser("login", help="Log in to the Insilico web service")
     login_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
     login_parser.add_argument("-t", "--token", required=True, help="GitHub access Token")
 
-    # Add jobs to a collection
-    collection_parser = argparse.ArgumentParser(add_help=False)
-    collection_parser.add_argument("--collection_name", help="Collection name")
-
     # Request new jobs to run from the database
-    subparsers.add_parser("compute", help="compute available jobs", parents=[parent_parser])
+    subparsers.add_parser("compute", help="Compute available jobs", parents=[parent_parser, collection_parser])
 
     # Report properties to the database
     subparsers.add_parser(
@@ -79,7 +79,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
     # Request data from the database
     subparsers.add_parser(
-        "query", help="query some properties from the database",
+        "query", help="Query some properties from the database",
         parents=[parent_parser, collection_parser])
 
     # Add new Job to the database

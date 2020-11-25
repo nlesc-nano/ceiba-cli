@@ -60,7 +60,7 @@ COMPUTE_SCHEMA = Schema({
         str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "RESEVERED"}),
 
     # Maximum number of jobs to compute
-    Optional("max_jobs", default=10): int,
+    Optional("jobs", default=10): int,
 
     # Request either the smallest or largest available jobs
     Optional("job_size", default=None): Or(None, is_in_array_uppercase({"SMALL", "LARGE"}))
