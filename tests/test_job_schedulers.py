@@ -1,15 +1,25 @@
 """Module to test the job schedulers."""
 
 from pathlib import Path
+from moka.actions.compute import create_job_metadata
 from moka.job_schedulers.slurm import create_slurm_script
 from moka.utils import Options
+from typing import Any, Dict
 
 
-def check_script(opts: Options, tmp_path: Path) -> None:
+def check_script(tmp_path: Path, scheduler: Dict[str, Any]) -> None:
     """Check that the SLURM script is created."""
-    input_file = tmp_path / "job_input.yml"
-    smile = "CCO"
-    command = create_slurm_script(opts, smile, input_file)
+    opts = Options({
+        "workdir": tmp_path,
+        "command": "run_workflow",
+        "scheduler": scheduler})
+
+    jobs = [{'_id': 1000, "settings": '{"input": {"prop1": "compute"}}',
+             'property': {
+                 '_id': 42, 'smile': 'CCCCCCCCC=CCCCCCCCC(=O)O',
+                 'collection_name': "test_collection"}}]
+    jobs_metadata = [create_job_metadata(opts, j) for j in jobs]
+    command = create_slurm_script(opts, jobs, jobs_metadata)
     script = command.split()[1]
 
     assert Path(script).exists()
@@ -17,13 +27,11 @@ def check_script(opts: Options, tmp_path: Path) -> None:
 
 def test_slurm_script_generation(tmp_path: Path):
     """Check that the slurm script is correctly generated."""
-    opts = Options({
-        "command": "run_workflow",
-        "scheduler":
-        {"name": "slurm", "nodes": 2, "cpus-per-task": 24, "wall_time": "01:12:00",
-         "partition": "saturn"}})
+    scheduler = {
+        "name": "slurm", "nodes": 2, "cpus-per-task": 24, "wall_time": "01:12:00",
+        "partition": "saturn"}
 
-    check_script(opts, tmp_path)
+    check_script(tmp_path, scheduler)
 
 
 def test_slurm_free_format(tmp_path: Path):
@@ -36,10 +44,6 @@ def test_slurm_free_format(tmp_path: Path):
 
 module load awesome-package/3.14.15
 """
+    scheduler = {"name": "slurm", "free_format": free_format}
 
-    opts = Options({
-        "command": "run_workflow",
-        "scheduler":
-        {"name": "slurm", "free_format": free_format}})
-
-    check_script(opts, tmp_path)
+    check_script(tmp_path, scheduler)
