@@ -25,10 +25,6 @@ Compute Input File
 The input file contains the following mandatory keywords:
 ::
 
-   # URL to the insilico server
-   url:
-      http://localhost:8080/graphql
-
    # Name of the collection to compute
    collection_name:
       "PBE/DZVP"
@@ -49,8 +45,8 @@ Other optional keywords are:
    workdir:
       /path/to/workdir
 
-   # Maximum number of jobs to request (default: 10)
-   max_jobs:
+   # Number of jobs to request and run (default: 10)
+   jobs:
       5
       
 .. _schedule:
