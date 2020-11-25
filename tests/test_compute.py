@@ -10,11 +10,8 @@ from moka.utils import Options
 from .utils_test import PATH_TEST, read_mocked_reply
 
 
-def test_compute(mocker: MockFixture):
+def run_compute(mocker: MockFixture, opts: Options):
     """Test the functionality to compute jobs."""
-    path_input = PATH_TEST / "input_test_compute.yml"
-    opts = validate_input(path_input, "compute")
-
     # Mock the authentication
     mocker.patch("moka.actions.compute.fetch_cookie",
                  return_value="cookie_data")
@@ -27,6 +24,14 @@ def test_compute(mocker: MockFixture):
                  return_value=None)
 
     compute_jobs(opts)
+
+
+def test_compute(mocker: MockFixture):
+    """Test the functionality to compute jobs."""
+    path_input = PATH_TEST / "input_test_compute.yml"
+    opts = validate_input(path_input, "compute")
+
+    run_compute(mocker, opts)
 
 
 def test_no_jobs_to_compute(mocker: MockFixture):
@@ -55,3 +60,12 @@ def test_update_status(mocker: MockFixture):
     job = {"_id": 314159265}
 
     update_job_status(opts, job, 'FAILED')
+
+
+def test_fail_schedule_compute(mocker: MockFixture):
+    """Test the functionality to compute jobs."""
+    path_input = PATH_TEST / "input_test_compute.yml"
+    opts = validate_input(path_input, "compute")
+    opts.command = "nonexisting"
+
+    run_compute(mocker, opts)

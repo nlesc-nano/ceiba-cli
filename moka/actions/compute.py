@@ -41,13 +41,17 @@ def compute_jobs(opts: Options) -> None:
     mark_jobs_as_reseved(opts, jobs)
 
     logger.info(f"Using scheduler: {opts.scheduler.name}")
+    succeeded = schedule_jobs(opts, jobs)
+    if succeeded:
+        status = "RUNNING"
+    else:
+        ids = '\n'.join(j['_id'] for j in jobs)
+        logger.warn(f"The following jobs failed to be scheduled:\n{ids}")
+        status = "FAILED"
+
+    # Update the status
     for j in jobs:
-        succeeded = schedule_job(opts, j)
-        if not succeeded:
-            logger.warn(f"Job {j['_id']} fails to be scheduled!")
-            update_job_status(opts, j, "FAILED")
-        else:
-            update_job_status(opts, j, "RUNNING")
+        update_job_status(opts, j, status)
 
 
 def check_jobs(jobs: List[Dict[str, Any]]) -> None:
@@ -57,8 +61,41 @@ def check_jobs(jobs: List[Dict[str, Any]]) -> None:
         sys.exit()
 
 
-def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
+def schedule_jobs(opts: Options, jobs: List[Dict[str, Any]]) -> bool:
     """Schedule a job to run locally or using job scheduler."""
+    # metadata for running the job
+    jobs_metadata = [create_job_metadata(opts, j) for j in jobs]
+
+    # Generate the script to submit the job using the
+    # user provide scheduler
+    scheduler = opts.scheduler.name
+
+    # Command to run the workflow
+    if scheduler == "none":
+        cmd = create_local_command(opts, jobs, jobs_metadata)
+    else:
+        # Schedule the job
+        cmd = create_slurm_script(opts, jobs, jobs_metadata)
+
+    logger.info(f"Running workflow:\n{cmd}")
+    return run_command(cmd)
+
+
+def create_local_command(opts: Options, jobs: List[Dict[str, Any]], jobs_metadata: List[Options]) -> str:
+    """Create a terminal command to run the jobs locally."""
+    cmd = ""
+    for meta, job in zip(jobs_metadata, jobs):
+        smile = job["property"]["smile"]
+        input_file = meta.input.absolute().as_posix()
+        workdir = meta.workdir.absolute().as_posix()
+        # Run locally
+        cmd += f'{opts.command} -s "{smile}" -i {input_file} -w {workdir} & '
+
+    return cmd
+
+
+def create_job_metadata(opts: Options, job: Dict[str, Any]) -> Options:
+    """Create enviroment where the jobs is going to be run."""
     job_id = job['_id']
     # Folder where the job data is going to be stored
     job_workdir = Path(opts.workdir) / f"job_{job_id}"
@@ -71,21 +108,7 @@ def schedule_job(opts: Options, job: Dict[str, Any]) -> bool:
     # Write job metadata in the folder to read when reporting
     write_metadata(job, job_workdir)
 
-    # Generate the script to submit the job using the
-    # user provide scheduler
-    scheduler = opts.scheduler.name
-
-    # Command to run the workflow
-    smile = job["property"]["smile"]
-    if scheduler == "none":
-        # Run locally
-        cmd = f'{opts.command} -s "{smile}" -i {input_file.absolute().as_posix()} &'
-    else:
-        # Schedule the job
-        cmd = create_slurm_script(opts, smile, input_file)
-
-    logger.info(f"Running workflow:\n{cmd}")
-    return run_command(cmd, job_workdir)
+    return Options({"input": input_file, "workdir": job_workdir})
 
 
 def write_input_file(job: Dict[str, Any], job_workdir: Path) -> Path:
@@ -113,10 +136,10 @@ def write_metadata(job: Dict[str, Any], job_workdir: Path):
         yaml.dump(metadata, handler, indent=4)
 
 
-def run_command(cmd: str, workdir: Path) -> bool:
-    """Run ``cmd`` as subprocess."""
+def run_command(cmd: str) -> bool:
+    """Run ``cmd`` as subprofcess."""
     try:
-        result = check_output(cmd, shell=True, cwd=workdir)
+        result = check_output(cmd, shell=True)
         logger.info(f"workflow output:\n{result.decode()}")
         return True
     except CalledProcessError as err:
