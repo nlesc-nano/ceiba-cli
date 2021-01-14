@@ -7,9 +7,9 @@
 .. image:: https://zenodo.org/badge/296641388.svg
    :target: https://zenodo.org/badge/latestdoi/296641388
 
-####
+#########
 ceiba-cli
-####
+#########
 
 command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/ceiba>`_.
 See the `documentation <https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/>`_.
