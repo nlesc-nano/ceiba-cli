@@ -4,12 +4,12 @@ The ``compute`` command ask the *web service* for available jobs that needs to b
 To run some jobs you need to type in the terminal:
 ::
 
-   moka compute
+   ceibacli compute
 
 Or if you want to have more control over what is reported you can provide an input file like:
 ::
 
-   moka compute -i input_compute.yml
+   ceibacli compute -i input_compute.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`compute input` metadata.
 
@@ -41,7 +41,7 @@ Other optional keywords are:
    command:
       compute_properties
 
-   # Path to the directory where the calculations are going to run (default: workdir_moka)
+   # Path to the directory where the calculations are going to run (default: workdir_ceibacli)
    workdir:
       /path/to/workdir
 
@@ -54,8 +54,8 @@ Other optional keywords are:
 Job Scheduling
 **************
 Most of the scientific simulation are usually perform in supercomputers that use a
-`job scheduler <https://en.wikipedia.org/wiki/Job_scheduler>`_. *Moka* supports two of the most popular ones: `SLURM <https://www.openpbs.org/>`_.
-If you choose a *scheduler* different from ``none``, *Moka* will automatically contact
+`job scheduler <https://en.wikipedia.org/wiki/Job_scheduler>`_. *ceiba-cli* supports two of the most popular ones: `SLURM <https://www.openpbs.org/>`_.
+If you choose a *scheduler* different from ``none``, *ceiba-cli* will automatically contact
 the job scheduler with the options that you have provided. Below you can find a description
 of the available options:
 ::

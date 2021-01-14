@@ -5,7 +5,7 @@ from typing import Tuple
 
 import numpy as np
 
-from moka.swift_interface import SwiftAction
+from ceibacli.swift_interface import SwiftAction
 
 CONTAINER = "awesome_collection"
 

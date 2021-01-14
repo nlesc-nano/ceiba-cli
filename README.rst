@@ -1,33 +1,33 @@
-.. image:: https://github.com/nlesc-nano/moka/workflows/build/badge.svg
-   :target: https://github.com/nlesc-nano/moka/actions
-.. image:: https://readthedocs.org/projects/moka-command-line-interface/badge/?version=latest
-   :target: https://moka-command-line-interface.readthedocs.io/en/latest/?badge=latest
-.. image:: https://codecov.io/gh/nlesc-nano/Moka/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/nlesc-nano/Moka
+.. image:: https://github.com/nlesc-nano/ceiba-cli/workflows/build/badge.svg
+   :target: https://github.com/nlesc-nano/ceiba-cli/actions
+.. image:: https://readthedocs.org/projects/ceiba-cli-command-line-interface/badge/?version=latest
+   :target: https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/?badge=latest
+.. image:: https://codecov.io/gh/nlesc-nano/ceiba-cli/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/nlesc-nano/ceiba-cli
 .. image:: https://zenodo.org/badge/296641388.svg
    :target: https://zenodo.org/badge/latestdoi/296641388
 
 ####
-moka
+ceiba-cli
 ####
 
-command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/insilico-server>`_.
-See the `documentation <https://moka-command-line-interface.readthedocs.io/en/latest/>`_.
+command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/ceiba>`_.
+See the `documentation <https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/>`_.
 
 
 Installation
 ------------
 
-To install moka, do:
+To install ceiba-cli, do:
 
 .. code-block:: console
 
-  pip install git+https://github.com/nlesc-nano/moka.git@master
+  pip install git+https://github.com/nlesc-nano/ceiba-cli.git@master
 
 Contributing
 ############
 
-If you want to contribute to the development of moka,
+If you want to contribute to the development of ceiba-cli,
 have a look at the `contribution guidelines <CONTRIBUTING.rst>`_.
 
 License

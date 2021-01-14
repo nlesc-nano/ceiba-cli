@@ -1,16 +1,16 @@
 Usage
 #####
-The **moka** command line interface offers four actions to interact
+The **ceibacli** command line interface offers four actions to interact
 with the `insilico web service <https://github.com/nlesc-nano/insilico-server>`_.
 You can check them by trying the following command in your terminal:
 ::
 
-   user>  moka --help
+   user>  ceibacli --help
 
 You should see something similar to:
 ::
 
-    usage: moka [-h] [--version] {compute,report,query,add,manage} ...
+    usage: ceibacli [-h] [--version] {compute,report,query,add,manage} ...
 
     positional arguments:
       {compute,report,query,add,manage}
@@ -25,5 +25,5 @@ You should see something similar to:
       -h, --help            show this help message and exit
       --version             show program's version number and exit
 
-After running one of the previous commands a log file named ``moka_output.log``
+After running one of the previous commands a log file named ``ceibacli_output.log``
 is generated.

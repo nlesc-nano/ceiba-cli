@@ -1,9 +1,9 @@
 """Module to test the job schedulers."""
 
 from pathlib import Path
-from moka.actions.compute import create_job_metadata
-from moka.job_schedulers.slurm import create_slurm_script
-from moka.utils import Options
+from ceibacli.actions.compute import create_job_metadata
+from ceibacli.job_schedulers.slurm import create_slurm_script
+from ceibacli.utils import Options
 from typing import Any, Dict
 
 

@@ -4,9 +4,9 @@ from pathlib import Path
 
 from pytest_mock import MockFixture
 
-from moka.actions import report_properties
-from moka.input_validation import validate_input
-from moka.swift_interface import SwiftAction
+from ceibacli.actions import report_properties
+from ceibacli.input_validation import validate_input
+from ceibacli.swift_interface import SwiftAction
 
 from .utils_test import PATH_TEST
 
@@ -17,11 +17,11 @@ def run_report(mocker: MockFixture, file_name: str):
     opts = validate_input(path_input, "report")
 
     # Mock the authentication
-    mocker.patch("moka.actions.report.fetch_cookie",
+    mocker.patch("ceibacli.actions.report.fetch_cookie",
                  return_value="cookie_data")
 
     # Mock the server call
-    mocker.patch("moka.actions.report.query_server", return_value={
+    mocker.patch("ceibacli.actions.report.query_server", return_value={
         "updateJob": {"text": "job has been updated"}})
 
     report_properties(opts)

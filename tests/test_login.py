@@ -5,16 +5,16 @@ from pathlib import Path
 import pytest
 from pytest_mock import MockFixture
 
-from moka.actions import login_insilico
-from moka.authentication import fetch_cookie
-from moka.utils import Options
+from ceibacli.actions import login_insilico
+from ceibacli.authentication import fetch_cookie
+from ceibacli.utils import Options
 
 
 def test_invalid_token(mocker: MockFixture):
     """Check that an error is raise if an invalid token is provided."""
     opts = Options({"token": "InvalidToken", "web": "localhost:8080/graphql"})
 
-    mocker.patch("moka.actions.login.query_server", return_value={
+    mocker.patch("ceibacli.actions.login.query_server", return_value={
         "authenticateUser": {"text": "Invalid token!", "status": "FAILED"}})
 
     with pytest.raises(RuntimeError) as info:
@@ -29,7 +29,7 @@ def test_valid_token(mocker: MockFixture):
     opts = Options({"token": "Token", "web": "localhost:8080/graphql"})
 
     cookie = '{"username": "felipeZ", "token": "SomeToken"}'
-    mocker.patch("moka.actions.login.query_server", return_value={
+    mocker.patch("ceibacli.actions.login.query_server", return_value={
         "authenticateUser": {"text": cookie, "status": "DONE"}})
 
     # File where the server reply is stored

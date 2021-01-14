@@ -10,7 +10,7 @@ There are currently two possible query actions:
 To request some data, you need to type in the terminal:
 ::
 
-   moka query -i input_query.yml
+   ceibacli query -i input_query.yml
 
 Where the *input_query.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing
 the :ref:`query input` metadata.

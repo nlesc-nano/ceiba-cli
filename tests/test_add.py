@@ -2,8 +2,8 @@
 
 from pytest_mock import MockFixture
 
-from moka.actions import add_jobs
-from moka.input_validation import validate_input
+from ceibacli.actions import add_jobs
+from ceibacli.input_validation import validate_input
 
 from .utils_test import PATH_TEST, read_mocked_reply
 
@@ -14,11 +14,11 @@ def test_add_jobs(mocker: MockFixture):
     opts = validate_input(path_input, "add")
 
     # Mock the authentication
-    mocker.patch("moka.actions.add.fetch_cookie",
+    mocker.patch("ceibacli.actions.add.fetch_cookie",
                  return_value="cookie_data")
 
     # Mock the server call
-    mocker.patch("moka.actions.add.query_server",
+    mocker.patch("ceibacli.actions.add.query_server",
                  return_value=read_mocked_reply("add_jobs_mocked.json"))
 
     add_jobs(opts)

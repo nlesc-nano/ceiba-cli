@@ -1,5 +1,5 @@
 # Path to the workdir with the jobs
-path_results: "tests/files/mock_workdir_moka"
+path_results: "tests/files/mock_workdir_ceibacli"
 
 # Pattern to search for the result files
 output: "result*csv"

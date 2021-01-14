@@ -5,8 +5,8 @@ import json
 import pytest
 from pytest_mock import MockerFixture
 
-from moka.client import query_server
-from moka.utils import Options
+from ceibacli.client import query_server
+from ceibacli.utils import Options
 
 
 def test_client():

@@ -9,12 +9,12 @@ has been previously computed.
 To report the results you need to type in the terminal:
 ::
 
-   moka report
+   ceibacli report
 
 Or if you want to have more control over what is reported you can provide an input file like:
 ::
 
-   moka report -i input_report.yml
+   ceibacli report -i input_report.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 
@@ -25,8 +25,8 @@ Report Input File
 The input file contains the following optional keywords:
 ::
 
-   # Path to the Folder where the jobs run (default "workdir_moka")
-   path_results: "workdir_moka"
+   # Path to the Folder where the jobs run (default "workdir_ceibacli")
+   path_results: "workdir_ceibacli"
 
    # Pattern to search for the result files (default "results*csv")
    output: "results*csv"

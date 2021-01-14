@@ -53,7 +53,7 @@ COMPUTE_SCHEMA = Schema({
     Optional("scheduler", default=DEFAULTS_SCHEDULER): SCHEDULER_SCHEMA,
 
     # Path to the directory where the calculations are going to run
-    Optional("workdir", default="workdir_moka"): str,
+    Optional("workdir", default="workdir_ceibacli"): str,
 
     # Status of the job to query
     Optional("job_status", default="AVAILABLE"): And(
@@ -97,8 +97,8 @@ LARGE_OBJECTS_SCHEMA = Schema({
 REPORT_SCHEMA = Schema({
     Optional("web", default=DEFAULT_WEB): str,
 
-    # Path to the folder containing the results (default workdir_moka)
-    Optional("path_results", default="workdir_moka"): str,
+    # Path to the folder containing the results (default workdir_ceibacli)
+    Optional("path_results", default="workdir_ceibacli"): str,
 
     # Pattern to search for the result files
     Optional("output", default="result*csv"): str,
@@ -163,7 +163,7 @@ def validate_input(file_input: Path, action: str) -> Options:
         dict_input = yaml.load(handler.read(), Loader=yaml.FullLoader)
 
     if action not in available_schemas:
-        raise RuntimeError(f"unknown action: {action}\nFor more info run:``moka --help``")
+        raise RuntimeError(f"unknown action: {action}\nFor more info run:``ceibacli --help``")
 
     action_schema = available_schemas[action]
     try:

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from moka.mock_workflow import main
+from ceibacli.mock_workflow import main
 
 from .utils_test import PATH_TEST
 

@@ -5,9 +5,9 @@ import warnings
 
 from typing_extensions import Literal
 
-from .utils_test import PATH_MOKA, PATH_TEST
+from .utils_test import PATH_CEIBACLI, PATH_TEST
 
-PACKAGE = PATH_MOKA.absolute().as_posix()
+PACKAGE = PATH_CEIBACLI.absolute().as_posix()
 INI = (PATH_TEST / 'mypy.ini').absolute().as_posix()
 
 Action = Literal['raise', 'warn', 'ignore']  #: Type annotation for the 'action' keyword.

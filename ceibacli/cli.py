@@ -16,7 +16,7 @@ from .utils import Options
 
 logger = logging.getLogger(__name__)
 
-VERSION = pkg_resources.get_distribution('moka').version
+VERSION = pkg_resources.get_distribution('ceibacli').version
 
 
 def exists(input_file: str) -> Path:
@@ -30,23 +30,23 @@ def exists(input_file: str) -> Path:
 
 def configure_logger(workdir: Path) -> None:
     """Set the logging infrasctucture."""
-    file_log = workdir / 'moka_output.log'
+    file_log = workdir / 'ceibacli_output.log'
     logging.basicConfig(filename=file_log, level=logging.INFO,
                         format='%(asctime)s  %(message)s',
                         datefmt='[%I:%M:%S]')
     handler = logging.StreamHandler()
     handler.terminator = ""
 
-    path = pkg_resources.resource_filename('moka', '')
+    path = pkg_resources.resource_filename('ceibacli', '')
 
-    logger.info(f"\nUsing moka version: {VERSION}\n")
-    logger.info(f"moka path is: {path}\n")
+    logger.info(f"\nUsing ceibacli version: {VERSION}\n")
+    logger.info(f"ceibacli path is: {path}\n")
     logger.info(f"Working directory is: {workdir.absolute().as_posix()}\n")
 
 
 def parse_user_arguments() -> Tuple[str, Options]:
     """Read the user arguments."""
-    parser = argparse.ArgumentParser("moka")
+    parser = argparse.ArgumentParser("ceibacli")
     parser.add_argument('--version', action='version', version=f"%(prog)s {VERSION}")
     subparsers = parser.add_subparsers(
         help="Interact with the properties web service", dest="command")

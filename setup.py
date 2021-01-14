@@ -6,7 +6,7 @@ from setuptools import setup
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 version = {}
-with open(os.path.join(HERE, 'moka', '__version__.py')) as f:
+with open(os.path.join(HERE, 'ceibacli', '__version__.py')) as f:
     exec(f.read(), version)
 
 
@@ -14,20 +14,20 @@ with open('README.rst') as readme_file:
     readme = readme_file.read()
 
 setup(
-    name='moka',
+    name='ceibacli',
     version=version['__version__'],
     description="command line interface to compute and query molecular properties from a database",
     long_description=readme + '\n\n',
     author="Felipe Zapata",
     author_email='f.zapata@esciencecenter.nl',
-    url='https://github.com/nlesc-nano/moka',
+    url='https://github.com/nlesc-nano/ceiba-cli',
     packages=[
-        'moka',
+        'ceibacli',
     ],
     include_package_data=True,
     license="Apache Software License 2.0",
     zip_safe=False,
-    keywords='moka',
+    keywords=['Simulations', 'graphql'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -39,8 +39,8 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'moka=moka.cli:main',
-            'mock_workflow=moka.mock_workflow:main'
+            'ceibacli=ceibacli.cli:main',
+            'mock_workflow=ceibacli.mock_workflow:main'
         ]
     },
     install_requires=[
@@ -51,5 +51,5 @@ setup(
                  'pytest-mock'],
         'docs': ['sphinx', 'sphinx_rtd_theme']
     },
-    data_files=[('citation/moka', ['CITATION.cff'])]
+    data_files=[('citation/ceibacli', ['CITATION.cff'])]
 )

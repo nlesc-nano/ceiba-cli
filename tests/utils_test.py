@@ -6,11 +6,11 @@ from typing import Any, Dict
 
 import pkg_resources as pkg
 
-__all__ = ["PATH_MOKA", "PATH_TEST"]
+__all__ = ["PATH_CEIBACLI", "PATH_TEST"]
 
 # Environment data
-PATH_MOKA = Path(pkg.resource_filename('moka', ''))
-ROOT = PATH_MOKA.parent
+PATH_CEIBACLI = Path(pkg.resource_filename('ceibacli', ''))
+ROOT = PATH_CEIBACLI.parent
 
 PATH_TEST = ROOT / "tests" / "files"
 

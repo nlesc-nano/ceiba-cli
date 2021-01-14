@@ -5,7 +5,7 @@ The ``add`` command is an adminstrative action to add new jobs into the database
 To run some jobs you need to type in the terminal:
 ::
 
-   moka add -i input_add.yml
+   ceibacli add -i input_add.yml
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`jobs input` specification.
 

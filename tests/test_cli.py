@@ -8,7 +8,7 @@ import pytest
 import schema
 from pytest_mock import MockFixture
 
-from moka.cli import main
+from ceibacli.cli import main
 
 from .utils_test import PATH_TEST
 
@@ -27,7 +27,7 @@ def run_workflow_mock(mocker: MockFixture, action: str, path_input: Path) -> Non
         command=action, input=path_input))
 
     # Mock the action
-    mocker.patch(f"moka.cli.{functions[action]}", return_value=None)
+    mocker.patch(f"ceibacli.cli.{functions[action]}", return_value=None)
 
     main()
 
@@ -87,7 +87,7 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: moka [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
+    assert "usage: ceibacli [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
 
 
 def test_no_input_file(mocker: MockFixture):
@@ -97,7 +97,7 @@ def test_no_input_file(mocker: MockFixture):
         command="report", web="localhost:8080/graphql"))
 
     # Mock action
-    mocker.patch("moka.cli.report_properties", return_value=None)
+    mocker.patch("ceibacli.cli.report_properties", return_value=None)
 
     main()
 
@@ -108,5 +108,5 @@ def test_login(mocker: MockFixture):
         command="login", token="SomeRandomToken", web="localhost:8080/graphql"))
 
     # Try to login
-    mocker.patch("moka.cli.login_insilico", return_value=None)
+    mocker.patch("ceibacli.cli.login_insilico", return_value=None)
     main()

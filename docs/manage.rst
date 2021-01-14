@@ -7,7 +7,7 @@ can be marked again as ``AVAILABLE`` if the user doesn't report the results.
 To change the jobs status you need to type in the terminal:
 ::
 
-   moka manage -i input_manage.yml
+   ceibacli manage -i input_manage.yml
 
 Where the *input_manage.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`jobs metadata` specification.
 
@@ -29,9 +29,9 @@ The following snippet represent an input example for the *manage* action:
 
 How does it work?
 *****************
-Moka will research in the ``collection_name`` for all the jobs with ``old_status`` then
+ceiba-cli will research in the ``collection_name`` for all the jobs with ``old_status`` then
 it will check if those jobs have been scheduled before the ``expiration_time``. If
-the jobs have expired, Moka will marked the expired jobs with the ``new_status``.
+the jobs have expired, ceiba-cli will marked the expired jobs with the ``new_status``.
  
 
 
