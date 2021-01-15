@@ -1,7 +1,7 @@
 .. image:: https://github.com/nlesc-nano/ceiba-cli/workflows/build/badge.svg
    :target: https://github.com/nlesc-nano/ceiba-cli/actions
-.. image:: https://readthedocs.org/projects/ceiba-cli-command-line-interface/badge/?version=latest
-   :target: https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/moka-command-line-interface/badge/?version=latest
+   :target: https://moka-command-line-interface.readthedocs.io/en/latest/?badge=latest	    
 .. image:: https://codecov.io/gh/nlesc-nano/ceiba-cli/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/nlesc-nano/ceiba-cli
 .. image:: https://zenodo.org/badge/296641388.svg
