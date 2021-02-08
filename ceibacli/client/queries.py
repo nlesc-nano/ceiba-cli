@@ -64,3 +64,28 @@ def create_jobs_query(
     }}
 }}
 """
+
+
+def query_introspection() -> str:
+    """Retrieve available queries."""
+    return  """query {
+    __type(name: "Query") {
+        kind
+        name
+        fields {
+            name
+            description
+            args {
+                name
+                description
+                defaultValue
+            }
+        }
+        possibleTypes {
+            name
+            kind
+            description
+        }
+    }
+}
+"""
