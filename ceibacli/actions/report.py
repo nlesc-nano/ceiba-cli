@@ -47,8 +47,7 @@ def report_properties(opts: Options) -> None:
 
 def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
-    result_files = collect_results(Path(opts.path_results), opts.output)
-    for output in result_files:
+    for output in Path(opts.path_results).glob(opts.output):
         smile, data = read_properties_from_csv(output)
         data = data.replace('\"', '\\"')
         query = create_standalone_mutation(opts, smile, data)
