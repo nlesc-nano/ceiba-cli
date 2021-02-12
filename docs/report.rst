@@ -28,6 +28,7 @@ In the case that you have some results in *csv* format but those results were no
 `ceibacli compute` command, you need to specify
 in the YAML input file the following options
 ::
+
    # It states that the data don't have associated jobs
    has_metadata: False
    
