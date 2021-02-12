@@ -1,7 +1,9 @@
-""""Test the report functionality."""
+"""Test the report functionality."""
 
 from pathlib import Path
 
+import pytest
+import yaml
 from pytest_mock import MockFixture
 
 from ceibacli.actions import report_properties
@@ -11,9 +13,8 @@ from ceibacli.swift_interface import SwiftAction
 from .utils_test import PATH_TEST
 
 
-def run_report(mocker: MockFixture, file_name: str):
+def run_report(mocker: MockFixture, path_input: Path):
     """Test the functionality to report the data to the server."""
-    path_input = PATH_TEST / file_name
     opts = validate_input(path_input, "report")
 
     # Mock the authentication
@@ -29,17 +30,41 @@ def run_report(mocker: MockFixture, file_name: str):
 
 def test_report(mocker: MockFixture):
     """Test the functionality to report the data to the server."""
-    run_report(mocker, "input_test_report.yml")
+    run_report(mocker, PATH_TEST / "input_test_report.yml")
+
+
+def test_report_no_jobs(mocker: MockFixture, tmp_path: Path):
+    """Check that an error is raised if there are not jobs to read."""
+    input_file = tmp_path / "report_no_jobs.yml"
+    with open(input_file, 'w') as handler:
+        yaml.dump({"path_results": "nonexisting/path"}, handler)
+
+    with pytest.raises(FileNotFoundError) as excinfo:
+        run_report(mocker, input_file)
+
+    assert "not results folders" in str(excinfo.value)
 
 
 def test_report_standalone(mocker: MockFixture):
     """Check that the standalone data is properly report."""
-    run_report(mocker, "input_test_report_standalone.yml")
+    run_report(mocker, PATH_TEST / "input_test_report_standalone.yml")
+
+
+def test_report_standalone_no_collection_name(mocker: MockFixture, tmp_path: Path):
+    """Check that an error is raised if there is no collection_name."""
+    input_file = tmp_path / "standalone_no_collection.yml"
+    with open(input_file, 'w') as handler:
+        yaml.dump({"has_metadata": False}, handler)
+
+    with pytest.raises(RuntimeError) as excinfo:
+        run_report(mocker, input_file)    
+
+    assert "collection name is required" in str(excinfo.value)
 
 
 def test_report_large_objects(mocker: MockFixture):
     """Checkt that a file is saved on the large objects storage."""
-    run_report(mocker, "input_test_report_large_objects.yml")
+    run_report(mocker, PATH_TEST / "input_test_report_large_objects.yml")
 
     # Check that the large object is in the storage
     container = "awesome_collection"

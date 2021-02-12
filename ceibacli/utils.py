@@ -1,8 +1,14 @@
 """Utility functions."""
 
+import argparse
+import hashlib
 import json
+from pathlib import Path
 from typing import Any, Dict, List, TypeVar
+
 import pandas as pd
+
+__all__ = ["Options", "exists", "generate_smile_identifier", "json_properties_to_dataframe"]
 
 T = TypeVar('T')
 
@@ -42,6 +48,15 @@ class Options(dict):
         return {k: converter(v) for k, v in self.items()}
 
 
+def exists(input_file: str) -> Path:
+    """Check if the input file exists."""
+    path = Path(input_file)
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{input_file} doesn't exist!")
+
+    return path
+
+
 def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFrame:
     """Transform a JSON list of dictionaries into a pandas DataFrame."""
     df = pd.DataFrame(properties)
@@ -51,3 +66,10 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
         df['data'] = df['data'].apply(lambda x: json.loads(x))
 
     return df
+
+
+def generate_smile_identifier(smile: str) -> str:
+    """Generate a (hopefully) for an smile that doesn't have a unique identifier."""
+    obj = hashlib.md5(smile.encode())
+    dig = obj.hexdigest()
+    return str(int(dig[-12:], 16))
