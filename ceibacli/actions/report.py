@@ -60,7 +60,7 @@ def report_jobs_properties(opts: Options) -> None:
     """Report properties coming from a server's job."""
     path = Path(opts.path_results)
     if not path.exists():
-        raise FileNotFoundError(f"There is not results folder:{path}")
+        raise FileNotFoundError(f"There are not results folders:{path}")
     # Collect results folders
     folders = collect_results(path, pattern="job_*")
 

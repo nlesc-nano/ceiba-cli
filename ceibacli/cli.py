@@ -12,20 +12,11 @@ import yaml
 from .actions import (add_jobs, compute_jobs, login_insilico, manage_jobs, query_properties,
                       report_properties)
 from .input_validation import DEFAULT_WEB, validate_input
-from .utils import Options
+from .utils import Options, exists
 
 logger = logging.getLogger(__name__)
 
 VERSION = pkg_resources.get_distribution('ceibacli').version
-
-
-def exists(input_file: str) -> Path:
-    """Check if the input file exists."""
-    path = Path(input_file)
-    if not path.exists():
-        raise argparse.ArgumentTypeError(f"{input_file} doesn't exist!")
-
-    return path
 
 
 def configure_logger(workdir: Path) -> None:
