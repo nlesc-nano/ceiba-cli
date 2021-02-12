@@ -20,7 +20,7 @@ Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.o
 
 To report results without associated jobs, follow the :ref:`report stand alone results`.
 
-.. report stand alone results:
+.. _report stand alone results:
 
 Report results without associated jobs
 **************************************
