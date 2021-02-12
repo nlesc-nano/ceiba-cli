@@ -1,7 +1,9 @@
 """Utility functions."""
 
+import hashlib
 import json
 from typing import Any, Dict, List, TypeVar
+
 import pandas as pd
 
 T = TypeVar('T')
@@ -51,3 +53,10 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
         df['data'] = df['data'].apply(lambda x: json.loads(x))
 
     return df
+
+
+def generate_smile_identifier(smile: str) -> str:
+    """Generate a (hopefully) for an smile that doesn't have a unique identifier."""
+    obj = hashlib.md5(smile.encode())
+    dig = obj.hexdigest()
+    return str(int(dig[-12:], 16))

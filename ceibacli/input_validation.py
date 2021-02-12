@@ -109,8 +109,11 @@ REPORT_SCHEMA = Schema({
     # Pattern to search for the optimized geometry
     Optional("geometry", default="geometry*xyz"): str,
 
-    # The data to report is not associated to a job
-    Optional("is_standalone", default=False): bool,
+    # The data to report is associated to a job
+    Optional("has_metadata", default=True): bool,
+
+    # If there is not metadata a collection name is required
+    Optional("collection_name", default=None): Or(None, str),
 
     # If the data is already in server you can either:
     # KEEP the old data

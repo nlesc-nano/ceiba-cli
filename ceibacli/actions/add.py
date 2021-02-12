@@ -19,7 +19,8 @@ from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.mutations import create_job_mutation
 from ..client.queries import create_properties_query
-from ..utils import Options, json_properties_to_dataframe
+from ..utils import (Options, generate_smile_identifier,
+                     json_properties_to_dataframe)
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,20 @@ def fetch_candidates(opts: Options) -> pd.DataFrame:
     return json_properties_to_dataframe(reply["properties"])
 
 
-def create_mutations(row: pd.Series, opts: Options) -> str:
+def add_jobs(opts: Options) -> None:
+    """Add new jobs to the server."""
+    opts.cookie = fetch_cookie()
+    # Get the data to create the jobs
+    df_candidates = fetch_candidates(opts)
+    # Create the mutation to add the jobs in the server
+    mutations = (create_mutations(opts, smile) for smile in df_candidates["smile"])
+    logger.info("New Jobs:")
+    for query in mutations:
+        reply = query_server(opts.web, query)
+        logger.info(reply['createJob']['text'])
+
+
+def create_mutations(opts: Options, smile: str) -> str:
     """Create a list of mutations with the new jobs."""
     job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
@@ -41,26 +55,12 @@ def create_mutations(row: pd.Series, opts: Options) -> str:
         "settings": format_settings(opts.settings)})
 
     prop_info.update({
-        "smile_id": row._id,
-        "smile": row.smile,
+        "smile_id": generate_smile_identifier(smile),
+        "smile": smile,
         "collection_name": generate_collection_name(opts.settings),
     })
 
     return create_job_mutation(opts.cookie, job_info, prop_info)
-
-
-def add_jobs(opts: Options) -> None:
-    """Add new jobs to the server."""
-    opts.cookie = fetch_cookie()
-    # Get the data to create the jobs
-    df_candidates = fetch_candidates(opts)
-    # Create the mutation to add the jobs in the server
-    rows = df_candidates[["_id", "smile"]].iterrows()
-    mutations = (create_mutations(row, opts) for _, row in rows)
-    logger.info("New Jobs:")
-    for query in mutations:
-        reply = query_server(opts.web, query)
-        logger.info(reply['createJob']['text'])
 
 
 def format_settings(settings: Options) -> str:

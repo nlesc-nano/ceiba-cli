@@ -23,7 +23,7 @@ from ..client import query_server
 from ..client.mutations import (create_job_update_mutation,
                                 create_property_mutation)
 from ..swift_interface import SwiftAction
-from ..utils import Options
+from ..utils import Options, generate_smile_identifier
 
 __all__ = ["report_properties"]
 
@@ -35,17 +35,25 @@ def report_properties(opts: Options) -> None:
     # fetch authentication credentials
     opts.cookie = fetch_cookie()
 
-    if opts.is_standalone:
-        report_standalone_properties(opts)
-    else:
+    if opts.has_metadata:
         report_jobs_properties(opts)
+    elif opts.collection_name is None:
+        msg = "A collection name is required if the results don't have metadata"
+        raise RuntimeError(msg)
+    else:
+        # The results don't have  associated jobs
+        report_standalone_properties(opts)
 
 
 def report_standalone_properties(opts: Options) -> None:
     """Send standalone data to a given collection."""
-    data = read_result_from_folder(Path(opts.path_results), opts.output)
-    query = create_standalone_mutation(opts, data)
-    query_server(opts.web, query)
+    result_files = collect_results(Path(opts.path_results), opts.output)
+    for output in result_files:
+        smile, data = read_properties_from_csv(output)
+        data = data.replace('\"', '\\"')
+        query = create_standalone_mutation(opts, smile, data)
+        query_server(opts.web, query)
+
     logger.info(f"Standalone data has been sent to collection: {opts.collection_name}")
 
 
@@ -55,7 +63,7 @@ def report_jobs_properties(opts: Options) -> None:
     if not path.exists():
         raise FileNotFoundError(f"There is not results folder:{path}")
     # Collect results folders
-    folders = collect_results(path)
+    folders = collect_results(path, pattern="job_*")
 
     # Add metadata to the jobs
     shared_data = {
@@ -106,8 +114,8 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
         "data": data,
         "large_objects": large_objects,
         "input": read_input_files(path, opts.input),
-        "geometry": read_optimized_geometry(path, opts.geometry)
-        })
+        "geometry": read_optimized_geometry(path, opts.geometry)}
+    )
 
     job_medata = {"job_id": metadata["job_id"], "status": status}
     return job_medata, prop_data
@@ -147,9 +155,9 @@ def read_data_and_job_status(path: Path, pattern: str) -> Tuple[str, str]:
     return data, status
 
 
-def collect_results(path_results: Path) -> List[Path]:
+def collect_results(path_results: Path, pattern: str) -> List[Path]:
     """Gather all the results from the jobs."""
-    return [x for x in path_results.glob("job_*") if x.is_dir()]
+    return [x for x in path_results.glob(pattern) if x.is_dir()]
 
 
 def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
@@ -163,7 +171,7 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
     # Read the results from the file
     suffix = result_file.suffix
     if suffix == ".csv":
-        data = read_properties_from_csv(result_file)
+        _smile, data = read_properties_from_csv(result_file)
     elif suffix == ".json":
         data = read_properties_from_json(result_file)
     else:
@@ -172,6 +180,7 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
 
     return data.replace('\"', '\\"')
 
+
 def read_properties_from_json(path_results: Path) -> str:
     """Read JSON file."""
     with open(path_results, 'r') as handler:
@@ -179,15 +188,15 @@ def read_properties_from_json(path_results: Path) -> str:
     return json.dumps(data)
 
 
-def read_properties_from_csv(path_results: Path) -> str:
+def read_properties_from_csv(path_results: Path) -> Tuple[str, str]:
     """From a csv file to a pandas DataFrame."""
     df = pd.read_csv(path_results).reset_index(drop=True)
-
+    smile, = df["smiles"]
     # clean the data
     columns_to_exclude = [x for x in df.columns if x in {"smiles"}]
     df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     df.drop(columns=columns_to_exclude, inplace=True)
-    return df.to_json()
+    return smile, df.to_json()
 
 
 def read_metadata(path_job: Path) -> Dict[str, Any]:
@@ -200,16 +209,15 @@ def read_metadata(path_job: Path) -> Dict[str, Any]:
         return yaml.load(handler.read(), Loader=yaml.FullLoader)
 
 
-def create_standalone_mutation(opts: Options, data: str) -> str:
-    """"Create query to mutate standalone data."""
+def create_standalone_mutation(opts: Options, smile: str, data: str) -> str:
+    """Create query to mutate standalone data."""
     info = defaultdict(lambda: "null")
     info['data'] = data
 
     # Read metadata from workdir
-    metadata = read_metadata(Path(opts.path_results))["property"]
-    info["smile_id"] = metadata["smile_id"]
-    info["smile"] = metadata["smile"]
-    info['collection_name'] = metadata["collection_name"]
+    info["smile_id"] = generate_smile_identifier(smile)
+    info["smile"] = smile
+    info['collection_name'] = opts.collection_name
 
     return create_property_mutation(opts.cookie, info)
 

@@ -2,7 +2,10 @@
 path_results: "tests/files/mocked_standalone"
 
 # The data is not associated with a job
-is_standalone: True
+has_metadata: True
+
+# Collection to upload 
+collection_name: "functional/basisset"
 
 # Pattern to search for the result files
 output: "result*csv"

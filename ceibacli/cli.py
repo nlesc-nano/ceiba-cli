@@ -54,12 +54,9 @@ def parse_user_arguments() -> Tuple[str, Options]:
     # Common arguments
     parent_parser = argparse.ArgumentParser(add_help=False)
 
-    # you should provide either the input file with the arguments
-    # or each argument in the command line
-    group = parent_parser.add_mutually_exclusive_group()
     # Common collection argument
-    group.add_argument("-i", "--input", type=exists, help="Yaml input file")
-    group.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    parent_parser.add_argument("-i", "--input", type=exists, help="Yaml input file")
+    parent_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
 
     # Command line arguments share
     collection_parser = argparse.ArgumentParser(add_help=False)
@@ -74,8 +71,7 @@ def parse_user_arguments() -> Tuple[str, Options]:
     subparsers.add_parser("compute", help="Compute available jobs", parents=[parent_parser, collection_parser])
 
     # Report properties to the database
-    subparsers.add_parser(
-        "report", help="Report the results back to the server", parents=[parent_parser])
+    subparsers.add_parser("report", help="Report the results back to the server", parents=[parent_parser, collection_parser])
 
     # Request data from the database
     subparsers.add_parser(
@@ -102,10 +98,9 @@ def parse_user_arguments() -> Tuple[str, Options]:
 
 def handle_input(args: argparse.Namespace) -> Options:
     """Check user input."""
-    if getattr(args, "input", None) is not None:
-        input_file = args.input
-    else:
-        user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input"}}
+    input_file = getattr(args, "input", None)
+    if input_file is None:
+        user_input = {key: value for key, value in vars(args).items() if key not in {"command"}}
         input_file = Path(tempfile.gettempdir()) / "user_input.yml"
         with open(input_file, 'w') as handler:
             yaml.dump(user_input, handler)
