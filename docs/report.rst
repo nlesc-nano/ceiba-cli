@@ -2,9 +2,9 @@
 Report
 ======
 The ``report`` command send the results of the jobs computed by the user to
-the web service. You can also send "standalone" data to the server. Where standalone
-means data that is not associated to a job in the server, for example because it
-has been previously computed.
+the web service. You can also send data that is not associated to any job to the server.
+In the last case, the results don't have all the metadata associated with a job in the server,
+for example because it has been previously computed or computed in another facility.
 
 To report the results you need to type in the terminal:
 ::
@@ -18,11 +18,33 @@ Or if you want to have more control over what is reported you can provide an inp
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 
+To report results without associated jobs, follow the :ref:`report stand alone results`.
+
+.. report stand alone results:
+
+Report results without associated jobs
+**************************************
+In the case that you have some results in *csv* format but those results were not computed with the
+`ceibacli compute` command, you need to specify
+in the YAML input file the following options
+::
+   # It states that the data don't have associated jobs
+   has_metadata: False
+   
+   path_results: Path to the csv files containing the results
+
+   # Pattern to search for the result files (default "results*csv")
+   output: "result*csv*"
+
+   # Where is going to be the data store
+   collection_name: simulation/name
+   
 .. _report input:
 
-Report Input File
-*****************
-The input file contains the following optional keywords:
+Report results from a job
+*************************
+If the results that you want to report where computed with the `ceibacli compute` command, you need
+to provide the following input:
 ::
 
    # Path to the Folder where the jobs run (default "workdir_ceibacli")
@@ -37,15 +59,12 @@ The input file contains the following optional keywords:
    # Pattern to search for the optimized molecular geometry
    geometry: "geometry*xyz"
 
-   # The data to report is not associated to a job (default False)
-   is_standalone: True
-
    # If the data is already in server you can either:
    # KEEP the old data
    # OVERWRITE and discard the old data
-   # MERGE the new and the old data
+   # MERGE the new and the old data (Default)
    # APPEND new data at the end of the old data array
-   # Default = KEEP
+   # Default = KEEP 
    duplication_policy: "KEEP"
 
 Check the :ref:`large objects data storage` for further information on

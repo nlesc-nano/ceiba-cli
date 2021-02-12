@@ -2,7 +2,7 @@
 path_results: "tests/files/mocked_standalone"
 
 # The data is not associated with a job
-has_metadata: True
+has_metadata: False
 
 # Collection to upload 
 collection_name: "functional/basisset"
