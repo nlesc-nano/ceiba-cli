@@ -37,7 +37,7 @@ def add_job(opts: Options) -> None:
     # Get the data to create the jobs
     mutation = create_mutations(opts)
     reply = query_server(opts.web, mutation)
-    logger.info("New Jobs: ", reply['createJob']['text'])
+    logger.info(f"New Jobs: {reply['createJob']['text']}")
 
 
 def create_mutations(opts: Options) -> str:

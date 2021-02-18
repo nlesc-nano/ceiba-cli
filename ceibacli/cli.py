@@ -91,7 +91,7 @@ def handle_input(args: argparse.Namespace) -> Options:
     """Check user input."""
     input_file = getattr(args, "input", None)
     if input_file is None:
-        user_input = {key: value for key, value in vars(args).items() if key not in {"command"}}
+        user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input"}}
         input_file = Path(tempfile.gettempdir()) / "user_input.yml"
         with open(input_file, 'w') as handler:
             yaml.dump(user_input, handler)

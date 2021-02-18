@@ -21,7 +21,7 @@ def fetch_cookie():
     Runtime error if there is not cookie
 
     """
-    path_cookie = Path.home() / ".insilicoserver"
+    path_cookie = Path.home() / ".ceiba_web_service"
     if not path_cookie.exists():
         print("You need to login to modify properties in the server!")
         sys.exit()

@@ -72,7 +72,7 @@ def generate_identifier(metadata: str) -> str:
     """Generate a (hopefully) unique identifier."""
     obj = hashlib.md5(metadata.encode())
     dig = obj.hexdigest()
-    return str(int(dig[-12:], 16))
+    return str(int(dig[:6], 16))
 
 
 def format_settings(settings: Options) -> str:
