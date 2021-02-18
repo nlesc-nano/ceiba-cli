@@ -15,7 +15,7 @@ from .utils_test import PATH_TEST
 
 def run_workflow_mock(mocker: MockFixture, action: str, path_input: Path) -> None:
     """Run mocked action."""
-    functions = {"add": "add_jobs",
+    functions = {"add": "add_job",
                  "compute": "compute_jobs",
                  "query": "query_properties",
                  "report": "report_properties",

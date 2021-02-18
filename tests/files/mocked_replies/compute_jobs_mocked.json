@@ -5,9 +5,8 @@
             "property": {
                 "_id": 7304,
                 "collection_name": "functional/basisset",
-                "smile": "O=C(O)CCNC(=O)NCCc1ccc(Br)s1",
-                "data": null,
-                "geometry": null
+                "metadata": "\"smile\": \"O=C(O)CCNC(=O)NCCc1ccc(Br)s1\"",
+                "data": null
             },
             "settings": "{\"compute\": \"worflow_name\", \"properties\": {\"prop1\": \"foo\", \"prop2\": \"bar\"}}",
             "status": "AVAILABLE",
@@ -21,9 +20,8 @@
             "property": {
                 "_id": 81970,
                 "collection_name": "functional/basisset",
-                "smile": "C=CCOc1ccc(Br)cc1CNc1cccc(C(=O)O)c1",
-                "data": null,
-                "geometry": null
+                "metadata": "\"smile\": \"C=CCOc1ccc(Br)cc1CNc1cccc(C(=O)O)c1\"",
+                "data": null
             },
             "settings": "{\"compute\": \"worflow_name\", \"properties\": {\"prop1\": \"foo\", \"prop2\": \"bar\"}}",
             "status": "AVAILABLE",
@@ -37,9 +35,8 @@
             "property": {
                 "_id": 84161,
                 "collection_name": "functional/basisset",
-                "smile": "O=C(O)CCCNC1CCOC1",
-                "data": null,
-                "geometry": null
+                "metadata": "\"smile\": \"O=C(O)CCCNC1CCOC1\"",
+                "data": null
             },
             "settings": "{\"compute\": \"worflow_name\", \"properties\": {\"prop1\": \"foo\", \"prop2\": \"bar\"}}",
             "status": "AVAILABLE",

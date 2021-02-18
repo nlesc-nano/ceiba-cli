@@ -105,13 +105,12 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
     large_objects = "null" if opts.large_objects is None else search_for_large_objects(
         path, opts.large_objects)
 
-    metadata = json.dumps(prop_metadata).replace('\"', '\\"')
     prop_data = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_data.update({
         "id": prop_metadata["id"],
         "collection_name": prop_metadata["collection_name"],
         "data": data,
-        "metadata": metadata,
+        "metadata": json.dumps(prop_metadata).replace('\"', '\\"'),
         "large_objects": large_objects,
         "input": read_input_files(path, opts.input)}
     )

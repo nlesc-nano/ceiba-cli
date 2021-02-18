@@ -2,7 +2,7 @@
 
 from pytest_mock import MockFixture
 
-from ceibacli.actions import add_jobs
+from ceibacli.actions import add_job
 from ceibacli.input_validation import validate_input
 
 from .utils_test import PATH_TEST, read_mocked_reply
@@ -21,4 +21,4 @@ def test_add_jobs(mocker: MockFixture):
     mocker.patch("ceibacli.actions.add.query_server",
                  return_value=read_mocked_reply("add_jobs_mocked.json"))
 
-    add_jobs(opts)
+    add_job(opts)
