@@ -128,7 +128,7 @@ def write_metadata(job: Dict[str, Any], job_workdir: Path):
     prop = job["property"]
     metadata = {"job_id": job["_id"],
                 "property": {
-                    "_id": prop["_id"], "metadata": prop["metadata"],
+                    "id": prop["_id"], "metadata": prop["metadata"],
                     "collection_name": prop["collection_name"]}}
 
     with open(input_file, 'w') as handler:
