@@ -10,7 +10,7 @@ def create_properties_query(collection_name: str) -> str:
     return f"""query{{
     properties (collection_name: "{collection_name}") {{
         _id
-        smile
+        metadata
         geometry
         data
     }}
@@ -51,7 +51,7 @@ def create_jobs_query(
         property {{
             _id
             collection_name
-            smile
+            metadata
             data
             geometry
         }}
