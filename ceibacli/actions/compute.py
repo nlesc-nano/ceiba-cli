@@ -85,11 +85,10 @@ def create_local_command(opts: Options, jobs: List[Dict[str, Any]], jobs_metadat
     """Create a terminal command to run the jobs locally."""
     cmd = ""
     for meta, job in zip(jobs_metadata, jobs):
-        smile = job["property"]["smile"]
         input_file = meta.input.absolute().as_posix()
         workdir = meta.workdir.absolute().as_posix()
         # Run locally
-        cmd += f'{opts.command} -s "{smile}" -i {input_file} -w {workdir} & '
+        cmd += f'cd {workdir} && {opts.command} {input_file} & '
 
     return cmd
 
@@ -129,7 +128,7 @@ def write_metadata(job: Dict[str, Any], job_workdir: Path):
     prop = job["property"]
     metadata = {"job_id": job["_id"],
                 "property": {
-                    "smile_id": prop["_id"], "smile": prop["smile"],
+                    "_id": prop["_id"], "metadata": prop["metadata"],
                     "collection_name": prop["collection_name"]}}
 
     with open(input_file, 'w') as handler:

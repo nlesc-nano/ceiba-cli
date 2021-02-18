@@ -9,7 +9,7 @@ from typing import Tuple
 import pkg_resources
 import yaml
 
-from .actions import (add_jobs, compute_jobs, login_insilico, manage_jobs, query_properties,
+from .actions import (add_job, compute_jobs, login_insilico, manage_jobs, query_properties,
                       report_properties)
 from .input_validation import DEFAULT_WEB, validate_input
 from .utils import Options, exists
@@ -117,7 +117,7 @@ def main():
         report_properties(opts)
     elif command == "add":
         logger.info("ADDING NEW JOBS TO THE DATABASE")
-        add_jobs(opts)
+        add_job(opts)
     elif command == "manage":
         logger.info("MANAGE JOBS STATE!")
         manage_jobs(opts)

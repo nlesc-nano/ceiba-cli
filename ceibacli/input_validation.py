@@ -83,8 +83,8 @@ ADD_SCHEMA = Schema({
     # Settings to run the calculations
     "settings": dict,
 
-    # Target collection to get the smiles from
-    "target_collection": str,
+    # Name of the collection to store the properties
+    "collection_name": str,
 })
 
 LARGE_OBJECTS_SCHEMA = Schema({

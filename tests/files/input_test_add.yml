@@ -1,4 +1,5 @@
-# Server URL
+collection_name: "example_smile"
+# Settings to run the job
 settings:
   path: "."
 
@@ -6,7 +7,7 @@ settings:
      - "[H]Cl"
 
   input_ligands:
-    - "{smile}"
+    - "CCCCCCCCC=CCCCCCCCC(=O)O"
 
   optional:
       qd:
@@ -26,6 +27,3 @@ settings:
                 type: DZP
                 core: None
                 createoutput: None
-
-# Name of the collection to get molecules
-target_collection: "candidates"

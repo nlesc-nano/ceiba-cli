@@ -2,7 +2,5 @@ collection_name: "functional/basisset"
 
 command: mock_workflow
 
-job_size: small
-
 # Number of jobs to run
 jobs: 10

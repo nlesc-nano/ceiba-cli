@@ -24,10 +24,9 @@ def create_slurm_script(opts: Options, jobs: List[Dict[str, Any]], jobs_metadata
 
     # Append command to run the workflow
     for meta, job in zip(jobs_metadata, jobs):
-        smile = job["property"]["smile"]
         input_file = meta.input.absolute().as_posix()
         workdir = opts.workdir.absolute().as_posix()
-        script += f'\n{opts.command} -s "{smile}" -i {input_file} -w {workdir}'
+        script += f'\ncd {workdir} && {opts.command} {input_file}'
 
     with open(slurm_file, 'w') as handler:
         handler.write(script)

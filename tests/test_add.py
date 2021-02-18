@@ -9,7 +9,7 @@ from .utils_test import PATH_TEST, read_mocked_reply
 
 
 def test_add_jobs(mocker: MockFixture):
-    """Test the job creation"""
+    """Test the job creation."""
     path_input = PATH_TEST / "input_test_add.yml"
     opts = validate_input(path_input, "add")
 

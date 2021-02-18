@@ -8,14 +8,14 @@ from typing import Any, Dict, List, TypeVar
 
 import pandas as pd
 
-__all__ = ["Options", "exists", "generate_smile_identifier", "json_properties_to_dataframe"]
+__all__ = ["Options", "exists", "format_settings", "generate_identifier", "json_properties_to_dataframe"]
 
 T = TypeVar('T')
 
 
 class Options(dict):
     """Extend the base class dictionary with a '.' notation.
-    
+
     example:
     .. code-block:: python
        d = Options({'a': 1})
@@ -68,8 +68,15 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
     return df
 
 
-def generate_smile_identifier(smile: str) -> str:
-    """Generate a (hopefully) for an smile that doesn't have a unique identifier."""
-    obj = hashlib.md5(smile.encode())
+def generate_identifier(metadata: str) -> str:
+    """Generate a (hopefully) unique identifier."""
+    obj = hashlib.md5(metadata.encode())
     dig = obj.hexdigest()
     return str(int(dig[-12:], 16))
+
+
+def format_settings(settings: Options) -> str:
+    """Format the settings as string."""
+    string = json.dumps(settings.to_dict())
+    # Escape quotes
+    return string.replace('\"', '\\"')
