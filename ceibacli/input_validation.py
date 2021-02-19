@@ -106,9 +106,6 @@ REPORT_SCHEMA = Schema({
     # Pattern to search for the input files used in the simulation
     Optional("input", default="inputs*json"): str,
 
-    # Pattern to search for the optimized geometry
-    Optional("geometry", default="geometry*xyz"): str,
-
     # The data to report is associated to a job
     Optional("has_metadata", default=True): bool,
 
@@ -165,6 +162,7 @@ def validate_input(file_input: Path, action: str) -> Options:
     with open(file_input, 'r') as handler:
         dict_input = yaml.load(handler.read(), Loader=yaml.FullLoader)
 
+    print("dict_input:\n", dict_input)
     if action not in available_schemas:
         raise RuntimeError(f"unknown action: {action}\nFor more info run:``ceibacli --help``")
 
