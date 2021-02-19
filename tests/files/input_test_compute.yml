@@ -1,6 +1,8 @@
-collection_name: "functional/basisset"
+web: "http://localhost:8080/graphql"
+
+collection_name: "example_jobs"
 
 command: mock_workflow
 
 # Number of jobs to run
-jobs: 10
+max_jobs: 10

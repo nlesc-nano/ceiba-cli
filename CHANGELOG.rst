@@ -10,6 +10,9 @@ Changed
 -------
 * Make library more generic by removing references to the smiles (#26)
 
+New
+---
+* Accept jobs as a list of JSON objects (#26)
 
 0.2.0 [Unreleased]
 ******************

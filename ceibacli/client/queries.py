@@ -45,14 +45,13 @@ def create_jobs_query(
 
     """
     return f"""query{{
-    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}, job_size: {job_size}) {{
+    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}) {{
         _id
         property {{
             _id
             collection_name
             metadata
             data
-            geometry
         }}
         settings
         status
