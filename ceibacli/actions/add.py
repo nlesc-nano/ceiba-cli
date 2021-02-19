@@ -37,7 +37,6 @@ def add_jobs(opts: Options) -> None:
     """Add new jobs to the server."""
     opts.cookie = fetch_cookie()
     # Get the data to create the jobs
-    logger.info("Jobs:")
     for job in retrieve_jobs(opts):
         mutation = create_mutations(opts, job)
         reply = query_server(opts.web, mutation)

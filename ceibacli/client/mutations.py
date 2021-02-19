@@ -61,7 +61,7 @@ def create_job_update_mutation(
     property: {{
       _id: {prop_info['id']}
       collection_name: "{prop_info['collection_name']}"
-      metadata: "{prop_info['metadata']}"
+      metadata: {prop_info['metadata']}
       data: "{prop_info['data']}"
       input: "{prop_info['input']}"
       large_objects: "{prop_info['large_objects']}"
@@ -72,7 +72,7 @@ def create_job_update_mutation(
     platform: "{job_info['platform']}"
     report_time: {job_info['report_time']}
 
-  }},
+  }}
     duplication_policy: {opts.duplication_policy}
   ) {{
     text

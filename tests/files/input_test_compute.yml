@@ -1,6 +1,6 @@
 web: "http://localhost:8080/graphql"
 
-collection_name: "example_jobs"
+collection_name: "examples"
 
 command: mock_workflow
 

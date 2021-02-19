@@ -110,7 +110,7 @@ def retrieve_data(path: Path, opts: Options) -> Tuple[Dict[str, Any], DefaultDic
         "id": prop_metadata["id"],
         "collection_name": prop_metadata["collection_name"],
         "data": data,
-        "metadata": json.dumps(prop_metadata).replace('\"', '\\"'),
+        "metadata": json.dumps(prop_metadata["metadata"]),
         "large_objects": large_objects,
         "input": read_input_files(path, opts.input)}
     )
@@ -125,7 +125,14 @@ def read_input_files(path: Path, pattern: str) -> str:
     if result_file is None:
         return "null"
 
-    data = read_properties_from_json(result_file)
+    suffix = result_file.suffix
+    if suffix == ".json":
+        data = read_properties_from_json(result_file)
+    elif suffix == ".yml":
+        data = read_properties_from_yml(result_file)
+    else:
+        raise NotImplementedError(f"Not implemented reader for {suffix}")
+
     return data.replace('\"', '\\"')
 
 
@@ -167,10 +174,17 @@ def read_result_from_folder(folder: Path, pattern: str) -> pd.DataFrame:
     return data.replace('\"', '\\"')
 
 
-def read_properties_from_json(path_results: Path) -> str:
+def read_properties_from_json(path: Path) -> str:
     """Read JSON file."""
-    with open(path_results, 'r') as handler:
+    with open(path, 'r') as handler:
         data = json.load(handler)
+    return json.dumps(data)
+
+
+def read_properties_from_yml(path: Path) -> str:
+    """Read YML file as str."""
+    with open(path, 'r') as handler:
+        data = yaml.load(handler)
     return json.dumps(data)
 
 
