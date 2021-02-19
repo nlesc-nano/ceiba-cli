@@ -69,8 +69,6 @@ class SwiftAction:
 
         # Create container if doesn't exist and store the files and
         # use the same collection name to store the large files
-        print("storing the large data at: ", container)
-        print("files: ", files)
         check_action(self.execute_swift_action("post", container))
 
         # Upload and check that it works
