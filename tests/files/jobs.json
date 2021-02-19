@@ -1,20 +1,20 @@
-{
-    "properties": [
-        {
-            "_id": 18295,
-            "metadata": "\"smile\": \"O=C(O)C1(C(=O)Nc2ccc(Br)c(C(F)(F)F)c2)CC1\""
-        },
-        {
-            "_id": 13072,
-            "metadata": "\"smile\": \"O=C(O)CCNC(=O)CCSc1ccccc1\""
-        },
-        {
-            "_id": 5500,
-            "metadata": "\"smile\": \"O=C(O)CCc1cn(C2CCCC2)nn1\""
+[
+    {
+        "smile": "O=C(O)C1(C(=O)Nc2ccc(Br)c(C(F)(F)F)c2)CC1",
+        "parameters": {
+            "value": 3.14
         }
-    ],
-    "createJob": {
-        "status": "DONE",
-        "text": "Job with id 1016298730 is already in collection jobs_functional/basisset"
+    },
+    {
+        "smile": "O=C(O)CCNC(=O)CCSc1ccccc1",
+        "parameters": {
+            "value": 2.187
+        }
+    },
+    {
+        "smile": "O=C(O)CCc1cn(C2CCCC2)nn1",
+        "parameters": {
+            "value": 3.0
+        }
     }
-}
+]
