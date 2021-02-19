@@ -15,7 +15,7 @@ from .utils_test import PATH_TEST
 
 def run_workflow_mock(mocker: MockFixture, action: str, path_input: Path) -> None:
     """Run mocked action."""
-    functions = {"add": "add_job",
+    functions = {"add": "add_jobs",
                  "compute": "compute_jobs",
                  "query": "query_properties",
                  "report": "report_properties",
@@ -87,7 +87,7 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: ceibacli [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
+    assert "usage: ceibacli [-h] [--version]" in captured.out
 
 
 def test_no_input_file(mocker: MockFixture):

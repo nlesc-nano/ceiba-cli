@@ -80,8 +80,8 @@ QUERY_SCHEMA = Schema({
 ADD_SCHEMA = Schema({
     Optional("web", default=DEFAULT_WEB): str,
 
-    # Settings to run the calculations
-    "settings": dict,
+    # Path to the file with the jobs in JSON formt
+    "jobs": str,
 
     # Name of the collection to store the properties
     "collection_name": str,

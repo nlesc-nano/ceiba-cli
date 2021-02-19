@@ -8,7 +8,7 @@ from typing import Any, Dict, List, TypeVar
 
 import pandas as pd
 
-__all__ = ["Options", "exists", "format_settings", "generate_identifier", "json_properties_to_dataframe"]
+__all__ = ["Options", "exists", "format_json", "generate_identifier", "json_properties_to_dataframe"]
 
 T = TypeVar('T')
 
@@ -75,8 +75,8 @@ def generate_identifier(metadata: str) -> str:
     return str(int(dig[:6], 16))
 
 
-def format_settings(settings: Options) -> str:
-    """Format the settings as string."""
-    string = json.dumps(settings.to_dict())
+def format_json(data: Dict[str, Any]) -> str:
+    """Format a dictionary as a string."""
+    string = json.dumps(data)
     # Escape quotes
     return string.replace('\"', '\\"')

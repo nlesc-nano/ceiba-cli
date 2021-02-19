@@ -2,49 +2,50 @@
 
 API
 ---
-.. autofunction:: add_job
+.. autofunction:: add_jobs
 """
 
-__all__ = ["add_job"]
+__all__ = ["add_jobs"]
 
+import json
 import logging
 from collections import defaultdict
-from typing import Any, DefaultDict
+from typing import Any, DefaultDict, Dict, List
 
 import numpy as np
-import pandas as pd
 
 from ..authentication import fetch_cookie
 from ..client import query_server
 from ..client.mutations import create_job_mutation
-from ..client.queries import create_properties_query
-from ..utils import (Options, format_settings, generate_identifier,
-                     json_properties_to_dataframe)
+from ..utils import Options, format_json, generate_identifier
 
 logger = logging.getLogger(__name__)
 
 
-def fetch_candidates(opts: Options) -> pd.DataFrame:
+def retrieve_jobs(opts: Options) -> List[Dict[str, Any]]:
     """Retrieve candidates to compute from the server."""
-    query = create_properties_query(opts.target_collection)
-    reply = query_server(opts.web, query)
-    return json_properties_to_dataframe(reply["properties"])
+    with open(opts.jobs, 'r') as handler:
+        jobs = json.load(handler)
+
+    return jobs
 
 
-def add_job(opts: Options) -> None:
+def add_jobs(opts: Options) -> None:
     """Add new jobs to the server."""
     opts.cookie = fetch_cookie()
     # Get the data to create the jobs
-    mutation = create_mutations(opts)
-    reply = query_server(opts.web, mutation)
-    logger.info(f"New Jobs: {reply['createJob']['text']}")
+    logger.info("New Jobs")
+    for job in retrieve_jobs(opts):
+        mutation = create_mutations(opts, job)
+        reply = query_server(opts.web, mutation)
+        logger.info({reply['createJob']['text']})
 
 
-def create_mutations(opts: Options) -> str:
+def create_mutations(opts: Options, job: Dict[str, Any]) -> str:
     """Create a mutations with the new job."""
     job_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
     prop_info = defaultdict(lambda: "null")  # type: DefaultDict[str, Any]
-    metadata = format_settings(opts.settings)
+    metadata = format_json(job)
     job_info.update({
         "job_id": np.random.randint(0, 2147483647),
         "status": "AVAILABLE",

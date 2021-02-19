@@ -11,7 +11,6 @@ def create_properties_query(collection_name: str) -> str:
     properties (collection_name: "{collection_name}") {{
         _id
         metadata
-        geometry
         data
     }}
 }}

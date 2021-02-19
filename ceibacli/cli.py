@@ -9,7 +9,7 @@ from typing import Tuple
 import pkg_resources
 import yaml
 
-from .actions import (add_job, compute_jobs, login_insilico, manage_jobs, query_properties,
+from .actions import (add_jobs, compute_jobs, login_insilico, manage_jobs, query_properties,
                       report_properties)
 from .input_validation import DEFAULT_WEB, validate_input
 from .utils import Options, exists
@@ -42,40 +42,39 @@ def parse_user_arguments() -> Tuple[str, Options]:
     subparsers = parser.add_subparsers(
         help="Interact with the properties web service", dest="command")
 
-    # Common arguments
-    parent_parser = argparse.ArgumentParser(add_help=False)
-
-    # Common collection argument
-    parent_parser.add_argument("-i", "--input", type=exists, help="Yaml input file")
-    parent_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    # input file parser
+    input_parser = argparse.ArgumentParser(add_help=False)
+    input_parser.add_argument("-i", "--input", type=exists, help="Yaml input file")
 
     # Command line arguments share
-    collection_parser = argparse.ArgumentParser(add_help=False)
-    collection_parser.add_argument("-c", "--collection_name", help="Collection name")
+    common_parser = argparse.ArgumentParser(add_help=False)
+    common_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    common_parser.add_argument("-c", "--collection_name", help="Collection name")
+
 
     # Login into the web service
     login_parser = subparsers.add_parser("login", help="Log in to the Insilico web service")
     login_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
     login_parser.add_argument("-t", "--token", required=True, help="GitHub access Token")
 
+    # Add new Job to the database
+    subparsers.add_parser(
+        "add", help="Add new jobs to the database", parents=[common_parser])
+
     # Request new jobs to run from the database
-    subparsers.add_parser("compute", help="Compute available jobs", parents=[parent_parser, collection_parser])
+    subparsers.add_parser("compute", help="Compute available jobs", parents=[input_parser])
 
     # Report properties to the database
-    subparsers.add_parser("report", help="Report the results back to the server", parents=[parent_parser, collection_parser])
+    subparsers.add_parser("report", help="Report the results back to the server", parents=[input_parser, common_parser])
 
     # Request data from the database
     subparsers.add_parser(
         "query", help="Query some properties from the database",
-        parents=[parent_parser, collection_parser])
-
-    # Add new Job to the database
-    subparsers.add_parser(
-        "add", help="Add new jobs to the database", parents=[parent_parser])
+        parents=[common_parser])
 
     # Manage the Jobs status
     subparsers.add_parser(
-        "manage", help="Change jobs status", parents=[parent_parser, collection_parser])
+        "manage", help="Change jobs status", parents=[input_parser])
 
     # Read the arguments
     args = parser.parse_args()
@@ -117,7 +116,7 @@ def main():
         report_properties(opts)
     elif command == "add":
         logger.info("ADDING NEW JOBS TO THE DATABASE")
-        add_job(opts)
+        add_jobs(opts)
     elif command == "manage":
         logger.info("MANAGE JOBS STATE!")
         manage_jobs(opts)
