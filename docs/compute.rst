@@ -25,6 +25,9 @@ Compute Input File
 The input file contains the following mandatory keywords:
 ::
 
+   # Web service URL 
+   web: "http://YourCeibaInstance:8080/graphql"
+   
    # Name of the collection to compute
    collection_name:
       "PBE/DZVP"
@@ -32,7 +35,7 @@ The input file contains the following mandatory keywords:
 
 Other optional keywords are:
 ::
-
+   
    # Configuration of the job scheduler
    scheduler:
       "none"
@@ -46,7 +49,7 @@ Other optional keywords are:
       /path/to/workdir
 
    # Number of jobs to request and run (default: 10)
-   jobs:
+   max_jobs:
       5
       
 .. _schedule:

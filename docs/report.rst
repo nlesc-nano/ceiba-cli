@@ -29,6 +29,9 @@ In the case that you have some results in *csv* format but those results were no
 in the YAML input file the following options
 ::
 
+   # Web service URL 
+   web: "http://YourCeibaInstance:8080/graphql"   
+   
    # It states that the data don't have associated jobs
    has_metadata: False
    
@@ -57,9 +60,6 @@ to provide the following input:
    # Pattern to search for the input files (default "inputs*json")
    input: "inputs*json"
 
-   # Pattern to search for the optimized molecular geometry
-   geometry: "geometry*xyz"
-
    # If the data is already in server you can either:
    # KEEP the old data
    # OVERWRITE and discard the old data
@@ -85,8 +85,7 @@ would try to collect the metadata associated with the job in a files named
    job_id: 1271269411
    property:
        collection_name: awesome_data
-       smile: CC(=O)O
-       smile_id: 76950
+       id: 76950
 
 *Without the metadata no data is reported back to the server*.
 

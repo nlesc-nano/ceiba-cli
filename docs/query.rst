@@ -4,13 +4,13 @@ The ``query`` actions requests some data from the web service
 and writes the requested data in a csv file.
 
 There are currently two possible query actions:
- * request all the available data
- * request a single entry
+ * request what collections are available
+ * request a single collection
 
-To request some data, you need to type in the terminal:
+To request what collections are available you just need to run the following command:
 ::
 
-   ceibacli query -i input_query.yml
+   ceibacli query -w 
 
 Where the *input_query.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing
 the :ref:`query input` metadata.
