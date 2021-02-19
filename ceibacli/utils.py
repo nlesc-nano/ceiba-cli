@@ -40,13 +40,6 @@ class Options(dict):
         """ Allow `obj.key = new_value` notation"""
         self.__setitem__(key, value)
 
-    def to_dict(self) -> Dict[str, T]:
-        """Convert to a normal dictionary."""
-        def converter(var):
-            return var.to_dict() if isinstance(var, Options) else var
-
-        return {k: converter(v) for k, v in self.items()}
-
 
 def exists(input_file: str) -> Path:
     """Check if the input file exists."""
