@@ -22,7 +22,11 @@ def check_script(tmp_path: Path, scheduler: Dict[str, Any]) -> None:
     command = create_slurm_script(opts, jobs, jobs_metadata)
     script = command.split()[1]
 
-    assert Path(script).exists()
+    try:
+        assert Path(script).exists()
+    finally:
+        if Path(script).exists():
+            Path(script).unlink()
 
 
 def test_slurm_script_generation(tmp_path: Path):
