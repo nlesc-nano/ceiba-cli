@@ -57,6 +57,8 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
     if 'data' in df.columns:
         df['data'].fillna("{}", inplace=True)
         df['data'] = df['data'].apply(lambda x: json.loads(x))
+    if 'metadata' in df.columns:
+        df.metadata = df.metadata.apply(lambda x: x.replace('\"', "\'"))
 
     return df
 
