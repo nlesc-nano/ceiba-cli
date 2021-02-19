@@ -184,7 +184,7 @@ def read_properties_from_json(path: Path) -> str:
 def read_properties_from_yml(path: Path) -> str:
     """Read YML file as str."""
     with open(path, 'r') as handler:
-        data = yaml.load(handler)
+        data = yaml.load(handler, Loader=yaml.FullLoader)
     return json.dumps(data)
 
 
