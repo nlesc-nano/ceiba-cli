@@ -8,3 +8,5 @@ output: "result*csv"
 large_objects:
     web: "http://127.0.0.1:8080/auth/v1.0"
     patterns: ["*.npy"]
+
+collection_name: examples
