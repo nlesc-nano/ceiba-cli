@@ -51,15 +51,15 @@ def parse_user_arguments() -> Tuple[str, Options]:
     common_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
     common_parser.add_argument("-c", "--collection_name", help="Collection name")
 
-
     # Login into the web service
     login_parser = subparsers.add_parser("login", help="Log in to the Insilico web service")
     login_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
     login_parser.add_argument("-t", "--token", required=True, help="GitHub access Token")
 
     # Add new Job to the database
-    subparsers.add_parser(
+    add_parser = subparsers.add_parser(
         "add", help="Add new jobs to the database", parents=[common_parser])
+    add_parser.add_argument("-j", "--jobs", required=True, help="JSON file with the jobs to add")
 
     # Request new jobs to run from the database
     subparsers.add_parser("compute", help="Compute available jobs", parents=[input_parser])
@@ -68,9 +68,10 @@ def parse_user_arguments() -> Tuple[str, Options]:
     subparsers.add_parser("report", help="Report the results back to the server", parents=[input_parser, common_parser])
 
     # Request data from the database
-    subparsers.add_parser(
+    query_parser = subparsers.add_parser(
         "query", help="Query some properties from the database",
         parents=[common_parser])
+    query_parser.add_argument("-o", "--output", help="File to store the properties", default="output_properties.csv")
 
     # Manage the Jobs status
     subparsers.add_parser(

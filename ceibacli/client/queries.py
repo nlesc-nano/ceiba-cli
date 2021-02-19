@@ -67,7 +67,7 @@ def create_jobs_query(
 
 def query_introspection() -> str:
     """Retrieve available queries."""
-    return  """query {
+    return """query {
     __type(name: "Query") {
         kind
         name
