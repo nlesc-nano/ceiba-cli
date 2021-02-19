@@ -161,8 +161,6 @@ def validate_input(file_input: Path, action: str) -> Options:
     """Check the input validation against an schema."""
     with open(file_input, 'r') as handler:
         dict_input = yaml.load(handler.read(), Loader=yaml.FullLoader)
-
-    print("dict_input:\n", dict_input)
     if action not in available_schemas:
         raise RuntimeError(f"unknown action: {action}\nFor more info run:``ceibacli --help``")
 

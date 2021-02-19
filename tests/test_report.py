@@ -67,7 +67,7 @@ def test_report_large_objects(mocker: MockFixture):
     run_report(mocker, PATH_TEST / "input_test_report_large_objects.yml")
 
     # Check that the large object is in the storage
-    container = "awesome_collection"
+    container = "examples"
     swift = SwiftAction()
     reply = next(swift.list_container(container))
     listing = reply["listing"][0]
