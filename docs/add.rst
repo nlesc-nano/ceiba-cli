@@ -1,41 +1,42 @@
 Add (for Administrators)
 ########################
-The ``add`` command is an adminstrative action to add new jobs into the database
+The ``add`` command is an adminstrative action to add new jobs into the database.
 
-To run some jobs you need to type in the terminal:
+To add jobs you need to run the following command in the terminal:
 ::
 
-   ceibacli add -i input_add.yml
+   ceibacli add -w http://yourCeibaInstance:8080/grapqhl -c collection_name  -j Path/to/jobs.json
 
-Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`jobs input` specification.
+Where the `-w` option is the web service URL. the `collection_name` is the collection where the data is going to be stored.
+Finally, the `-j` options is the path to the *JSON* file containing the jobs as an array of JSON objects.
+See the next :ref:`jobs file` section for further information.
 
-.. _jobs input:
+.. _jobs file:
 
-Add Input File
-**************
-The input file contains the following mandatory keywords:
+Jobs File
+*********
+The job file is a list of json objects, like:
 ::
 
-   # Target collection to get the smiles from
-   target_collection:
-     candidates
+  [
+      {
+          "type": "awesome_simulation_1",
+          "parameters": {
+              "value": 3.14
+          }
+      },
+      {
+          "type": "awesome_simulation_2",
+          "parameters": {
+              "value": 2.187
+          }
+      }
+  ]
 
-   # Settings to run the calculations in YAML format
-   settings:
-      compute:
-         workflow_name
-      prop1:
-         input_prop1
-      prop2:
-         input_prop2
-	 
-
+Each job is a JSON object with the parameters to perform the simulation.
+  
 How does it work?
 *****************
-Initially the ``add` command will extract from the ``target_collection`` the *smiles*
-and their unique identifiers. Use those values it would generate a collection
-with the new jobs to compute and a collection where the new properties are going
-to be stored.
-
-The name of the new collection will be generated using the ``settings`` provided by
-the user.
+The `add` command will read each job in the JSON jobs file. For each job
+it will generate a unique identifiers. Then, the jobs and their identifier will
+be stored a collection named `job_your_collection_name`.

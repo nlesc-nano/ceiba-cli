@@ -18,8 +18,11 @@ Manage Input File
 The following snippet represent an input example for the *manage* action:
 ::
 
+   # Web service URL 
+   web: "http://YourCeibaInstance:8080/graphql"  
+
    # Target collection to change job status
-   collection_name: "functional/basisset"
+   collection_name: "example_collection"
 
    # Metadata to change jobs status
    change_status:

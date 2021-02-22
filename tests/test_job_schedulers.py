@@ -16,13 +16,17 @@ def check_script(tmp_path: Path, scheduler: Dict[str, Any]) -> None:
 
     jobs = [{'_id': 1000, "settings": '{"input": {"prop1": "compute"}}',
              'property': {
-                 '_id': 42, 'smile': 'CCCCCCCCC=CCCCCCCCC(=O)O',
+                 '_id': 42, "metadata": "'smile': 'CCCCCCCCC=CCCCCCCCC(=O)O'",
                  'collection_name': "test_collection"}}]
     jobs_metadata = [create_job_metadata(opts, j) for j in jobs]
     command = create_slurm_script(opts, jobs, jobs_metadata)
     script = command.split()[1]
 
-    assert Path(script).exists()
+    try:
+        assert Path(script).exists()
+    finally:
+        if Path(script).exists():
+            Path(script).unlink()
 
 
 def test_slurm_script_generation(tmp_path: Path):

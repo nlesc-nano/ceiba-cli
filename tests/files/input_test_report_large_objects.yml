@@ -1,5 +1,5 @@
 # Path to the workdir with the jobs
-path_results: "tests/files/mock_workdir_ceibacli"
+path_results: "tests/files/workdir_ceibacli"
 
 # Pattern to search for the result files
 output: "result*csv"
@@ -8,3 +8,5 @@ output: "result*csv"
 large_objects:
     web: "http://127.0.0.1:8080/auth/v1.0"
     patterns: ["*.npy"]
+
+collection_name: examples

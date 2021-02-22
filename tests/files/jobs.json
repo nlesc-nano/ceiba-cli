@@ -1,0 +1,20 @@
+[
+    {
+        "smile": "O=C(O)C1(C(=O)Nc2ccc(Br)c(C(F)(F)F)c2)CC1",
+        "parameters": {
+            "value": 3.14
+        }
+    },
+    {
+        "smile": "O=C(O)CCNC(=O)CCSc1ccccc1",
+        "parameters": {
+            "value": 2.187
+        }
+    },
+    {
+        "smile": "O=C(O)CCc1cn(C2CCCC2)nn1",
+        "parameters": {
+            "value": 3.0
+        }
+    }
+]

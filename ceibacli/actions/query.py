@@ -39,6 +39,8 @@ def query_collection_properties(opts: Options) -> pd.DataFrame:
     # Call the server
     reply = query_server(opts.web, query)
     # Transform the JSON reply into a DataFrame
-    df = json_properties_to_dataframe(reply["properties"])
+    properties = reply["properties"]
+    df = json_properties_to_dataframe(properties)
     df.to_csv(opts.output_file)
+    print(f"Requested properties has been save to: {opts.output_file}")
     return df

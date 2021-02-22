@@ -6,8 +6,8 @@ from os.path import join, isdir
 from sphinx.application import Sphinx
 
 SRCDIR = CONFDIR = 'docs'
-OUTDIR = join('tests', 'test_files', 'build')
-DOCTREEDIR = join('tests', 'test_files', 'build', 'doctrees')
+OUTDIR = join('tests', 'files', 'build')
+DOCTREEDIR = join('tests', 'files', 'build', 'doctrees')
 
 
 def test_sphinx_build() -> None:

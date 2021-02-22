@@ -29,5 +29,5 @@ def login_insilico(opts: Options) -> None:
 
 def create_cookie(cookie: str) -> None:
     """Create a temporal cookie with the server token."""
-    with open(Path.home() / ".insilicoserver", 'w') as handler:
+    with open(Path.home() / ".ceiba_web_service", 'w') as handler:
         handler.write(cookie)

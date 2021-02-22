@@ -42,40 +42,40 @@ def parse_user_arguments() -> Tuple[str, Options]:
     subparsers = parser.add_subparsers(
         help="Interact with the properties web service", dest="command")
 
-    # Common arguments
-    parent_parser = argparse.ArgumentParser(add_help=False)
-
-    # Common collection argument
-    parent_parser.add_argument("-i", "--input", type=exists, help="Yaml input file")
-    parent_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    # input file parser
+    input_parser = argparse.ArgumentParser(add_help=False)
+    input_parser.add_argument("-i", "--input", type=exists, help="Yaml input file")
 
     # Command line arguments share
-    collection_parser = argparse.ArgumentParser(add_help=False)
-    collection_parser.add_argument("-c", "--collection_name", help="Collection name")
+    common_parser = argparse.ArgumentParser(add_help=False)
+    common_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
+    common_parser.add_argument("-c", "--collection_name", help="Collection name")
 
     # Login into the web service
     login_parser = subparsers.add_parser("login", help="Log in to the Insilico web service")
     login_parser.add_argument("-w", "--web", default=DEFAULT_WEB, help="Web Service URL")
     login_parser.add_argument("-t", "--token", required=True, help="GitHub access Token")
 
+    # Add new Job to the database
+    add_parser = subparsers.add_parser(
+        "add", help="Add new jobs to the database", parents=[common_parser])
+    add_parser.add_argument("-j", "--jobs", required=True, help="JSON file with the jobs to add")
+
     # Request new jobs to run from the database
-    subparsers.add_parser("compute", help="Compute available jobs", parents=[parent_parser, collection_parser])
+    subparsers.add_parser("compute", help="Compute available jobs", parents=[input_parser])
 
     # Report properties to the database
-    subparsers.add_parser("report", help="Report the results back to the server", parents=[parent_parser, collection_parser])
+    subparsers.add_parser("report", help="Report the results back to the server", parents=[input_parser, common_parser])
 
     # Request data from the database
-    subparsers.add_parser(
+    query_parser = subparsers.add_parser(
         "query", help="Query some properties from the database",
-        parents=[parent_parser, collection_parser])
-
-    # Add new Job to the database
-    subparsers.add_parser(
-        "add", help="Add new jobs to the database", parents=[parent_parser])
+        parents=[common_parser])
+    query_parser.add_argument("-o", "--output", help="File to store the properties", default="output_properties.csv")
 
     # Manage the Jobs status
     subparsers.add_parser(
-        "manage", help="Change jobs status", parents=[parent_parser, collection_parser])
+        "manage", help="Change jobs status", parents=[input_parser])
 
     # Read the arguments
     args = parser.parse_args()
@@ -91,7 +91,7 @@ def handle_input(args: argparse.Namespace) -> Options:
     """Check user input."""
     input_file = getattr(args, "input", None)
     if input_file is None:
-        user_input = {key: value for key, value in vars(args).items() if key not in {"command"}}
+        user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input", "output"}}
         input_file = Path(tempfile.gettempdir()) / "user_input.yml"
         with open(input_file, 'w') as handler:
             yaml.dump(user_input, handler)

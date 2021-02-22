@@ -60,7 +60,7 @@ COMPUTE_SCHEMA = Schema({
         str, lambda w: w in {"AVAILABLE", "DONE", "FAILED", "RUNNING", "RESEVERED"}),
 
     # Maximum number of jobs to compute
-    Optional("jobs", default=10): int,
+    Optional("max_jobs", default=10): int,
 
     # Request either the smallest or largest available jobs
     Optional("job_size", default=None): Or(None, is_in_array_uppercase({"SMALL", "LARGE"}))
@@ -80,11 +80,11 @@ QUERY_SCHEMA = Schema({
 ADD_SCHEMA = Schema({
     Optional("web", default=DEFAULT_WEB): str,
 
-    # Settings to run the calculations
-    "settings": dict,
+    # Path to the file with the jobs in JSON formt
+    "jobs": str,
 
-    # Target collection to get the smiles from
-    "target_collection": str,
+    # Name of the collection to store the properties
+    "collection_name": str,
 })
 
 LARGE_OBJECTS_SCHEMA = Schema({
@@ -105,9 +105,6 @@ REPORT_SCHEMA = Schema({
 
     # Pattern to search for the input files used in the simulation
     Optional("input", default="inputs*json"): str,
-
-    # Pattern to search for the optimized geometry
-    Optional("geometry", default="geometry*xyz"): str,
 
     # The data to report is associated to a job
     Optional("has_metadata", default=True): bool,
@@ -164,7 +161,6 @@ def validate_input(file_input: Path, action: str) -> Options:
     """Check the input validation against an schema."""
     with open(file_input, 'r') as handler:
         dict_input = yaml.load(handler.read(), Loader=yaml.FullLoader)
-
     if action not in available_schemas:
         raise RuntimeError(f"unknown action: {action}\nFor more info run:``ceibacli --help``")
 

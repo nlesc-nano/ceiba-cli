@@ -87,7 +87,7 @@ def test_no_command_argument(mocker: MockFixture, capsys):
 
     captured = capsys.readouterr()
 
-    assert "usage: ceibacli [-h] [--version] {login,compute,report,query,add,manage} ..." in captured.out
+    assert "usage: ceibacli [-h] [--version]" in captured.out
 
 
 def test_no_input_file(mocker: MockFixture):

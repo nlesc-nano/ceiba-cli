@@ -12,11 +12,10 @@ def create_property_mutation(cookie: str, prop_info: Dict[str, str]) -> str:
     inp = f"""mutation {{
     updateProperty(cookie: "{cookie}",
       input: {{
-      _id: {prop_info['smile_id']}
-      smile: "{prop_info['smile']}"
+      _id: {prop_info['id']}
       collection_name: "{prop_info['collection_name']}"
+      metadata: "{prop_info['metadata']}"
       data: "{prop_info['data']}"
-      geometry: "{prop_info['geometry']}"
       input: "{prop_info['input']}"
     }}) {{
     status
@@ -35,8 +34,8 @@ def create_job_mutation(cookie: str, job_info: Dict[str, str], prop_info: Dict[s
     input: {{
     _id: {job_info['job_id']}
     property: {{
-      _id: {prop_info['smile_id']}
-      smile: "{prop_info['smile']}"
+      _id: {prop_info['id']}
+      metadata: "{prop_info['metadata']}"
       collection_name: "{prop_info['collection_name']}"
     }}
     status: {job_info['status']}
@@ -60,11 +59,10 @@ def create_job_update_mutation(
      input: {{
     _id: {job_info['job_id']}
     property: {{
-      _id: {prop_info['smile_id']}
-      smile: "{prop_info['smile']}"
+      _id: {prop_info['id']}
       collection_name: "{prop_info['collection_name']}"
+      metadata: {prop_info['metadata']}
       data: "{prop_info['data']}"
-      geometry: {prop_info['geometry']}
       input: "{prop_info['input']}"
       large_objects: "{prop_info['large_objects']}"
 
@@ -74,7 +72,7 @@ def create_job_update_mutation(
     platform: "{job_info['platform']}"
     report_time: {job_info['report_time']}
 
-  }},
+  }}
     duplication_policy: {opts.duplication_policy}
   ) {{
     text

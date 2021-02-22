@@ -1,48 +1,6 @@
 {
-    "properties": [
-        {
-            "_id": 18295,
-            "smile": "O=C(O)C1(C(=O)Nc2ccc(Br)c(C(F)(F)F)c2)CC1"
-        },
-        {
-            "_id": 13072,
-            "smile": "O=C(O)CCNC(=O)CCSc1ccccc1"
-        },
-        {
-            "_id": 5500,
-            "smile": "O=C(O)CCc1cn(C2CCCC2)nn1"
-        },
-        {
-            "_id": 2518,
-            "smile": "O=C(O)c1ccc(NCC2CC2)nn1"
-        },
-        {
-            "_id": 62813,
-            "smile": "O=C(O)CCCc1cc(F)c(F)c(O)c1F"
-        },
-        {
-            "_id": 13867,
-            "smile": "O=C(O)c1cc(CBr)c(Br)c(OC(F)(F)F)c1"
-        },
-        {
-            "_id": 7304,
-            "smile": "O=C(O)CCNC(=O)NCCc1ccc(Br)s1"
-        },
-        {
-            "_id": 81970,
-            "smile": "C=CCOc1ccc(Br)cc1CNc1cccc(C(=O)O)c1"
-        },
-        {
-            "_id": 84161,
-            "smile": "O=C(O)CCCNC1CCOC1"
-        },
-        {
-            "_id": 29048,
-            "smile": "O=C(O)c1cncc(Sc2ncco2)n1"
-        }
-    ],
-    "createJob":
-        {"status": "DONE",
-         "text": "Job with id 1016298730 is already in collection jobs_functional/basisset"
-        }
+    "createJob": {
+        "status": "DONE",
+        "text": "Job with id 1016298730 is already in collection jobs_functional/basisset"
+    }
 }

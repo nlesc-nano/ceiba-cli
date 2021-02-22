@@ -1,31 +1,6 @@
-# Server URL
-settings:
-  path: "."
+web: http://localhost:8080/graphql
 
-  input_cores:
-     - "[H]Cl"
+collection_name: "example_smile"
+# Settings to run the job
 
-  input_ligands:
-    - "{smile}"
-
-  optional:
-      qd:
-        construct_qd: False
-      ligand:
-        cosmo-rs: True
-        cdft: True
-        functional_groups: ['O(C=O)[H]']
-        optimize:
-          job2: ADFJob
-          s2:
-            input:
-              xc:
-                hybrid:
-                  b3lyp
-              basis:
-                type: DZP
-                core: None
-                createoutput: None
-
-# Name of the collection to get molecules
-target_collection: "candidates"
+jobs: "tests/files/jobs.json"

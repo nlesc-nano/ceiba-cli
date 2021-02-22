@@ -16,12 +16,15 @@ def test_mock_workflow(tmp_path: Path):
     path_input = PATH_TEST / "input_test_compute.yml"
 
     # Inyect command line arguments
-    sys.argv = ['mock_runner', '-i', path_input.as_posix(), '-s', "CO", '-w', tmp_path.as_posix()]
+    sys.argv = ['mock_runner', path_input.as_posix()]
     main()
     # Show that the results file exists
-    output_file = tmp_path / "result.csv"
+    output_file = Path("result.csv")
     assert output_file.exists()
 
     # Checkt that the results can be read
     frame = pd.read_csv(output_file)
     assert isinstance(frame.prop1[0], Real)
+
+    if output_file.exists:
+        output_file.unlink()

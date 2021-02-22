@@ -13,10 +13,11 @@ Welcome to ceibacli's documentation!
    includereadme
    authentication
    usage
+   login
+   add
    compute
    report
    query
-   add
    manage
 
 Indices and tables

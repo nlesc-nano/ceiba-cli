@@ -8,14 +8,14 @@ from typing import Any, Dict, List, TypeVar
 
 import pandas as pd
 
-__all__ = ["Options", "exists", "generate_smile_identifier", "json_properties_to_dataframe"]
+__all__ = ["Options", "exists", "format_json", "generate_identifier", "json_properties_to_dataframe"]
 
 T = TypeVar('T')
 
 
 class Options(dict):
     """Extend the base class dictionary with a '.' notation.
-    
+
     example:
     .. code-block:: python
        d = Options({'a': 1})
@@ -40,13 +40,6 @@ class Options(dict):
         """ Allow `obj.key = new_value` notation"""
         self.__setitem__(key, value)
 
-    def to_dict(self) -> Dict[str, T]:
-        """Convert to a normal dictionary."""
-        def converter(var):
-            return var.to_dict() if isinstance(var, Options) else var
-
-        return {k: converter(v) for k, v in self.items()}
-
 
 def exists(input_file: str) -> Path:
     """Check if the input file exists."""
@@ -64,12 +57,21 @@ def json_properties_to_dataframe(properties: List[Dict[str, Any]]) -> pd.DataFra
     if 'data' in df.columns:
         df['data'].fillna("{}", inplace=True)
         df['data'] = df['data'].apply(lambda x: json.loads(x))
+    if 'metadata' in df.columns:
+        df.metadata = df.metadata.apply(lambda x: x.replace('\"', "\'"))
 
     return df
 
 
-def generate_smile_identifier(smile: str) -> str:
-    """Generate a (hopefully) for an smile that doesn't have a unique identifier."""
-    obj = hashlib.md5(smile.encode())
+def generate_identifier(metadata: str) -> str:
+    """Generate a (hopefully) unique identifier."""
+    obj = hashlib.md5(metadata.encode())
     dig = obj.hexdigest()
-    return str(int(dig[-12:], 16))
+    return str(int(dig[:6], 16))
+
+
+def format_json(data: Dict[str, Any]) -> str:
+    """Format a dictionary as a string."""
+    string = json.dumps(data)
+    # Escape quotes
+    return string.replace('\"', '\\"')

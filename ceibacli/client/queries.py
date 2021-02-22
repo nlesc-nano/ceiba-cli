@@ -10,8 +10,7 @@ def create_properties_query(collection_name: str) -> str:
     return f"""query{{
     properties (collection_name: "{collection_name}") {{
         _id
-        smile
-        geometry
+        metadata
         data
     }}
 }}
@@ -46,14 +45,13 @@ def create_jobs_query(
 
     """
     return f"""query{{
-    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}, job_size: {job_size}) {{
+    jobs (status: {status}, collection_name: "{collection_name}", max_jobs: {max_jobs}) {{
         _id
         property {{
             _id
             collection_name
-            smile
+            metadata
             data
-            geometry
         }}
         settings
         status
@@ -68,7 +66,7 @@ def create_jobs_query(
 
 def query_introspection() -> str:
     """Retrieve available queries."""
-    return  """query {
+    return """query {
     __type(name: "Query") {
         kind
         name
