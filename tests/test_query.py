@@ -15,14 +15,18 @@ def test_query(mocker: MockFixture, tmp_path: Path):
     # Read and Validate user input
     path_input = PATH_TEST / "input_test_query.yml"
     opts = validate_input(path_input, "query")
-    opts.output_file = (tmp_path / "output.csv").absolute().as_posix()
 
     # Mock the server call
     mocker.patch("ceibacli.actions.query.query_server",
                  return_value=read_mocked_reply("query_mocked.json"))
 
-    df = query_properties(opts)
-    assert len(df) == 10
+    try:
+        df = query_properties(opts)
+        assert len(df) == 10
+    finally:
+        path = Path("example_collection.csv")
+        if path.exists():
+            path.unlink()
 
 
 def test_query_collections(mocker: MockFixture):
