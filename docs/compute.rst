@@ -1,12 +1,7 @@
 Compute
 =======
-The ``compute`` command ask the *web service* for available jobs that needs to be run.
+The ``compute`` command ask the *web service* for available jobs that need to be run.
 To run some jobs you need to type in the terminal:
-::
-
-   ceibacli compute
-
-Or if you want to have more control over what is reported you can provide an input file like:
 ::
 
    ceibacli compute -i input_compute.yml
@@ -29,9 +24,11 @@ The input file contains the following mandatory keywords:
    web: "http://YourCeibaInstance:8080/graphql"
    
    # Name of the collection to compute
-   collection_name:
-      "PBE/DZVP"
+   collection_name: "simulation_name"
 
+   # Command use to run the workflow
+   command: compute_properties
+   
 
 Other optional keywords are:
 ::
@@ -40,9 +37,6 @@ Other optional keywords are:
    scheduler:
       "none"
 
-   # Command use to run the workflow (default: compute_properties)
-   command:
-      compute_properties
 
    # Path to the directory where the calculations are going to run (default: workdir_ceibacli)
    workdir:

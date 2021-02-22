@@ -7,7 +7,7 @@ then you need to request a **read-only** token from `GitHub personal access toke
 Once you have a read-only GitHub token, you can login into the web service like:
 ::
 
-  ceibacli login -w http://YourCeibaInstance.org:8080/graphql -t Your_token
+  ceibacli login -w http://YourCeibaInstance:8080/graphql -t Your_token
 
 How does it work?
 #################

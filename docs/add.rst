@@ -9,7 +9,7 @@ To add jobs you need to run the following command in the terminal:
 
 Where the `-w` option is the web service URL. the `collection_name` is the collection where the data is going to be stored.
 Finally, the `-j` options is the path to the *JSON* file containing the jobs as an array of JSON objects.
-See the next :ref:`jobs file` for further information.
+See the next :ref:`jobs file` section for further information.
 
 .. _jobs file:
 
@@ -33,9 +33,10 @@ The job file is a list of json objects, like:
       }
   ]
 
-
+Each job is a JSON object with the parameters to perform the simulation.
+  
 How does it work?
 *****************
-Initially the `add` command will read each job in the JSON jobs file. For each job
-it will generate a unique identifiers. Then, the jobs and their identifier are going to
+The `add` command will read each job in the JSON jobs file. For each job
+it will generate a unique identifiers. Then, the jobs and their identifier will
 be stored a collection named `job_your_collection_name`.

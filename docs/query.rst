@@ -10,45 +10,24 @@ There are currently two possible query actions:
 To request what collections are available you just need to run the following command:
 ::
 
-   ceibacli query -w 
+   ceibacli query -w http://yourCeibaInstance:8080/grapqhl
 
-Where the *input_query.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing
-the :ref:`query input` metadata.
-
-
-.. _query input:
-
-Querying all the Available Entries
-----------------------------------
-The following section describe the input to request all the available
-data for a given collection.
-
-Query Input File
-****************
-
-The input file contains the following mandatory keywords:
+Previous command will ouput something similar to:
 ::
 
-   # Name of the collection to query
-   collection_name:
-      "candidates"
+   Available collections:
+  name size
+  simulation1 3
+  simulation2 42
+  ....
 
-      
-Other optional keywords are:
+In the previous ``name`` indicates the actual collections' names and ``size`` how many datasets are stored
+in that particular collection.
+
+To request all the datasets available in a given collection, you just need to run the following command:
 ::
+   
+   ceibacli query -w http://yourCeibaInstance:8080/grapqhl -c simulation2
 
-   # Path to the ouput file containing the properties in CSV format
-   # (default="output_properties.csv")
-   output_file:
-      "path/to/output.csv"
-
-
-Querying a Single Entry
------------------------
-In order to request a single entry from a whole collection,
-you will need the same input that in the previous section plus the following
-mandatory keyword:
-
-::
-   # Simplified molecular-input line-entry system (SMILE)
-   smile: CC(=O)O
+That command will write into your current work directory a file called ``output_properties.csv``
+containing the properties in the requested collection.

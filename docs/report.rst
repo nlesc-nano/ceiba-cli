@@ -9,7 +9,7 @@ for example because it has been previously computed or computed in another facil
 To report the results you need to type in the terminal:
 ::
 
-   ceibacli report
+   ceibacli report -w http://yourCeibaInstance:8080/grapqhl
 
 Or if you want to have more control over what is reported you can provide an input file like:
 ::
@@ -18,37 +18,15 @@ Or if you want to have more control over what is reported you can provide an inp
 
 Where the *input_compute.yml* is an file in `YAML format <https://en.wikipedia.org/wiki/YAML>`_ containing the :ref:`report input` metadata.
 
-To report results without associated jobs, follow the :ref:`report stand alone results`.
+You can also report results without associated jobs, follow the :ref:`report stand alone results`. 
 
-.. _report stand alone results:
-
-Report results without associated jobs
-**************************************
-In the case that you have some results in *csv* format but those results were not computed with the
-`ceibacli compute` command, you need to specify
-in the YAML input file the following options
-::
-
-   # Web service URL 
-   web: "http://YourCeibaInstance:8080/graphql"   
-   
-   # It states that the data don't have associated jobs
-   has_metadata: False
-   
-   path_results: Path to the csv files containing the results
-
-   # Pattern to search for the result files (default "results*csv")
-   output: "result*csv*"
-
-   # Where is going to be the data store
-   collection_name: simulation/name
    
 .. _report input:
 
 Report results from a job
 *************************
-If the results that you want to report where computed with the `ceibacli compute` command, you need
-to provide the following input:
+If the results that you want to report where computed with the `ceibacli compute` command, you can
+optionally provide the following input:
 ::
 
    # Path to the Folder where the jobs run (default "workdir_ceibacli")
@@ -71,6 +49,22 @@ to provide the following input:
 Check the :ref:`large objects data storage` for further information on
 saving large output files.
 
+.. _report stand alone results:
+
+Report results without associated jobs
+**************************************
+Sometimes you have some results that you have previously computed and you want to share them with your colleagues.
+You can upload those results into the database very similarly to the previous section, but you need to
+provide an additional keyword:
+::
+
+   has_metadata: False
+
+
+You also need to provide the ``path_results`` and the ``output`` to look for. The ``has_metadata``
+indicates to *Ceiba-cli* that the results that you want to report don't have metadata about how the
+results where computed.
+
 .. _job metadata:
 
 How does it work?
@@ -88,6 +82,11 @@ would try to collect the metadata associated with the job in a files named
        id: 76950
 
 *Without the metadata no data is reported back to the server*.
+
+
+Reporting data without associated jobs
+**************************************
+
 
 .. _large objects data storage:
 
