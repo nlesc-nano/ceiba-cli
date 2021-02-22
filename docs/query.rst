@@ -29,5 +29,5 @@ To request all the datasets available in a given collection, you just need to ru
    
    ceibacli query -w http://yourCeibaInstance:8080/grapqhl -c simulation2
 
-That command will write into your current work directory a file called ``output_properties.csv``
+That command will write into your current work directory a file called ``simulation2.csv``
 containing the properties in the requested collection.

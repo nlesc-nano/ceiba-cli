@@ -71,7 +71,6 @@ def parse_user_arguments() -> Tuple[str, Options]:
     query_parser = subparsers.add_parser(
         "query", help="Query some properties from the database",
         parents=[common_parser])
-    query_parser.add_argument("-o", "--output", help="File to store the properties", default="output_properties.csv")
 
     # Manage the Jobs status
     subparsers.add_parser(
@@ -91,7 +90,7 @@ def handle_input(args: argparse.Namespace) -> Options:
     """Check user input."""
     input_file = getattr(args, "input", None)
     if input_file is None:
-        user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input", "output"}}
+        user_input = {key: value for key, value in vars(args).items() if key not in {"command", "input"}}
         input_file = Path(tempfile.gettempdir()) / "user_input.yml"
         with open(input_file, 'w') as handler:
             yaml.dump(user_input, handler)
