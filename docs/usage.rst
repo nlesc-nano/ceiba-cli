@@ -1,7 +1,7 @@
 Usage
 #####
 The **ceibacli** command line interface offers four actions to interact
-with the `insilico web service <https://github.com/nlesc-nano/insilico-server>`_.
+with the `Ceiba web service <https://github.com/nlesc-nano/ceiba>`_.
 You can check them by trying the following command in your terminal:
 ::
 

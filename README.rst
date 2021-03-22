@@ -2,7 +2,7 @@
    :target: https://github.com/nlesc-nano/ceiba-cli/actions
 .. image:: https://readthedocs.org/projects/ceiba-cli/badge/?version=latest
    :target: https://ceiba-cli.readthedocs.io/en/latest/?badge=latest
-.. image:: https://codecov.io/gh/nlesc-nano/ceiba-cli/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/nlesc-nano/ceiba-cli/branch/main/graph/badge.svg
   :target: https://codecov.io/gh/nlesc-nano/ceiba-cli
 .. image:: https://zenodo.org/badge/296641388.svg
    :target: https://zenodo.org/badge/latestdoi/296641388
@@ -12,7 +12,7 @@ ceiba-cli
 #########
 
 command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/ceiba>`_.
-See the `documentation <https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/>`_.
+See the `documentation <https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/>`_ and `blog post <https://blog.esciencecenter.nl/building-a-web-service-to-manage-scientific-simulation-data-using-graphql-a0bbf1c3f6e9>`_.
 
 
 Installation
@@ -22,7 +22,7 @@ To install ceiba-cli, do:
 
 .. code-block:: console
 
-  pip install git+https://github.com/nlesc-nano/ceiba-cli.git@master
+  pip install git+https://github.com/nlesc-nano/ceiba-cli.git@main
 
 Contributing
 ############
