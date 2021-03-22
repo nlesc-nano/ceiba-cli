@@ -2,6 +2,12 @@
 Change Log
 ##########
 
+1.0.0 [22/03/2021]
+******************
+New
+---
+* Make the client generic to uses other that quantum chemistry
+
 
 0.3.0 [22/02/2021]
 ******************
