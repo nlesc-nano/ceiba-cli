@@ -12,7 +12,7 @@ ceiba-cli
 #########
 
 command line interface to interact with the `insilico web server <https://github.com/nlesc-nano/ceiba>`_.
-See the `documentation <https://ceiba-cli-command-line-interface.readthedocs.io/en/latest/>`_ and `blog post <https://blog.esciencecenter.nl/building-a-web-service-to-manage-scientific-simulation-data-using-graphql-a0bbf1c3f6e9>`_.
+See the `documentation <https://ceiba-cli.readthedocs.io/en/latest/>`_ and `blog post <https://blog.esciencecenter.nl/building-a-web-service-to-manage-scientific-simulation-data-using-graphql-a0bbf1c3f6e9>`_.
 
 
 Installation
