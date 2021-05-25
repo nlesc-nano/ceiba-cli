@@ -1,4 +1,4 @@
-+"""Client to query the server.
+"""Client to query the server.
 
 API
 ---
