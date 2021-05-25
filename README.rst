@@ -22,7 +22,7 @@ To install ceiba-cli, do:
 
 .. code-block:: console
 
-  pip install git+https://github.com/nlesc-nano/ceiba-cli.git@main
+python -m pip install git+https://github.com/nlesc-nano/ceiba-cli.git@main
 
 Contributing
 ############
